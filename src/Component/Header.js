@@ -7,7 +7,7 @@ function Header() {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px',
-    backgroundColor: '#F3B749',
+    backgroundColor: '#000000',
     color: 'white',
   };
 
@@ -29,13 +29,17 @@ function Header() {
   };
 
   const buttonStyle = {
-    backgroundColor: '#333',
-    color: 'white',
+    backgroundColor: '#ffffff',
+    color: 'black',
     padding: '8px 12px',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
   };
+
+  const LinkToTicket = {
+    color: 'black',
+  }
 
   useEffect(() => {
     // Initialize dropdown
@@ -49,7 +53,7 @@ function Header() {
         <img src='name.jpg' style={logoImageStyle} alt="Logo" />
       </div>
       <div style={buttonContainerStyle}>
-        <button style={buttonStyle}>Buy Now</button>
+        <button style={buttonStyle}><Link style = {LinkToTicket} to="/ticket">Buy Ticket</Link></button>
         <a className="dropdown-trigger" href="#!" data-target="dropdown1" style={buttonStyle}>
           Option<i className="material-icons right">arrow_drop_down</i>
         </a>
