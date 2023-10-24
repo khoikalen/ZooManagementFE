@@ -4,7 +4,8 @@ function AboutUs() {
   const containerStyle = {
     backgroundImage: 'url("AboutUsBackground.jpg")',
     backgroundSize: 'cover',
-    padding: '20px',
+    backgroundRepeat: 'no-repeat',
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -19,6 +20,7 @@ function AboutUs() {
     border: '1px solid #ccc', // Thêm đường viền xung quanh
     borderRadius: '8px', // Bo góc
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', // Thêm đổ bóng
+    backgroundColor: '#fff'
   };
 
   const imageStyle = {

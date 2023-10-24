@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import ViewLog from './ViewLog';
+import DailyMeal from './DailyMeal'
+import SickMeal from'./SickMeal'
 import { Link } from 'react-router-dom'; 
 
-function App3() {
+function Expert() {
   const [currentPage, setCurrentPage] = useState("home");
 
   const renderPage = () => {
     switch (currentPage) {
-      case "viewlog":
-        return <ViewLog />;
+      case "dailymeal":
+        return <DailyMeal />;
+      case "sickmeal":
+        return <SickMeal />;
     
 
       default:
@@ -21,7 +24,8 @@ function App3() {
       <div className="sidebar">
         <h2>Zoo Management System</h2>
         <ul>
-          <li><button onClick={() => setCurrentPage("viewlog")}>ViewCage</button></li>
+          <li><button onClick={() => setCurrentPage("dailymeal")}>Daily Meal</button></li>
+          <li><button onClick={() => setCurrentPage("sickmeal")}>Sick Meal</button></li>
           <lu><Link to="/App1">Back</Link></lu>
         </ul>
       </div>
@@ -32,4 +36,4 @@ function App3() {
   );
 }
 
-export default App3;
+export default Expert;

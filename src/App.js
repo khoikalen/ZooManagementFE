@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import App1 from './Component/App1';
 import Admin from './AdminPage/Admin'; // Import trang Admin
 import Staff from './StaffPage/Staff';
+import Expert from './ExpertPage/Expert';
 import MainCoverImage from './CoverImage/MainCoverImage';
 import './App.css'
 import Ticket from './TicketPage/Ticket';
@@ -16,6 +17,7 @@ function App() {
           <Route path="/admin" element={<Admin />} /> 
           <Route path="/staff" element={<Staff />} />
           <Route path="/ticket" element={<Ticket />} />
+          <Route path="/expert" element={<Expert />} />
         </Routes>
       </div>
     </Router>

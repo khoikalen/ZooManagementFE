@@ -6,22 +6,22 @@ const SocialIcons = () => {
   return (
     <div className="social-icons">
       <div className="social-icon">
-        <a href="link-to-your-Facebook-profile">
+        <a href="https://www.facebook.com/kanatsumi2003">
           <FaFacebook size={32} className="white-icon" />
         </a>
-        <span className="icon-text">Facebook</span>
+        <span className="icon-text"></span>
       </div>
       <div className="social-icon">
-        <a href="link-to-your-GitHub-profile">
+        <a href="https://github.com/kanatsumi2003/ZooManagementUI">
           <FaGithub size={32} className="white-icon" />
         </a>
-        <span className="icon-text">GitHub</span>
+        <span className="icon-text"></span>
       </div>
       <div className="social-icon">
-        <a href="mailto:your-email@example.com">
+        <a href="ducnase171103@fpt.edu.vn">
           <FaEnvelope size={32} className="white-icon" />
         </a>
-        <span className="icon-text">Email</span>
+        <span className="icon-text"></span>
       </div>
     </div>
   );

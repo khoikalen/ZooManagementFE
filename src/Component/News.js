@@ -2,10 +2,10 @@ import React from 'react';
 
 function News() {
   const containerStyle = {
-    backgroundImage: 'url("EventBackground.jpg")',
-    backgroundSize: 'contain',
+    backgroundImage: 'url("HallowenEvent.jpg")',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
     width: '100%',
-    padding: '20px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -16,6 +16,11 @@ function News() {
   const contentStyle = {
     maxWidth: '800px',
     textAlign: 'center',
+    border: '1px solid #ccc', // Thêm đường viền xung quanh
+    borderRadius: '8px', // Bo góc
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)', // Thêm đổ bóng
+    backgroundColor: '#fff',
+    marginBottom: '20px'
   };
 
   const imageStyle = {
@@ -28,18 +33,18 @@ function News() {
     fontSize: '24px',
     fontWeight: 'bold',
     marginBottom: '10px',
-    color: '#333', // Màu chữ đậm
+    color: '#000', // Màu chữ đậm
   };
 
   const paragraphStyle = {
-    fontSize: '18px',
-    color: '#666', // Màu chữ trung bình
+    fontSize: '15px',
+    color: '#000', // Màu chữ trung bình
     marginBottom: '15px',
   };
 
   return (
     <div style={containerStyle}>
-      <img src='SpecialEvents.png' alt="K.L.G.Zoo Events" style={imageStyle} />
+      <img src='HallowenEvent.png' alt="K.L.G.Zoo Events" style={imageStyle} />
       <div style={contentStyle}>
         <div>
           <p style={headerStyle}>Ngày Hội Vui Chơi Cuối Tuần</p>

@@ -14,13 +14,12 @@ function Header() {
   const logoStyle = {
     display: 'flex',
     alignItems: 'center',
-    
   };
 
   const logoImageStyle = {
     maxWidth: '100px',
     maxHeight: '50px',
-    borderRadius: '10px'
+    borderRadius: '10px',
   };
 
   const buttonContainerStyle = {
@@ -39,7 +38,7 @@ function Header() {
 
   const LinkToTicket = {
     color: 'black',
-  }
+  };
 
   useEffect(() => {
     // Initialize dropdown
@@ -50,16 +49,19 @@ function Header() {
   return (
     <header style={headerStyle}>
       <div style={logoStyle}>
-        <img src='name.jpg' style={logoImageStyle} alt="Logo" />
+        <Link to="/App1">
+          <img src='name.png' style={logoImageStyle} alt="Logo" />
+        </Link>
       </div>
       <div style={buttonContainerStyle}>
-        <button style={buttonStyle}><Link style = {LinkToTicket} to="/ticket">Buy Ticket</Link></button>
+        <button style={buttonStyle}><Link style={LinkToTicket} to="/ticket">Buy Ticket</Link></button>
         <a className="dropdown-trigger" href="#!" data-target="dropdown1" style={buttonStyle}>
           Option<i className="material-icons right">arrow_drop_down</i>
         </a>
         <ul id="dropdown1" className="dropdown-content">
           <li><Link to="/admin">Login admin</Link></li>
           <li><Link to="/staff">Login staff</Link></li>
+          <li><Link to="/expert">Login expert</Link></li>
           <li><Link to="/profile">Profile</Link></li>
           <li><Link to="/settings">Settings</Link></li>
         </ul>
