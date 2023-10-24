@@ -2,7 +2,8 @@ import React from 'react';
 
 function AboutUs() {
   const containerStyle = {
-    backgroundColor: '#FEF0BF',
+    backgroundImage: 'url("AboutUsBackground.jpg")',
+    backgroundSize: 'cover',
     padding: '20px',
     display: 'flex',
     flexDirection: 'column',
@@ -26,9 +27,12 @@ function AboutUs() {
     marginBottom: '20px',
   };
 
+ 
+
   return (
     <div style={containerStyle}>
-      <img src='About.jpg' alt="K.L.G.Zoo" style={imageStyle} />
+      <img src='AboutUs.png' alt="K.L.G.Zoo" style={imageStyle} />
+      
       <div style={contentStyle}>
         K.L.G.Zoo là một công viên sở thú tuyệt vời nằm ẩn mình giữa vùng thiên nhiên xanh mướt, tạo nên một thiên đàng hoang dã độc đáo. Với hơn 30 loài động vật từ khắp nơi trên thế giới, K.L.G.Zoo đã trở thành điểm đến lý tưởng cho những người yêu thú cưng và đam mê về động vật hoang dã.
 

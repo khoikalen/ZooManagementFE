@@ -80,7 +80,7 @@ tr:nth-child(even) {
   color: #fff;
   padding: 20px 0;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .footer p {

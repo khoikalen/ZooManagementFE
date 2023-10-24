@@ -2,7 +2,9 @@ import React from 'react';
 
 function News() {
   const containerStyle = {
-    backgroundColor: '#FEF0BF',
+    backgroundImage: 'url("EventBackground.jpg")',
+    backgroundSize: 'contain',
+    width: '100%',
     padding: '20px',
     display: 'flex',
     flexDirection: 'column',
@@ -37,7 +39,7 @@ function News() {
 
   return (
     <div style={containerStyle}>
-      <img src='Event.jpg' alt="K.L.G.Zoo Events" style={imageStyle} />
+      <img src='SpecialEvents.png' alt="K.L.G.Zoo Events" style={imageStyle} />
       <div style={contentStyle}>
         <div>
           <p style={headerStyle}>Ngày Hội Vui Chơi Cuối Tuần</p>
