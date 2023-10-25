@@ -3,24 +3,25 @@ import Header from "../Component/Header";
 import "./Ticket.css";
 import axios from "axios";
 
-const API_URL = "https://zouzoumanagement.xyz/api/v1/ticket";
+const API_URL = "https://zouzoumanagement.xyz/api/v3/ticket";
 const Ticket = () => {
   const [ticketErrors, setTicketErrors] = useState({});
   const [newTicket, setNewTicket] = useState({
-    id: "",
-    type: "",
-    price: "",
-    quantity: "",
+    quantityOfAdult: "",
+    quantityOfChild: "",
     date: "",
   });
 
   const handlePurchaseClick = () => {
     const validationErrors = {};
-    if (!newTicket.type.trim()) {
-      validationErrors.type = "Type is required";
+    // if (!newTicket.type.trim()) {
+    //   validationErrors.type = "Type is required";
+    // }
+    if (!newTicket.quantityOfAdult.match("^[0-9]*$|^\w$")) {
+      validationErrors.quantityOfAdult = "Quantity should be number";
     }
-    if (!newTicket.quantity.match("^[0-9]+$")) {
-      validationErrors.quantity = "Quantity should be number";
+    if (!newTicket.quantityOfChild.match("^[0-9]*$|^\w$")) {
+      validationErrors.quantityOfChild = "Quantity should be number";
     }
 
     setTicketErrors(validationErrors);
@@ -57,7 +58,7 @@ const Ticket = () => {
         </div>
       </div>
       <div className="ticket-form">
-        <label for="typeOfPerson">Choose type of Ticket</label>
+        {/* <label for="typeOfPerson">Choose type of Ticket</label>
         <select
           id="typeOfPerson"
           className="TOP"
@@ -69,28 +70,35 @@ const Ticket = () => {
           <option value="ADULT">Adult</option>
           <option value="CHILD">Child</option>
         </select>
-        {ticketErrors.type && <span className="ticket-validation">{ticketErrors.type}</span>}
+        {ticketErrors.type && <span className="ticket-validation">{ticketErrors.type}</span>} */}
+        <label htmlFor="QOA">Quantity Of Adult</label>
         <input
+          id="QOA"
           type="text"
-          name="price"
-          placeholder="Price"
+          name="quantityOfAdult"
+          placeholder="Enter Quantity Of Adult"
           onChange={(e) =>
-            setNewTicket({ ...newTicket, price: e.target.value })
+            setNewTicket({ ...newTicket, quantityOfAdult: e.target.value })
           }
         />
+        <p>{ticketErrors.quantityOfAdult && <span className="ticket-validation">{ticketErrors.quantityOfAdult}</span>}</p>
+        <label htmlFor="QOC">Quantity Of Child</label>
         <input
+          id="QOC"
           type="text"
-          name="quantity"
-          placeholder="Quantity"
+          name="quantityOfChild"
+          placeholder="Enter Quantity of Child"
           onChange={(e) =>
-            setNewTicket({ ...newTicket, quantity: e.target.value })
+            setNewTicket({ ...newTicket, quantityOfChild: e.target.value })
           }
         />
-        {ticketErrors.quantity && <span className="ticket-validation">{ticketErrors.quantity}</span>}
+        <p>{ticketErrors.quantityOfChild && <span className="ticket-validation">{ticketErrors.quantityOfChild}</span>}</p>
+        <label htmlFor="OD">Order Date</label>
         <input
+          id="OD"
           type="text"
           name="date"
-          placeholder="Date"
+          placeholder="Format: mm/dd/yyyy"
           onChange={(e) => setNewTicket({ ...newTicket, date: e.target.value })}
         />
         <button onClick={handlePurchaseClick}>Purchase</button>
