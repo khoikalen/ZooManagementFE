@@ -22,3 +22,16 @@
     border-left: 1px solid #F3B749;
     width: 50%;
 }
+.TOP {
+    display: block;
+}
+.ticket-validation {
+    color: red;
+    font-weight: bold;
+}
+.ticket-form {
+    border: 1px solid rgb(224, 224, 224);
+    padding: 2%;
+    margin: 5% 25%;
+    width: 50%;
+}

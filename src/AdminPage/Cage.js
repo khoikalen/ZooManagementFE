@@ -59,7 +59,7 @@ const Cage = () => {
         setNewCage({
           name: '',
           cageStatus: '',
-          cageType: '',
+          cageType: '', 
           areaName: '',
           staffEmail: '',
         });
