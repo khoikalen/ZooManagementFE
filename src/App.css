@@ -108,3 +108,7 @@ body{
 .social-icon {
   margin: 0 10px; /* Điều chỉnh khoảng cách giữa các biểu tượng */
 }
+a {
+  text-decoration: none;
+}
+

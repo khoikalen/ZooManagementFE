@@ -8,14 +8,14 @@ const StaffManager = () => {
   const [editingId, setEditingId] = useState(null);
   const [adding, setAdding] = useState(false);
   const [newStaff, setNewStaff] = useState({
-    firstName: "",
-    lastName: "",
-    sex: "",
-    startDay: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    role: "STAFF",
+    firstName: '',
+    lastName: '',
+    gender: '', // Change "sex" to "gender"
+    startDay: '',
+    email: '',
+    phoneNumber: '',
+    password: '',
+    role: 'STAFF',
   });
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const StaffManager = () => {
       .then((response) => {
         const staffDataWithDefaultRole = response.data.map((staff) => ({
           ...staff,
-          role: "STAFF",
+          role: 'STAFF',
         }));
         setStaffData(staffDataWithDefaultRole);
       })
@@ -58,17 +58,17 @@ const StaffManager = () => {
   const handleAddStaff = () => {
     axios.post(API_URL, newStaff)
       .then((response) => {
-        setStaffData([...staffData, { ...response.data, role: "STAFF" }]);
+        setStaffData([...staffData, { ...response.data, role: 'STAFF' }]);
         setAdding(false);
         setNewStaff({
-          firstName: "",
-          lastName: "",
-          sex: "",
-          startDay: "",
-          email: "",
-          phoneNumber: "",
-          password: "",
-          role: "STAFF",
+          firstName: '',
+          lastName: '',
+          gender: '', // Change "sex" to "gender"
+          startDay: '',
+          email: '',
+          phoneNumber: '',
+          password: '',
+          role: 'STAFF',
         });
         
         // Tải lại trang sau khi thêm thành công
@@ -93,14 +93,14 @@ const StaffManager = () => {
     // Lấy giá trị từ state thay vì trực tiếp từ DOM
     const updatedFirstName = newStaff.firstName;
     const updatedLastName = newStaff.lastName;
-    const updatedSex = newStaff.sex;
+    const updatedGender = newStaff.gender; // Change "sex" to "gender"
     const updatedStartDay = newStaff.startDay;
     const updatedPhoneNumber = newStaff.phoneNumber;
 
     axios.put(`${API_URL}/${id}`, {
       firstName: updatedFirstName,
       lastName: updatedLastName,
-      sex: updatedSex,
+      gender: updatedGender, // Change "sex" to "gender"
       startDay: updatedStartDay,
       phoneNumber: updatedPhoneNumber,
     })
@@ -111,7 +111,7 @@ const StaffManager = () => {
               ...staff,
               firstName: updatedFirstName,
               lastName: updatedLastName,
-              sex: updatedSex,
+              gender: updatedGender, // Change "sex" to "gender"
               startDay: updatedStartDay,
               phoneNumber: updatedPhoneNumber,
             };
@@ -133,7 +133,7 @@ const StaffManager = () => {
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Sex</th>
+            <th>Gender</th> {/* Change "Sex" to "Gender" */}
             <th>Start Day</th>
             <th>Email</th>
             <th>Phone Number</th>
@@ -167,11 +167,11 @@ const StaffManager = () => {
                 {editingId === staff.id ? (
                   <input
                     type="text"
-                    name="sex"
-                    value={newStaff.sex}
+                    name="gender"
+                    value={newStaff.gender}
                     onChange={handleInputChange}
                   />
-                ) : staff.sex}
+                ) : staff.gender}
               </td>
               <td>
                 {editingId === staff.id ? (
@@ -237,9 +237,9 @@ const StaffManager = () => {
           />
           <input
             type="text"
-            placeholder="Sex"
-            name="sex"
-            value={newStaff.sex}
+            placeholder="Gender"
+            name="gender"
+            value={newStaff.gender}
             onChange={handleInputChange}
           />
           <input

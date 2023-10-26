@@ -5,12 +5,12 @@ const API_URL = 'https://zouzoumanagement.xyz/api/v1/expert';
 const initialNewExpert = {
   firstName: '',
   lastName: '',
-  sex: '',
+  gender: '', // Change "sex" to "gender"
   startDay: '',
   email: '',
   phoneNumber: '',
   areaName: '',
-  password: '', 
+  password: '',
 };
 
 const StaffManager = () => {
@@ -78,22 +78,22 @@ const StaffManager = () => {
 
     const updatedFirstName = newExpert.firstName;
     const updatedLastName = newExpert.lastName;
-    const updatedSex = newExpert.sex;
+    const updatedGender = newExpert.gender; // Change "sex" to "gender"
     const updatedStartDay = newExpert.startDay;
     const updatedEmail = newExpert.email;
     const updatedPhoneNumber = newExpert.phoneNumber;
     const updatedAreaName = newExpert.areaName;
-    const updatedPassword = newExpert.password; 
+    const updatedPassword = newExpert.password;
 
     axios.put(`${API_URL}/${id}`, {
       firstName: updatedFirstName,
       lastName: updatedLastName,
-      sex: updatedSex,
+      gender: updatedGender, // Change "sex" to "gender"
       startDay: updatedStartDay,
       email: updatedEmail,
       phoneNumber: updatedPhoneNumber,
       areaName: updatedAreaName,
-      password: updatedPassword, 
+      password: updatedPassword,
     })
       .then(() => {
         const updatedExpertData = expertData.map((expert) => {
@@ -102,12 +102,12 @@ const StaffManager = () => {
               ...expert,
               firstName: updatedFirstName,
               lastName: updatedLastName,
-              sex: updatedSex,
+              gender: updatedGender, // Change "sex" to "gender"
               startDay: updatedStartDay,
               email: updatedEmail,
               phoneNumber: updatedPhoneNumber,
               areaName: updatedAreaName,
-              password: updatedPassword, 
+              password: updatedPassword,
             };
           }
           return expert;
@@ -127,12 +127,11 @@ const StaffManager = () => {
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Sex</th>
+            <th>Gender</th> {/* Change "Sex" to "Gender" */}
             <th>Start Day</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th>Area Name</th>
-            <th>Password</th> 
             <th>Actions</th>
           </tr>
         </thead>
@@ -141,12 +140,11 @@ const StaffManager = () => {
             <tr key={expert.id}>
               <td>{expert.id === editingId ? <input type="text" name="firstName" value={newExpert.firstName} onChange={handleInputChange} /> : expert.firstName}</td>
               <td>{expert.id === editingId ? <input type="text" name="lastName" value={newExpert.lastName} onChange={handleInputChange} /> : expert.lastName}</td>
-              <td>{expert.id === editingId ? <input type="text" name="sex" value={newExpert.sex} onChange={handleInputChange} /> : expert.sex}</td>
+              <td>{expert.id === editingId ? <input type="text" name="gender" value={newExpert.gender} onChange={handleInputChange} /> : expert.gender}</td> {/* Change "sex" to "gender" */}
               <td>{expert.id === editingId ? <input type="text" name="startDay" value={newExpert.startDay} onChange={handleInputChange} /> : expert.startDay}</td>
               <td>{expert.id === editingId ? <input type="text" name="email" value={newExpert.email} onChange={handleInputChange} /> : expert.email}</td>
               <td>{expert.id === editingId ? <input type="text" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} /> : expert.phoneNumber}</td>
               <td>{expert.id === editingId ? <input type="text" name="areaName" value={newExpert.areaName} onChange={handleInputChange} /> : expert.areaName}</td>
-              <td>{expert.id === editingId ? <input type="text" name="password" value={newExpert.password} onChange={handleInputChange} /> : expert.password}</td> 
               <td>
                 {expert.id === editingId ? (
                   <>
@@ -176,12 +174,12 @@ const StaffManager = () => {
           <button onClick={handleAddExpert}>Add</button>
           <input type="text" placeholder="First Name" name="firstName" value={newExpert.firstName} onChange={handleInputChange} />
           <input type="text" placeholder="Last Name" name="lastName" value={newExpert.lastName} onChange={handleInputChange} />
-          <input type="text" placeholder="Sex" name="sex" value={newExpert.sex} onChange={handleInputChange} />
+          <input type="text" placeholder="Gender" name="gender" value={newExpert.gender} onChange={handleInputChange} /> {/* Change "Sex" to "Gender" */}
           <input type="text" placeholder="Start Day" name="startDay" value={newExpert.startDay} onChange={handleInputChange} />
           <input type="text" placeholder="Email" name="email" value={newExpert.email} onChange={handleInputChange} />
           <input type="text" placeholder="Phone Number" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} />
           <input type="text" placeholder="Area Name" name="areaName" value={newExpert.areaName} onChange={handleInputChange} />
-          <input type="password" placeholder="Password" name="password" value={newExpert.password} onChange={handleInputChange} /> 
+          <input type="password" placeholder="Password" name="password" value={newExpert.password} onChange={handleInputChange} />
         </div>
       ) : (
         <>

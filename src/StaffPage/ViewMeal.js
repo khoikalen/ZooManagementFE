@@ -25,20 +25,6 @@ const ViewLog = () => {
     setAnimalData([]);
     setMealData([]);
   };
-
-  const handleViewAnimalsInCage = (cageId) => {
-    const apiAnimalsUrl = `https://zouzoumanagement.xyz/api/v4/animal/${cageId}`;
-
-    axios.get(apiAnimalsUrl)
-      .then((response) => {
-        const animalData = response.data;
-        setAnimalData(animalData);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi gửi yêu cầu GET đến API Animal", error);
-      });
-  };
-
   const handleViewMeal = (cageId) => {
     const apiMealUrl = `https://zouzoumanagement.xyz/api/v1/food/daily-meal/${cageId}`;
 
@@ -51,7 +37,6 @@ const ViewLog = () => {
         console.error("Lỗi khi gửi yêu cầu GET đến API Meal", error);
       });
   };
-
   return (
     <div>
       <h1>View Cage</h1>
@@ -70,7 +55,7 @@ const ViewLog = () => {
               <td>{item.name}</td>
               <td>
                 <button onClick={() => handleViewDetail(item)}>Xem chi tiết</button>
-                <button onClick={() => handleViewAnimalsInCage(item.id)}>View Animal in cage</button>
+                <button onClick={() => handleViewMeal(item.id)}>View Meal</button>
               </td>
             </tr>
           ))}
@@ -89,32 +74,33 @@ const ViewLog = () => {
           <p>Staff Email: {selectedItem.staffEmail}</p>
         </div>
       )}
-
-      {animalData.length > 0 && (
+ {mealData.length > 0 && (
         <div>
-          <h2>Animal Details</h2>
+          <h2>Meal Details</h2>
           <table>
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Name</th>
-                <th>DOB</th>
-                <th>DEZ</th>
-                <th>Gender</th>
-                <th>Specie</th>
-                <th>Status</th>
+                <th>CageID</th>
+                <th>Food</th>
               </tr>
             </thead>
             <tbody>
-              {animalData.map((animal) => (
-                <tr key={animal.id}>
-                  <td>{animal.id}</td>
-                  <td>{animal.name}</td>
-                  <td>{animal.dob}</td>
-                  <td>{animal.dez}</td>
-                  <td>{animal.gender}</td>
-                  <td>{animal.specie}</td>
-                  <td>{animal.status}</td>
+              {mealData.map((meal) => (
+                <tr key={meal.id}>
+                  <td>{meal.id}</td>
+                  <td>{meal.name}</td>
+                  <td>{meal.cageId}</td>
+                  <td>
+                    <ul>
+                      {meal.haveFood.map((food) => (
+                        <li key={food.id}>
+                          {food.name}, {food.weight}
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -9,7 +9,7 @@
     font-size: large;
   }
   .sidebar {
-    background-color: #F3B749; 
+    background-color: #4dd392; 
     color: white;
     padding: 20px;
     height: 100vh;
@@ -20,13 +20,13 @@
   
   .content {
     flex-grow: 1; 
-    padding: 20px;
+    padding: 0 20px;
     
   }
   
   
   .sidebar button {
-    background-color: #F3B749;
+    background-color:  #4dd392;
     border: none;
     color: white;
     padding: 10px;
@@ -67,6 +67,56 @@ a {
     padding:0 ;
     
   }
+  a{
+    text-decoration: none;
+  }
+  h1 {
+    background-image: url('BG1.jpg'); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    color: white; 
+    text-align: center;
+    padding: 50px;
+    width: 100%;
+    height: 150px;
+    margin-top: 0;
+    font-family: buffalo;
+  }
+  
+/* CSS */
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.user-info img {
+  width: 30px; /* Điều chỉnh kích thước biểu tượng người dùng tùy theo nhu cầu */
+  margin-right: 10px;
+}
+
+.user-name {
+  font-weight: bold;
+}
+
+/* Tiêu đề h1 mặc định sử dụng font-size lớn hơn */
+h1 {
+  font-size: 2rem; /* Điều chỉnh kích thước tiêu đề h1 tùy theo nhu cầu */
+}
+.add-button {
+  background-color: #4CAF50; /* Màu xanh lá */
+  color: white; /* Màu chữ trắng */
+  padding: 10px 20px; /* Khoảng cách trong nút */
+  border: none; /* Loại bỏ đường viền */
+  cursor: pointer; /* Thay đổi con trỏ khi di chuột qua nút */
+}
+
+
 
 
   
