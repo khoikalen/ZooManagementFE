@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const ViewLog = () => {
-  const [data, setData] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
+const CageTable = () => {
+  const [cageData, setCageData] = useState([]);
+  const [mealData, setMealData] = useState(null);
+  const [selectedCage, setSelectedCage] = useState(null);
   const [animalData, setAnimalData] = useState([]);
-  const [mealData, setMealData] = useState([]);
 
   useEffect(() => {
     const apiUrl = "https://zouzoumanagement.xyz/api/v3/cage/dc@gmail.com";
 
     axios.get(apiUrl)
       .then((response) => {
-        const apiData = response.data;
-        setData(apiData);
+        const cageData = response.data;
+        setCageData(cageData);
       })
       .catch((error) => {
         console.error("Lỗi khi gửi yêu cầu GET đến API", error);
       });
   }, []);
-
-  const handleViewDetail = (item) => {
-    setSelectedItem(item);
+  const handleViewDetail = (cage) => {
+    setSelectedCage(cage);
     setAnimalData([]);
-    setMealData([]);
   };
-  const handleViewMeal = (cageId) => {
-    const apiMealUrl = `https://zouzoumanagement.xyz/api/v1/food/daily-meal/${cageId}`;
 
-    axios.get(apiMealUrl)
+  const handleViewMeal = (cageId) => {
+    const mealApiUrl = `https://zouzoumanagement.xyz/api/v1/food/daily-meal/${cageId}`;
+
+    axios.get(mealApiUrl)
       .then((response) => {
         const mealData = response.data;
         setMealData(mealData);
@@ -37,9 +36,10 @@ const ViewLog = () => {
         console.error("Lỗi khi gửi yêu cầu GET đến API Meal", error);
       });
   };
+
   return (
     <div>
-      <h1>View Cage</h1>
+      <h1>Thông Tin Khu Chuồng</h1>
       <table>
         <thead>
           <tr>
@@ -49,60 +49,61 @@ const ViewLog = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
+          {cageData.map((cage) => (
+            <tr key={cage.id}>
+              <td>{cage.id}</td>
+              <td>{cage.name}</td>
+
               <td>
-                <button onClick={() => handleViewDetail(item)}>Xem chi tiết</button>
-                <button onClick={() => handleViewMeal(item.id)}>View Meal</button>
+                <button onClick={() => handleViewDetail(cage)}>Xem chi tiết</button>
+                <button onClick={() => handleViewMeal(cage.id)}>View Meal</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      {selectedItem && (
+      {selectedCage && (
         <div>
           <h2>Chi tiết</h2>
-          <p>ID: {selectedItem.id}</p>
-          <p>Name: {selectedItem.name}</p>
-          <p>Quantity: {selectedItem.quantity}</p>
-          <p>Cage Status: {selectedItem.cageStatus}</p>
-          <p>Cage Type: {selectedItem.cageType}</p>
-          <p>Area Name: {selectedItem.areaName}</p>
-          <p>Staff Email: {selectedItem.staffEmail}</p>
+          <p>ID: {selectedCage.id}</p>
+          <p>Name: {selectedCage.name}</p>
+          <p>Quantity: {selectedCage.quantity}</p>
+          <p>Cage Status: {selectedCage.cageStatus}</p>
+          <p>Cage Type: {selectedCage.cageType}</p>
+          <p>Area Name: {selectedCage.areaName}</p>
+          <p>Staff Email: {selectedCage.staffEmail}</p>
         </div>
       )}
- {mealData.length > 0 && (
+
+      {mealData && (
         <div>
-          <h2>Meal Details</h2>
+          <h2>Thông Tin Bữa Ăn</h2>
           <table>
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>CageID</th>
-                <th>Food</th>
+                <th>Food and Weight</th>
               </tr>
             </thead>
             <tbody>
-              {mealData.map((meal) => (
-                <tr key={meal.id}>
-                  <td>{meal.id}</td>
-                  <td>{meal.name}</td>
-                  <td>{meal.cageId}</td>
-                  <td>
-                    <ul>
-                      {meal.haveFood.map((food) => (
-                        <li key={food.id}>
-                          {food.name}, {food.weight}
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-                </tr>
-              ))}
+              <tr>
+                <td>{mealData.id}</td>
+                <td>{mealData.name}</td>
+                <td>{mealData.cageId}</td>
+                <td>
+                  <ul>
+                    {mealData.haveFood.map((food) => (
+                      <li key={food.id}>
+                        {food.id} . 
+                        {food.name}, 
+                        {food.weight}
+                      </li>
+                    ))}
+                  </ul>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -111,4 +112,4 @@ const ViewLog = () => {
   );
 };
 
-export default ViewLog;
+export default CageTable;

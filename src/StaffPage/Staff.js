@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import ViewLog from './ViewLog';
+import ViewLog from './ViewCage';
 import ViewMeal  from './ViewMeal';
 import { Link } from 'react-router-dom'; 
 
 function App3() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState("viewlog");
 
   const renderPage = () => {
     switch (currentPage) {
@@ -13,9 +13,6 @@ function App3() {
       case "viewmeal":
         return <ViewMeal />;
     
-
-      default:
-        return <div>Home Page</div>;
     } 
   }
 

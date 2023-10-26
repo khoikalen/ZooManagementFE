@@ -3,9 +3,9 @@ import axios from 'axios';
 
 const ViewLog = () => {
   const [data, setData] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedCage, setSelectedCage] = useState(null);
   const [animalData, setAnimalData] = useState([]);
-  const [mealData, setMealData] = useState([]);
+  
 
   useEffect(() => {
     const apiUrl = "https://zouzoumanagement.xyz/api/v3/cage/dc@gmail.com";
@@ -20,10 +20,9 @@ const ViewLog = () => {
       });
   }, []);
 
-  const handleViewDetail = (item) => {
-    setSelectedItem(item);
+  const handleViewDetail = (cage) => {
+    setSelectedCage(cage);
     setAnimalData([]);
-    setMealData([]);
   };
 
   const handleViewAnimalsInCage = (cageId) => {
@@ -39,19 +38,6 @@ const ViewLog = () => {
       });
   };
 
-  const handleViewMeal = (cageId) => {
-    const apiMealUrl = `https://zouzoumanagement.xyz/api/v1/food/daily-meal/${cageId}`;
-
-    axios.get(apiMealUrl)
-      .then((response) => {
-        const mealData = response.data;
-        setMealData(mealData);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi gửi yêu cầu GET đến API Meal", error);
-      });
-  };
-
   return (
     <div>
       <h1>View Cage</h1>
@@ -64,29 +50,29 @@ const ViewLog = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
+          {data.map((cage) => (
+            <tr key={cage.id}>
+              <td>{cage.id}</td>
+              <td>{cage.name}</td>
               <td>
-                <button onClick={() => handleViewDetail(item)}>Xem chi tiết</button>
-                <button onClick={() => handleViewAnimalsInCage(item.id)}>View Animal in cage</button>
+                <button onClick={() => handleViewDetail(cage)}>Xem chi tiết</button>
+                <button onClick={() => handleViewAnimalsInCage(cage.id)}>View Animal in cage</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {selectedItem && (
+      {selectedCage && (
         <div>
           <h2>Chi tiết</h2>
-          <p>ID: {selectedItem.id}</p>
-          <p>Name: {selectedItem.name}</p>
-          <p>Quantity: {selectedItem.quantity}</p>
-          <p>Cage Status: {selectedItem.cageStatus}</p>
-          <p>Cage Type: {selectedItem.cageType}</p>
-          <p>Area Name: {selectedItem.areaName}</p>
-          <p>Staff Email: {selectedItem.staffEmail}</p>
+          <p>ID: {selectedCage.id}</p>
+          <p>Name: {selectedCage.name}</p>
+          <p>Quantity: {selectedCage.quantity}</p>
+          <p>Cage Status: {selectedCage.cageStatus}</p>
+          <p>Cage Type: {selectedCage.cageType}</p>
+          <p>Area Name: {selectedCage.areaName}</p>
+          <p>Staff Email: {selectedCage.staffEmail}</p>
         </div>
       )}
 
