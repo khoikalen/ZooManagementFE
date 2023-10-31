@@ -33,7 +33,9 @@ const BarChart = () => {
         const res = await response.json();
         
         console.log("API data", res);
-        const first10Record = res.slice(0,10);
+        const first10Record = res.slice(res.length-10,res.length);
+
+        console.log(res.length);
         for (const check of first10Record) {
             const date = check.date;
           if (check.type === "ADULT") {
