@@ -20,8 +20,8 @@ function App2() {
         return <Cage />;
       case "expert":
         return <Expert />;
-    }
-  }
+    };
+  };
 
   return (
     <div className="App">

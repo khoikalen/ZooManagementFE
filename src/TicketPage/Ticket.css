@@ -35,3 +35,11 @@
     margin: 5% 25%;
     width: 50%;
 }
+.ticket-by-day {
+    display: flex;
+    flex-direction: row;
+
+}
+.ticket-by-day span {
+    width: 50%;
+}
