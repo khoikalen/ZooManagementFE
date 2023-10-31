@@ -173,7 +173,7 @@ const Cage = () => {
         </div>
       ) : (
         <>
-          <button className='add-button' onClick={handleAddClick}>Add</button>
+          <button onClick={handleAddClick}>Add</button>
           {renderTable()}
         </>
       )}
