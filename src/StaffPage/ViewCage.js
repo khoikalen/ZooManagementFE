@@ -8,7 +8,7 @@ const ViewLog = () => {
   
 
   useEffect(() => {
-    const apiUrl = "https://zouzoumanagement.xyz/api/v3/cage/dc@gmail.com";
+    const apiUrl = "https://zouzoumanagement.xyz/api/v3/cage/huyen@gmail.com";
 
     axios.get(apiUrl)
       .then((response) => {

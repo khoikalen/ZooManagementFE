@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ViewLog from './ViewCage';
 import ViewMeal  from './ViewMeal';
 import { Link } from 'react-router-dom'; 
+import userIcon from './User.png';
 
 function App3() {
   const [currentPage, setCurrentPage] = useState("viewlog");
@@ -19,7 +20,10 @@ function App3() {
   return (
     <div className="App">
       <div className="sidebar">
-        <h2>Zoo Management System</h2>
+      <div className="user-info">
+          <img src={userIcon} alt="User Icon" className="user-icon" />
+          <span className="user-name">Staff</span>
+        </div>
         <ul>
           <li><button onClick={() => setCurrentPage("viewlog")}>ViewCage</button></li>
           <li><button onClick={() => setCurrentPage("viewmeal")}>ViewMeal</button></li>

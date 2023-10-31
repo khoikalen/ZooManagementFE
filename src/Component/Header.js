@@ -41,7 +41,6 @@ function Header() {
   };
 
   useEffect(() => {
-    // Initialize dropdown
     const elems = document.querySelectorAll('.dropdown-trigger');
     window.M.Dropdown.init(elems, { constrainWidth: false });
   }, []);

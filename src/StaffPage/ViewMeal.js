@@ -97,8 +97,8 @@ const CageTable = () => {
                     {mealData.haveFood.map((food) => (
                       <li key={food.id}>
                         {food.id} . 
-                        {food.name}, 
-                        {food.weight}
+                         Name: {food.name}, <br />
+                         Height: {food.weight}kg 
                       </li>
                     ))}
                   </ul>

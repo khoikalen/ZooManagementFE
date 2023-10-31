@@ -35,7 +35,7 @@ function App2() {
           <li><button onClick={() => setCurrentPage("staff-manager")}>Staff Manager</button></li>
           <li><button onClick={() => setCurrentPage("cages")}>Cages</button></li>
           <li><button onClick={() => setCurrentPage("expert")}>Expert</button></li>
-          <li><Link to="/App1">Back</Link></li>
+          <lu><Link to="/App1">Back</Link></lu>
         </ul>
       </div>
       <div className="content">
