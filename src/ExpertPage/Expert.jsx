@@ -3,6 +3,7 @@ import DailyMeal from './DailyMeal'
 import SickMeal from'./SickMeal'
 import HealthLog from './HealthLog';
 import { Link } from 'react-router-dom'; 
+import userIcon from './User.png';
 
 function Expert() {
   const [currentPage, setCurrentPage] = useState("healthlog");
