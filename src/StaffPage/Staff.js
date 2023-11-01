@@ -22,7 +22,7 @@ function App3() {
       <div className="sidebar">
       <div className="user-info">
           <img src={userIcon} alt="User Icon" className="user-icon" />
-          <span className="user-name">Staff</span>
+          <span className="user-name"> Staff: {localStorage.getItem("email")}</span>
         </div>
         <ul>
           <li><button onClick={() => setCurrentPage("viewlog")}>ViewCage</button></li>

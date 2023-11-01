@@ -4,7 +4,11 @@
   flex-direction: column;
   align-items: center;
   background: rgb(237, 241, 141);
-  background: linear-gradient(0deg, rgba(237, 241, 141, 1) 0%, rgba(108, 203, 238, 1) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(237, 241, 141, 1) 0%,
+    rgba(108, 203, 238, 1) 100%
+  );
   width: 100%;
   background-repeat: no-repeat;
 }
@@ -21,7 +25,6 @@
   box-shadow: 5px 10px 5px lightcyan;
 }
 
-
 /* Style for the previous and next buttons */
 .carousel-prev,
 .carousel-next {
@@ -29,7 +32,6 @@
   color: white;
   padding: 10px;
 }
-
 
 /* Style for the image container */
 .image-container {
@@ -66,7 +68,7 @@ td {
 }
 
 th {
-  background-color: #1E646E;
+  background-color: #1e646e;
   color: #fff;
 }
 
@@ -76,7 +78,7 @@ tr:nth-child(even) {
 
 /* Footer.css */
 .footer {
-  background-color: #002C2F;
+  background-color: #002c2f;
   color: #fff;
   padding: 20px 0;
   text-align: center;
@@ -95,8 +97,9 @@ tr:nth-child(even) {
 .footer a:hover {
   text-decoration: underline;
 }
-body{
+body {
   background-color: white;
+  height: 100%;
 }
 /* Tệp CSS tùy chỉnh */
 .social-icons-container {
@@ -111,4 +114,15 @@ body{
 a {
   text-decoration: none;
 }
-
+img.user-icon{
+  width: 20%;;
+}
+.choose-type-label {
+  display:flow-root;
+  align-items: center;
+  gap: 20px; 
+}
+label{
+  display: flex;
+  margin-bottom: 20px;
+}

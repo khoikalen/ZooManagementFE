@@ -2,10 +2,12 @@ import PhotoAlbum from "react-photo-album";
 
 const AlbumShow = {
   backgroundColor: "rgb(254, 240, 191)",
+  width: "100%",
+  display: "flex"
 };
 
 const AlbumStyle = {
-  height: "100%",
+  height: "50%",
   width: "50%",
 };
 

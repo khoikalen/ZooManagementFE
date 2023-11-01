@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import staffApi from '../api/staffApi';
 const API_URL = 'https://zouzoumanagement.xyz/api/v1/staff';
 
 const StaffManager = () => {
@@ -18,18 +18,15 @@ const StaffManager = () => {
     role: 'STAFF',
   });
 
+  const getAllStaff = async () => {
+    try {
+      const res = await staffApi.getAllStaff();
+      setStaffData(res);
+    } catch (error) {}
+  };
+
   useEffect(() => {
-    axios.get(API_URL)
-      .then((response) => {
-        const staffDataWithDefaultRole = response.data.map((staff) => ({
-          ...staff,
-          role: 'STAFF',
-        }));
-        setStaffData(staffDataWithDefaultRole);
-      })
-      .catch((error) => {
-        console.error('Lỗi khi tải dữ liệu nhân viên:', error);
-      });
+    getAllStaff();
   }, []);
 
   const handleEditClick = (id) => {

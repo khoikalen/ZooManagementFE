@@ -13,7 +13,7 @@ const initialNewExpert = {
   password: '',
 };
 
-const StaffManager = () => {
+const ExpertManager = () => {
   const [expertData, setExpertData] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [adding, setAdding] = useState(false);
@@ -190,5 +190,4 @@ const StaffManager = () => {
     </div>
   );
 };
-
-export default StaffManager;
+export default ExpertManager;
