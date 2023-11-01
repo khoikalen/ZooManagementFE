@@ -114,3 +114,15 @@ body {
 a {
   text-decoration: none;
 }
+img.user-icon{
+  width: 20%;;
+}
+.choose-type-label {
+  display:flow-root;
+  align-items: center;
+  gap: 20px; 
+}
+label{
+  display: flex;
+  margin-bottom: 20px;
+}

@@ -25,7 +25,10 @@ function Expert() {
   return (
     <div className="App">
       <div className="sidebar">
-        <h2>Zoo Management System</h2>
+      <div className="user-info">
+          <img src={userIcon} alt="User Icon" className="user-icon" />
+          <span className="user-name"> Expert: {localStorage.getItem("email")}</span>
+        </div>
         <ul>
           <li><button onClick={() => setCurrentPage("healthlog")}>Health Log</button></li>
           <li><button onClick={() => setCurrentPage("dailymeal")}>Daily Meal</button></li>

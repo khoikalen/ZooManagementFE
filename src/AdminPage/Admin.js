@@ -4,7 +4,7 @@ import Cage from './Cage';
 import DashBoard from './Dashboard';
 import Expert from './Expert';
 import { Link } from 'react-router-dom';
-import userIcon from './User.png'; // Import your user icon image
+import userIcon from './User.png'; 
 import './App2.css';
 
 function App2() {
@@ -28,14 +28,14 @@ function App2() {
       <div className="sidebar">
         <div className="user-info">
           <img src={userIcon} alt="User Icon" className="user-icon" />
-          <span className="user-name">Admin</span>
+          <span className="user-name">Admin: {localStorage.getItem("email")}</span>
         </div>
         <ul>
           <li><button onClick={() => setCurrentPage("dashboard")}>DashBoard</button></li>
           <li><button onClick={() => setCurrentPage("staff-manager")}>Staff Manager</button></li>
           <li><button onClick={() => setCurrentPage("cages")}>Cages</button></li>
           <li><button onClick={() => setCurrentPage("expert")}>Expert</button></li>
-          <li><Link to="/App1">Back</Link></li>
+          <lu><Link to="/App1">Back</Link></lu>
         </ul>
       </div>
       <div className="content">
