@@ -2,21 +2,26 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AddFood from './AddFood';
 import './AddFood.css';
-import { Link, Routes } from 'react-router-dom'; 
+import { Link, Routes } from 'react-router-dom';
 
 const SickMeal = () => {
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [mealData, setMealData] = useState(null);
+  const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
+  const [newFood, setNewFood] = useState({
+    name: "",
+    weight: ""
+  });
   useEffect(() => {
-    
+
     const apiUrl = `https://zouzoumanagement.xyz/api/v3/animal/${localStorage.getItem("email")}`;
 
-    
+
     axios.get(apiUrl)
       .then((response) => {
-        
+
         const apiData = response.data;
 
         setData(apiData);
@@ -28,31 +33,96 @@ const SickMeal = () => {
 
   const handleViewMeal = (item) => {
     const viewMealAPI = `https://zouzoumanagement.xyz/api/v1/food/sick-meal/${item.id}`
-    
+
     axios.get(viewMealAPI)
-    .then((response) => {
-      setMealData(response.data);
-      setError("");
-    })
-    .catch(error => {
-      setError(error.response.data.message);
-      console.log(error);
-    })
+      .then((response) => {
+        setMealData(response.data);
+        setError("");
+      })
+      .catch(error => {
+        setError(error.response.data.message);
+        console.log(error);
+      })
   };
-  
+
   const handleCreateMeal = (item) => {
     const createMealAPI = `https://zouzoumanagement.xyz/api/v1/meal/sick/${item.id}`;
 
     axios.post(createMealAPI)
-    .then((response) => {
-      alert("Create successfully")
-      setError("");
-    })
-    .catch((error) => {
-      setError(error.response.data.message);
-      console.log(error);
-    })
+      .then((response) => {
+        alert("Create successfully")
+        setError("");
+      })
+      .catch((error) => {
+        setError(error.response.data.message);
+        console.log(error);
+      })
   }
+
+  const handleDeleteClick = (id) => {
+    const deleteFoodAPI = `https://zouzoumanagement.xyz/api/v1/meal/food/${id}`
+    axios.delete(deleteFoodAPI)
+      .then(() => {
+        const updatedMealData = mealData.haveFood.filter((food) => food.id !== id);
+        setMealData({
+          ...mealData,
+          haveFood: updatedMealData,
+        });
+        alert("Delete successfully");
+      })
+      .catch((error) => {
+        console.error('Error delete:', error);
+      });
+  };
+
+  const handleSaveClick = (id) => {
+    const updatedName = newFood.name;
+    const updatedWeight = newFood.weight;
+    const updateFoodAPI = `https://zouzoumanagement.xyz/api/v1/meal/${id}`;
+  
+    axios.put(updateFoodAPI, {
+      name: updatedName,
+      weight: updatedWeight
+    })
+      .then(() => {
+        const updatedFoodData = mealData.haveFood.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              name: updatedName,
+              weight: updatedWeight
+            };
+          }
+          return item;
+        });
+        alert("Update successfully");
+        setMealData({
+          ...mealData,
+          haveFood: updatedFoodData
+        });
+        setEditingId(null);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const handleInputChange = (id, name, e) => {
+    const newWeight = e.target.value;
+    setNewFood({
+      id: id,
+      name: name,
+      weight: newWeight,
+    });
+  };
+
+  const handleCancelClick = () => {
+    setEditingId(null);
+  };
+
+  const handleEditClick = (id) => {
+    setEditingId(id);
+  };
 
   return (
     <div>
@@ -92,13 +162,31 @@ const SickMeal = () => {
               <th>ID</th>
               <th>Name</th>
               <th>Weight</th>
+              <th>Actions</th>
             </thead>
             <tbody>
               {mealData.haveFood.map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
-                  <td>{item.weight}</td>
+                  <td>
+                    {editingId === item.id ? (
+                      <input type='text' name='foodWeight' defaultValue={item.weight} onChange={(e) => handleInputChange(item.id, item.name, e)} />
+                    ) : item.weight}
+                  </td>
+                  <td>
+                    {editingId === item.id ? (
+                      <>
+                        <button onClick={() => handleSaveClick(item.id)}>Save</button> |
+                        <button onClick={handleCancelClick}>Cancel</button>
+                      </>
+                    ) : (
+                      <>
+                        <button onClick={() => handleEditClick(item.id)}>Edit</button> |
+                        <button onClick={() => handleDeleteClick(item.id)}>Delete</button>
+                      </>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -111,4 +199,3 @@ const SickMeal = () => {
 };
 
 export default SickMeal;
-  
