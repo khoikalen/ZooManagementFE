@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import AddFood from './AddFood';
+import './AddFood.css';
+import { Link, Routes } from 'react-router-dom'; 
 
 const SickMeal = () => {
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const [mealData, setMealData] = useState(null);
+  const [error, setError] = useState("");
   useEffect(() => {
-    // URL của API bạn muốn gửi yêu cầu GET
-    const apiUrl = "https://zouzoumanagement.xyz/api/v3/cage/dc@gmail.com";
+    
+    const apiUrl = `https://zouzoumanagement.xyz/api/v3/animal/${localStorage.getItem("email")}`;
 
-    // Gửi yêu cầu GET đến API sử dụng Axios
+    
     axios.get(apiUrl)
       .then((response) => {
-        // Lấy dữ liệu từ phản hồi API
+        
         const apiData = response.data;
 
         setData(apiData);
@@ -22,27 +26,45 @@ const SickMeal = () => {
       });
   }, []);
 
-  const handleViewDetail = (item) => {
-    setSelectedItem(item);
+  const handleViewMeal = (item) => {
+    const viewMealAPI = `https://zouzoumanagement.xyz/api/v1/food/sick-meal/${item.id}`
+    
+    axios.get(viewMealAPI)
+    .then((response) => {
+      setMealData(response.data);
+      setError("");
+    })
+    .catch(error => {
+      setError(error.response.data.message);
+      console.log(error);
+    })
   };
+  
+  const handleCreateMeal = (item) => {
+    const createMealAPI = `https://zouzoumanagement.xyz/api/v1/meal/sick/${item.id}`;
 
-  const handleCloseDetail = () => {
-    setSelectedItem(null);
-  };
+    axios.post(createMealAPI)
+    .then((response) => {
+      alert("Create successfully")
+      setError("");
+    })
+    .catch((error) => {
+      setError(error.response.data.message);
+      console.log(error);
+    })
+  }
 
   return (
     <div>
-      <h1>Cage</h1>
+      <h1>Sick Animal</h1>
+      {error && <div className='error-message'>{error}</div>}
       <table>
         <thead>
           <tr>
             <th>ID</th>
             <th>Name</th>
-            
-            <th>Cage Status</th>
-            <th>Cage Type</th>
-            <th>Area Name</th>
-           
+            <th>Date of birth</th>
+            <th>Specie</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -51,30 +73,37 @@ const SickMeal = () => {
             <tr key={item.id}>
               <td>{item.id}</td>
               <td>{item.name}</td>
-              
-              <td>{item.cageStatus}</td>
-              <td>{item.cageType}</td>
-              <td>{item.areaName}</td>
-              
+              <td>{item.dob}</td>
+              <td>{item.specie}</td>
               <td>
-                <button onClick={() => handleViewDetail(item)}>Xem chi tiết</button>
+                <button onClick={() => handleViewMeal(item)}>View Meal</button> |
+                <button onClick={() => handleCreateMeal(item)}>Create Meal</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {selectedItem && (
+      {mealData && (
         <div>
-          <h2>Chi tiết</h2>
-          <p>ID: {selectedItem.id}</p>
-          <p>Name: {selectedItem.name}</p>
-          <p>Quantity: {selectedItem.quantity}</p>
-          <p>Cage Status: {selectedItem.cageStatus}</p>
-          <p>Cage Type: {selectedItem.cageType}</p>
-          <p>Area Name: {selectedItem.areaName}</p>
-          <p>Staff Email: {selectedItem.staffEmail}</p>
-          <button onClick={handleCloseDetail}>Đóng</button>
+          <h2>{mealData.name}</h2>
+          <table>
+            <thead>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Weight</th>
+            </thead>
+            <tbody>
+              {mealData.haveFood.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.weight}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Link to='/expert/addFood' state={{ mealData }}>Add Food</Link>
         </div>
       )}
     </div>

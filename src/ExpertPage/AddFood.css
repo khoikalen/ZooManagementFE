@@ -1,0 +1,17 @@
+.container {
+    width: 80%;
+}
+.go-back {
+    width: 20%;
+    margin: 2% 40%;
+}
+select {
+    display: block;
+    width: 50%;
+}
+.error-message {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: red;
+}

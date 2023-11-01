@@ -17,6 +17,7 @@ import ExpertManager from "./AdminPage/Expert";
 import StaffManager from "./AdminPage/StaffManager";
 import DailyMeal from "./ExpertPage/DailyMeal";
 import SickMeal from "./ExpertPage/SickMeal";
+import AddFood from "./ExpertPage/AddFood";
 import { useEffect } from "react";
 // Import Compoent Auth
 import SignUpComponent from "./AuthPage/Register/SignUp";
@@ -70,6 +71,7 @@ function App() {
                 <Route path="" element={<Expert />} />
                 <Route path="daily-meal" element={<DailyMeal />} />
                 <Route path="sick-meal" element={<SickMeal />} />
+                <Route path="addFood" element={<AddFood />} />
               </Route>
             </Route>
           </Route>

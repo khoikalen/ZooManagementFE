@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Email } from '@mui/icons-material';
 
 const DailyMeal = () => {
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
-    // URL của API bạn muốn gửi yêu cầu GET
-    const apiUrl = "https://zouzoumanagement.xyz/api/v3/cage/dc@gmail.com";
+    
+    const apiUrl = `https://zouzoumanagement.xyz/api/v2/cage/${localStorage.getItem("email")}`;
 
-    // Gửi yêu cầu GET đến API sử dụng Axios
+    
     axios.get(apiUrl)
       .then((response) => {
-        // Lấy dữ liệu từ phản hồi API
+        
         const apiData = response.data;
 
         setData(apiData);

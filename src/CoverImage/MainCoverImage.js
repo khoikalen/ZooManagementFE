@@ -5,7 +5,7 @@ import './MainCoverImage.css';
 function timeOut() {
   setTimeout(function() {
     window.location.replace("/App1");
-  }, 5000)
+  }, 3000)
 }
 const CoverImage = () => {
   timeOut()
