@@ -6,7 +6,7 @@ const CageTable = () => {
   const [mealData, setMealData] = useState(null);
   const [selectedCage, setSelectedCage] = useState(null);
   const [animalData, setAnimalData] = useState([]);
-  const [sickMealData, setSickMealData] = useState(null); // New state for sick meal data
+  const [sickMealData, setSickMealData] = useState(null);
 
   useEffect(() => {
     const apiUrl = `https://zouzoumanagement.xyz/api/v3/cage/${localStorage.getItem("email")}`;
@@ -27,7 +27,7 @@ const CageTable = () => {
   };
 
   const handleViewMeal = (cageId) => {
-    const mealApiUrl = `https://zouzoumanagement.xyz/api/v1/food/daily-meal/${cageId}`;
+    const mealApiUrl = `https://zouzoumanagement.xyz/api/v1/food/cage/${cageId}`;
 
     axios.get(mealApiUrl)
       .then((response) => {
@@ -36,20 +36,6 @@ const CageTable = () => {
       })
       .catch((error) => {
         console.error("Lỗi khi gửi yêu cầu GET đến API Meal", error);
-      });
-  };
-
-  // New function to fetch and set sick meal data
-  const handleViewSickMeal = (cageId) => {
-    const sickMealApiUrl = `https://zouzoumanagement.xyz/api/v1/food/sick-meal/${cageId}`;
-
-    axios.get(sickMealApiUrl)
-      .then((response) => {
-        const sickMealData = response.data;
-        setSickMealData(sickMealData);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi gửi yêu cầu GET đến API Sick Meal", error);
       });
   };
 
@@ -73,7 +59,7 @@ const CageTable = () => {
               <td>
                 <button onClick={() => handleViewDetail(cage)}>Xem chi tiết</button>
                 <button onClick={() => handleViewMeal(cage.id)}>View Meal</button>
-                <button onClick={() => handleViewSickMeal(cage.id)}>View Sick Meal</button> {/* New button */}
+                {/* <button onClick={() => handleViewSickMeal(cage.id)}>View Sick Meal</button> */}
               </td>
             </tr>
           ))}
@@ -92,73 +78,51 @@ const CageTable = () => {
         </div>
       )}
 
-      {mealData && (
-        <div>
-          <h2>Thông Tin Bữa Ăn</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>CageID</th>
-                <th>Food and Weight</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{mealData.id}</td>
-                <td>{mealData.name}</td>
-                <td>{mealData.cageId}</td>
-                <td>
-                  <ul>
-                    {mealData.haveFood.map((food) => (
+{mealData && (
+  <div>
+    <h2>Thông Tin Bữa Ăn</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Animal ID</th>
+          <th>Food and Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        {mealData.meal ? (
+          mealData.meal.map((m) => (
+            <tr key={m.id}>
+              <td>{m.id ? m.id : 'N/A'}</td>
+              <td>{m.name ? m.name : 'N/A'}</td>
+              <td>{m.cageId ? m.cageId : 'N/A'}</td>
+              <td>
+                <ul>
+                  {m.haveFood ? (
+                    m.haveFood.map((food) => (
                       <li key={food.id}>
-                        {food.id} . 
-                        Name: {food.name}, <br />
-                        Height: {food.weight}kg 
+                        {food.id ? food.id : 'N/A'} . 
+                        Name: {food.name ? food.name : 'N/A'}, <br />
+                        Height: {food.weight ? `${food.weight}kg` : 'N/A'}
                       </li>
-                    ))}
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {sickMealData && ( // Display sick meal data when available
-        <div>
-          <h2>Thông Tin Bữa Ốm</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>CageID</th>
-                <th>Food and Weight</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{sickMealData.id}</td>
-                <td>{sickMealData.name}</td>
-                <td>{sickMealData.cageId}</td>
-                <td>
-                  <ul>
-                    {sickMealData.haveFood.map((food) => (
-                      <li key={food.id}>
-                        {food.id} . 
-                        Name: {food.name}, <br />
-                        Height: {food.weight}kg 
-                      </li>
-                    ))}
-                  </ul>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      )}
+                    ))
+                  ) : (
+                    <li>No food data available</li>
+                  )}
+                </ul>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="3">No meal data available</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+)}
     </div>
   );
 };
