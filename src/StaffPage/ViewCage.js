@@ -17,6 +17,7 @@ const ViewCage = () => {
   const [unidentifiedAnimalData, setUnidentifiedAnimalData] = useState([]);
   const [isTableVisible, setIsTableVisible] = useState(false);
   const [isCreateLogVisible, setIsCreateLogVisible] = useState(false);
+  const [isCreateUnidentifiedAnimalLog, setIsCreateUnidentifiedAnimalLog] = useState(false);
   const [isViewLogVisible, setIsViewLogVisible] = useState(false);
   const [logData, setLogData] = useState({
     id: 0,
@@ -67,6 +68,19 @@ const ViewCage = () => {
         console.error('Lỗi khi gửi yêu cầu POST đến API Log', error);
       });
   };
+  const createUnidentifiedAnimalLog = (unidentifiedAnimalId, logData) => {
+    const apiLogUrl = `https://zouzoumanagement.xyz/api/v3/log/${unidentifiedAnimalId}`;
+  
+    axios
+      .post(apiLogUrl, logData)
+      .then((response) => {
+        console.log('Log created successfully', response.data);
+        setIsCreateLogVisible(false);
+      })
+      .catch((error) => {
+        console.error('Lỗi khi gửi yêu cầu POST đến API Log', error);
+      });
+  };
 
   const handleHideTable = () => {
     setSelectedCage(null);
@@ -90,6 +104,24 @@ const ViewCage = () => {
   const handleViewAnimals = (cageId) => {
     handleViewAnimalsInCage(cageId);
     handleViewUnidentifiedAnimalsInCage(cageId);
+  };
+  const handleViewLog2 = (unidentifiedAnimalId) => {
+    getUnidentifiedAnimalLog(unidentifiedAnimalId);
+    setIsViewLogVisible(true);
+  };
+  
+  const getUnidentifiedAnimalLog = (unidentifiedAnimalId) => {
+    const apiLogUrl = `https://zouzoumanagement.xyz/api/v3/log/${unidentifiedAnimalId}`;
+  
+    axios
+      .get(apiLogUrl)
+      .then((response) => {
+        const logData = response.data;
+        setLogInfo(logData);
+      })
+      .catch((error) => {
+        console.error('Lỗi khi gửi yêu cầu GET đến API Log', error);
+      });
   };
 
   const handleViewAnimalsInCage = (cageId) => {
@@ -127,6 +159,13 @@ const ViewCage = () => {
     });
     setIsCreateLogVisible(true);
   };
+  const handleCreateUnidentifiedAnimalLog= (unidentifiedAnimalId) => {
+    setLogData({
+      ...logData,
+      unidentifiedAnimalId,
+    });
+    setIsCreateUnidentifiedAnimalLog(true);
+  };
 
   const handleViewLog = (animalId) => {
     getAnimalLog(animalId);
@@ -135,6 +174,10 @@ const ViewCage = () => {
 
   const handleCancelCreateLog = () => {
     setIsCreateLogVisible(false);
+
+  };
+  const handleCancelCreateLog2 = () => {
+    setIsCreateUnidentifiedAnimalLog(false);
   };
 
   const handleChange = (e) => {
@@ -154,6 +197,17 @@ const ViewCage = () => {
     };
 
     createAnimalLog(logData.animalId, logDataToSend);
+  };
+  const handleSubmit2 = (e) => {
+    e.preventDefault();
+  
+    const logDataToSend2 = {
+      type: logData.type,
+      shortDescription: logData.shortDescription,
+    };
+  
+    createUnidentifiedAnimalLog(logData.unidentifiedAnimalId, logDataToSend2);
+    setIsCreateUnidentifiedAnimalLog(false);
   };
 
   return (
@@ -300,37 +354,107 @@ const ViewCage = () => {
           )}
           <button onClick={handleHideTable}>Close</button>
         </div>
-     ) }
-
-      {unidentifiedAnimalData.length > 0 && (
-        <div>
-          <h2>Unidentified Animal Details</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Quantity</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {unidentifiedAnimalData.map((animal) => (
-                <tr key={animal.id}>
-                  <td>{animal.id}</td>
-                  <td>{animal.name}</td>
-                  <td>{animal.quantity}</td>
-                  <td>
-                    <button onClick={() => handleCreateLog(animal.id)}>Create Log</button>
-                    <button onClick={() => handleViewLog(animal.id)}>View Log</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button onClick={handleHideTable2}>Close</button>
-        </div>
       )}
+
+{unidentifiedAnimalData.length > 0 && (
+  <div>
+    <h2>Unidentified Animal Details</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {unidentifiedAnimalData.map((animal) => (
+          <tr key={animal.id}>
+            <td>{animal.id}</td>
+            <td>{animal.name}</td>
+            <td>{animal.quantity}</td>
+            <td>
+              <button onClick={() => handleCreateUnidentifiedAnimalLog(animal.id)}>Create Log</button>
+              <button onClick={() => handleViewLog2(animal.id)}>View Log</button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    {isCreateUnidentifiedAnimalLog && (
+      <div>
+         <h2>Create Log</h2>
+              <form onSubmit={handleSubmit2}>
+                <div className="input-field">
+                  <h5>Choose Type:</h5>
+                  <div className="choose-type-label">
+                    <label>
+                      <input
+                        name="type"
+                        type="radio"
+                        value="health"
+                        checked={logData.type === "health"}
+                        onChange={handleChange}
+                      />
+                      <span>Health</span>
+                    </label>
+                    <label>
+                      <input
+                        name="type"
+                        type="radio"
+                        value="sick"
+                        checked={logData.type === "sick"}
+                        onChange={handleChange}
+                      />
+                      <span>Sick</span>
+                    </label>
+                  </div>
+                </div>
+                <div>
+                  <label>Short Description:</label>
+                  <input type="text" name="shortDescription" value={logData.shortDescription} onChange={handleChange} placeholder="Enter short description" />
+                </div>
+                <div>
+                  <label>Animal ID:</label>
+                  <input type="text" name="animalId" value={logData.unidentifiedAnimalId} readOnly />
+                </div>
+                <button type="submit">Create Log</button>
+                <button onClick={handleCancelCreateLog2}>Cancel</button>
+              </form>
+            </div>
+          )}
+    {isViewLogVisible && (
+      <div>
+        <h2>View Log</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Date & Time</th>
+              <th>Short Description</th>
+              <th>Animal ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {logInfo.map((log) => (
+              <tr key={log.id}>
+                <td>{log.id}</td>
+                <td>{log.type}</td>
+                <td>{formatLocalDateTime(log.dateTime)}</td>
+                <td>{log.shortDescription}</td>
+                <td>{log.unidentifiedAnimalId}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button onClick={() => setIsViewLogVisible(false)}>Close Log</button>
+      </div>
+    )}
+    <button onClick={handleHideTable2}>Close</button>
+  </div>
+)}
     </div>
   );
 };
