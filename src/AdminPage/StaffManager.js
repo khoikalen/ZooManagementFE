@@ -335,7 +335,7 @@ const StaffManager = () => {
       )}
       {adding ? (
         <div>
-          <button onClick={() => setAdding(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+          <button onClick={() => {setAdding(false); clearValidationErrors();}} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
             <i className="material-icons left">cancel</i>Cancel
           </button>
           <button onClick={handleAddStaff} className="waves-effect waves-light btn">

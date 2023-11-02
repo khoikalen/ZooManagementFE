@@ -377,7 +377,7 @@ const ExpertManager = () => {
       )}
       {adding ? (
         <div>
-          <button onClick={() => setAdding(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+          <button onClick={() => {setAdding(false); clearValidationErrors()}} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
             <i className="material-icons left">cancel</i>Cancel
           </button>
           <button onClick={handleAddExpert} className="waves-effect waves-light btn">
@@ -391,69 +391,6 @@ const ExpertManager = () => {
           <input type="text" placeholder="Phone Number" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} />
           <input type="text" placeholder="Area Name" name="areaName" value={newExpert.areaName} onChange={handleInputChange} />
           <input type="password" placeholder="Password" name="password" value={newExpert.password} onChange={handleInputChange} />
-          <button
-            onClick={() => {
-              setAdding(false);
-              clearValidationErrors();
-            }}>Cancel</button>
-          <button onClick={handleAddExpert}>Add</button>
-          <input
-            type="text"
-            placeholder="First Name"
-            name="firstName"
-            value={newExpert.firstName}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            name="lastName"
-            value={newExpert.lastName}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            placeholder="Gender"
-            name="gender"
-            value={newExpert.gender}
-            onChange={handleInputChange}
-          />{" "}
-          {/* Change "Sex" to "Gender" */}
-          <input
-            type="text"
-            placeholder="Start Day"
-            name="startDay"
-            value={newExpert.startDay}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            placeholder="Email"
-            name="email"
-            value={newExpert.email}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            placeholder="Phone Number"
-            name="phoneNumber"
-            value={newExpert.phoneNumber}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            placeholder="Area Name"
-            name="areaName"
-            value={newExpert.areaName}
-            onChange={handleInputChange}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={newExpert.password}
-            onChange={handleInputChange}
-          />
         </div>
       ) : (
         <>
