@@ -1,0 +1,8 @@
+.error-message {
+    color: red;
+    text-align: center;
+}
+.validation-errors {
+    color: red;
+    font-weight: bold;
+}
