@@ -108,13 +108,6 @@ a {
 h1 {
   font-size: 2rem; /* Điều chỉnh kích thước tiêu đề h1 tùy theo nhu cầu */
 }
-.add-button {
-  background-color: #4CAF50; /* Màu xanh lá */
-  color: white; /* Màu chữ trắng */
-  padding: 10px 20px; /* Khoảng cách trong nút */
-  border: none; /* Loại bỏ đường viền */
-  cursor: pointer; /* Thay đổi con trỏ khi di chuột qua nút */
-}
 
 
 

@@ -7,7 +7,7 @@ const CageTable = () => {
   const [selectedCage, setSelectedCage] = useState(null);
   const [animalData, setAnimalData] = useState([]);
   const [sickMealData, setSickMealData] = useState(null);
-
+  const [isViewLogVisible, setIsViewLogVisible] = useState(false)
   useEffect(() => {
     const apiUrl = `https://zouzoumanagement.xyz/api/v3/cage/${localStorage.getItem("email")}`;
 
@@ -57,10 +57,14 @@ const CageTable = () => {
               <td>{cage.name}</td>
 
               <td>
-                <button onClick={() => handleViewDetail(cage)}>Xem chi tiết</button>
-                <button onClick={() => handleViewMeal(cage.id)}>View Meal</button>
-                {/* <button onClick={() => handleViewSickMeal(cage.id)}>View Sick Meal</button> */}
-              </td>
+  <button onClick={() => handleViewDetail(cage)} class="btn waves-effect waves-light" style={{ marginRight: '10px' }}>
+    <i class="material-icons left small">visibility</i>Xem chi tiết
+  </button>
+  <button onClick={() => handleViewMeal(cage.id)} class="btn waves-effect waves-light">
+    <i class="material-icons left small">restaurant_menu</i>View Meal
+  </button>
+</td>
+
             </tr>
           ))}
         </tbody>

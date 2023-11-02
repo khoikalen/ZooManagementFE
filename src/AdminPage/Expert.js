@@ -33,9 +33,11 @@ const ExpertManager = () => {
   const handleEditClick = (id) => {
     setEditingId(id);
   };
+
   const startEditing = (expertId) => {
     setEditingId(expertId);
   };
+
   const handleDeleteClick = (id) => {
     axios.delete(`${API_URL}/${id}`)
       .then(() => {
@@ -60,7 +62,7 @@ const ExpertManager = () => {
       .then((response) => {
         setExpertData([...expertData, response.data]);
         setAdding(false);
-        setNewExpert( {
+        setNewExpert({
           firstName: '',
           lastName: '',
           gender: '', 
@@ -87,14 +89,14 @@ const ExpertManager = () => {
 
   const handleSaveClick = (id) => {
     const expertToUpdate = expertData.find((expert) => expert.id === id);
-    const updatedFirstName = expertData.firstName;
-    const updatedLastName = expertData.lastName;
-    const updatedGender = expertData.gender; 
-    const updatedStartDay = expertData.startDay;
-    const updatedEmail = expertData.email;
-    const updatedPhoneNumber = expertData.phoneNumber;
-    const updatedAreaName = expertData.areaName;
-    const updatedPassword = expertData.password;
+    const updatedFirstName = expertToUpdate.firstName;
+    const updatedLastName = expertToUpdate.lastName;
+    const updatedGender = expertToUpdate.gender; 
+    const updatedStartDay = expertToUpdate.startDay;
+    const updatedEmail = expertToUpdate.email;
+    const updatedPhoneNumber = expertToUpdate.phoneNumber;
+    const updatedAreaName = expertToUpdate.areaName;
+    const updatedPassword = expertToUpdate.password;
 
     axios.put(`${API_URL}/${id}`, {
       firstName: updatedFirstName,
@@ -125,6 +127,8 @@ const ExpertManager = () => {
         });
         setExpertData(updatedExpertData);
         setEditingId(null);
+        
+        window.location.reload();
       })
       .catch((error) => {
         console.error('Lỗi khi update:', error);
@@ -149,13 +153,6 @@ const ExpertManager = () => {
         <tbody>
           {expertData.map((expert) => (
             <tr key={expert.id}>
-               {/* <td>{expert.id === editingId ? <input type="text" name="lastName" value={newExpert.lastName} onChange={handleInputChange} /> : expert.lastName}</td>
-              <td>{expert.id === editingId ? <input type="text" name="gender" value={newExpert.gender} onChange={handleInputChange} /> : expert.gender}</td> 
-              <td>{expert.id === editingId ? <input type="text" name="startDay" value={newExpert.startDay} onChange={handleInputChange} /> : expert.startDay}</td>
-              <td>{expert.id === editingId ? <input type="text" name="email" value={newExpert.email} onChange={handleInputChange} /> : expert.email}</td>
-              <td>{expert.id === editingId ? <input type="text" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} /> : expert.phoneNumber}</td>
-              <td>{expert.id === editingId ? <input type="text" name="areaName" value={newExpert.areaName} onChange={handleInputChange} /> : expert.areaName}</td> */}
-              {/* <td>{expert.id === editingId ? <input type="text" name="firstName" value={newExpert.firstName} onChange={handleInputChange} /> : expert.firstName}</td> */}
               <td>
                 {editingId === expert.id ? (
                   <input
@@ -164,10 +161,10 @@ const ExpertManager = () => {
                     value={expert.firstName}
                     onChange={(e) => {
                       const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id === expert.firstName);
+                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
                       if (index !== -1) {
                         newExpertdata[index].firstName = e.target.value;
-                        setExpertData(newExpert);
+                        setExpertData(newExpertdata);
                       }
                     }}
                   />
@@ -184,10 +181,10 @@ const ExpertManager = () => {
                     value={expert.lastName}
                     onChange={(e) => {
                       const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id === expert.lastName);
+                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
                       if (index !== -1) {
                         newExpertdata[index].lastName = e.target.value;
-                        setExpertData(newExpert);
+                        setExpertData(newExpertdata);
                       }
                     }}
                   />
@@ -204,10 +201,10 @@ const ExpertManager = () => {
                     value={expert.gender}
                     onChange={(e) => {
                       const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id === expert.gender);
+                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
                       if (index !== -1) {
                         newExpertdata[index].gender = e.target.value;
-                        setExpertData(newExpert);
+                        setExpertData(newExpertdata);
                       }
                     }}
                   />
@@ -224,10 +221,10 @@ const ExpertManager = () => {
                     value={expert.startDay}
                     onChange={(e) => {
                       const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id ===expert.startDay);
+                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
                       if (index !== -1) {
                         newExpertdata[index].startDay = e.target.value;
-                        setExpertData(newExpert);
+                        setExpertData(newExpertdata);
                       }
                     }}
                   />
@@ -244,10 +241,10 @@ const ExpertManager = () => {
                     value={expert.email}
                     onChange={(e) => {
                       const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id === expert.email);
+                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
                       if (index !== -1) {
                         newExpertdata[index].email = e.target.value;
-                        setExpertData(newExpert);
+                        setExpertData(newExpertdata);
                       }
                     }}
                   />
@@ -264,10 +261,10 @@ const ExpertManager = () => {
                     value={expert.phoneNumber}
                     onChange={(e) => {
                       const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id ===expert.phoneNumber);
+                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
                       if (index !== -1) {
                         newExpertdata[index].phoneNumber = e.target.value;
-                        setExpertData(newExpert);
+                        setExpertData(newExpertdata);
                       }
                     }}
                   />
@@ -284,10 +281,10 @@ const ExpertManager = () => {
                     value={expert.areaName}
                     onChange={(e) => {
                       const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id === expert.areaName);
+                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
                       if (index !== -1) {
                         newExpertdata[index].areaName = e.target.value;
-                        setExpertData(newExpert);
+                        setExpertData(newExpertdata);
                       }
                     }}
                   />
@@ -297,17 +294,23 @@ const ExpertManager = () => {
               </td>
              
               <td>
-                {expert.id === editingId ? (
+                {editingId === expert.id ? (
                   <>
-                    <button onClick={() => handleSaveClick(expert.id)}>Save</button>
-                    |
-                    <button onClick={handleCancelClick}>Cancel</button>
+                     <button onClick={() => handleSaveClick(expert.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                      <i className="material-icons left small">save</i>
+                    </button>
+                    <button onClick={handleCancelClick} className="waves-effect waves-light btn">
+                      <i className="material-icons left small">cancel</i>
+                    </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEditClick(expert.id)}>Edit</button>
-                    |
-                    <button onClick={() => handleDeleteClick(expert.id)}>Delete</button>
+                    <button onClick={() => handleEditClick(expert.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                      <i className="material-icons left small">edit</i>
+                    </button>
+                    <button onClick={() => handleDeleteClick(expert.id)} className="waves-effect waves-light btn">
+                      <i className="material-icons left small">delete</i>
+                    </button>
                   </>
                 )}
               </td>
@@ -323,11 +326,15 @@ const ExpertManager = () => {
       <h1>Expert Manager</h1>
       {adding ? (
         <div>
-          <button onClick={() => setAdding(false)}>Cancel</button>
-          <button onClick={handleAddExpert}>Add</button>
+          <button onClick={() => setAdding(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+            <i className="material-icons left">cancel</i>Cancel
+          </button>
+          <button onClick={handleAddExpert} className="waves-effect waves-light btn">
+            <i className="material-icons left">add</i>Add
+          </button>
           <input type="text" placeholder="First Name" name="firstName" value={newExpert.firstName} onChange={handleInputChange} />
           <input type="text" placeholder="Last Name" name="lastName" value={newExpert.lastName} onChange={handleInputChange} />
-          <input type="text" placeholder="Gender" name="gender" value={newExpert.gender} onChange={handleInputChange} /> {/* Change "Sex" to "Gender" */}
+          <input type="text" placeholder="Gender" name="gender" value={newExpert.gender} onChange={handleInputChange} />
           <input type="text" placeholder="Start Day" name="startDay" value={newExpert.startDay} onChange={handleInputChange} />
           <input type="text" placeholder="Email" name="email" value={newExpert.email} onChange={handleInputChange} />
           <input type="text" placeholder="Phone Number" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} />
@@ -336,11 +343,14 @@ const ExpertManager = () => {
         </div>
       ) : (
         <>
-          <button onClick={handleAddClick}>Add</button>
+          <button className="waves-effect waves-light btn add-button" onClick={handleAddClick} style={{ marginRight: '10px' }}>
+            <i className="material-icons left">add</i>Add
+          </button>
           {renderTable()}
         </>
       )}
     </div>
   );
 };
+
 export default ExpertManager;

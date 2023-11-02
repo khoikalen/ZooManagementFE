@@ -70,7 +70,7 @@ const ViewCage = () => {
   };
   const createUnidentifiedAnimalLog = (unidentifiedAnimalId, logData) => {
     const apiLogUrl = `https://zouzoumanagement.xyz/api/v3/log/${unidentifiedAnimalId}`;
-  
+
     axios
       .post(apiLogUrl, logData)
       .then((response) => {
@@ -109,10 +109,10 @@ const ViewCage = () => {
     getUnidentifiedAnimalLog(unidentifiedAnimalId);
     setIsViewLogVisible(true);
   };
-  
+
   const getUnidentifiedAnimalLog = (unidentifiedAnimalId) => {
     const apiLogUrl = `https://zouzoumanagement.xyz/api/v3/log/${unidentifiedAnimalId}`;
-  
+
     axios
       .get(apiLogUrl)
       .then((response) => {
@@ -159,7 +159,7 @@ const ViewCage = () => {
     });
     setIsCreateLogVisible(true);
   };
-  const handleCreateUnidentifiedAnimalLog= (unidentifiedAnimalId) => {
+  const handleCreateUnidentifiedAnimalLog = (unidentifiedAnimalId) => {
     setLogData({
       ...logData,
       unidentifiedAnimalId,
@@ -190,7 +190,7 @@ const ViewCage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   
+
     const logDataToSend = {
       type: logData.type,
       shortDescription: logData.shortDescription,
@@ -200,12 +200,12 @@ const ViewCage = () => {
   };
   const handleSubmit2 = (e) => {
     e.preventDefault();
-  
+
     const logDataToSend2 = {
       type: logData.type,
       shortDescription: logData.shortDescription,
     };
-  
+
     createUnidentifiedAnimalLog(logData.unidentifiedAnimalId, logDataToSend2);
     setIsCreateUnidentifiedAnimalLog(false);
   };
@@ -227,8 +227,12 @@ const ViewCage = () => {
               <td>{cage.id}</td>
               <td>{cage.name}</td>
               <td>
-                <button onClick={() => handleViewDetail(cage)}>Xem chi tiết</button>
-                <button onClick={() => handleViewAnimals(cage.id)}>View Animals in Cage</button>
+                <button onClick={() => handleViewDetail(cage)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                  <i className="material-icons left">remove_red_eye</i> Xem chi tiết
+                </button>
+                <button onClick={() => handleViewAnimals(cage.id)} className="waves-effect waves-light btn">
+                  <i className="material-icons left">pets</i> View Animals in Cage
+                </button>
               </td>
             </tr>
           ))}
@@ -275,8 +279,12 @@ const ViewCage = () => {
                   <td>{animal.specie}</td>
                   <td>{animal.status}</td>
                   <td>
-                    <button onClick={() => handleCreateLog(animal.id)}>Create Log</button>
-                    <button onClick={() => handleViewLog(animal.id)}>View Log</button>
+                    <button onClick={() => handleCreateLog(animal.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                      <i className="material-icons left">create</i> Create Log
+                    </button>
+                    <button onClick={() => handleViewLog(animal.id)} className="waves-effect waves-light btn">
+                      <i className="material-icons left">list</i> View Log
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -319,8 +327,12 @@ const ViewCage = () => {
                   <label>Animal ID:</label>
                   <input type="text" name="animalId" value={logData.animalId} readOnly />
                 </div>
-                <button type="submit">Create Log</button>
-                <button onClick={handleCancelCreateLog}>Cancel</button>
+                <button className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                  <i className="material-icons left " >create</i> Create Log
+                </button>
+                <button onClick={handleCancelCreateLog} className="waves-effect waves-light btn">
+                  <i className="material-icons left">cancel</i> Cancel
+                </button>
               </form>
             </div>
           )}
@@ -349,42 +361,51 @@ const ViewCage = () => {
                   ))}
                 </tbody>
               </table>
-              <button onClick={() => setIsViewLogVisible(false)}>Close Log</button>
+              <button onClick={() => setIsViewLogVisible(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                <i className="material-icons left smaller">close</i> Close Log
+              </button>
+
             </div>
           )}
-          <button onClick={handleHideTable}>Close</button>
+          <button onClick={handleHideTable} className="waves-effect waves-light btn">
+            <i className="material-icons left">close</i> Close
+          </button>
         </div>
       )}
 
-{unidentifiedAnimalData.length > 0 && (
-  <div>
-    <h2>Unidentified Animal Details</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {unidentifiedAnimalData.map((animal) => (
-          <tr key={animal.id}>
-            <td>{animal.id}</td>
-            <td>{animal.name}</td>
-            <td>{animal.quantity}</td>
-            <td>
-              <button onClick={() => handleCreateUnidentifiedAnimalLog(animal.id)}>Create Log</button>
-              <button onClick={() => handleViewLog2(animal.id)}>View Log</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    {isCreateUnidentifiedAnimalLog && (
-      <div>
-         <h2>Create Log</h2>
+      {unidentifiedAnimalData.length > 0 && (
+        <div>
+          <h2>Unidentified Animal Details</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {unidentifiedAnimalData.map((animal) => (
+                <tr key={animal.id}>
+                  <td>{animal.id}</td>
+                  <td>{animal.name}</td>
+                  <td>{animal.quantity}</td>
+                  <td>
+                    <button onClick={() => handleCreateUnidentifiedAnimalLog(animal.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                      <i className="material-icons left">create</i> Create Log
+                    </button>
+                    <button onClick={() => handleViewLog2(animal.id)} className="waves-effect waves-light btn">
+                      <i className="material-icons left">list</i> View Log
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {isCreateUnidentifiedAnimalLog && (
+            <div>
+              <h2>Create Log</h2>
               <form onSubmit={handleSubmit2}>
                 <div className="input-field">
                   <h5>Choose Type:</h5>
@@ -419,42 +440,51 @@ const ViewCage = () => {
                   <label>Animal ID:</label>
                   <input type="text" name="animalId" value={logData.unidentifiedAnimalId} readOnly />
                 </div>
-                <button type="submit">Create Log</button>
-                <button onClick={handleCancelCreateLog2}>Cancel</button>
+                <button className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                  <i className="material-icons left " >create</i> Create Log
+                </button>
+                <button onClick={handleCancelCreateLog2} className="waves-effect waves-light btn">
+                  <i className="material-icons left">cancel</i> Cancel
+                </button>
               </form>
             </div>
           )}
-    {isViewLogVisible && (
-      <div>
-        <h2>View Log</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Type</th>
-              <th>Date & Time</th>
-              <th>Short Description</th>
-              <th>Animal ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            {logInfo.map((log) => (
-              <tr key={log.id}>
-                <td>{log.id}</td>
-                <td>{log.type}</td>
-                <td>{formatLocalDateTime(log.dateTime)}</td>
-                <td>{log.shortDescription}</td>
-                <td>{log.unidentifiedAnimalId}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button onClick={() => setIsViewLogVisible(false)}>Close Log</button>
-      </div>
-    )}
-    <button onClick={handleHideTable2}>Close</button>
-  </div>
-)}
+          {isViewLogVisible && (
+            <div>
+              <h2>View Log</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Date & Time</th>
+                    <th>Short Description</th>
+                    <th>Animal ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {logInfo.map((log) => (
+                    <tr key={log.id}>
+                      <td>{log.id}</td>
+                      <td>{log.type}</td>
+                      <td>{formatLocalDateTime(log.dateTime)}</td>
+                      <td>{log.shortDescription}</td>
+                      <td>{log.unidentifiedAnimalId}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <button onClick={() => setIsViewLogVisible(false)} className="waves-effect waves-light btn">
+                <i className="material-icons left smaller">close</i> Close Log
+              </button>
+
+            </div>
+          )}
+          <button onClick={handleHideTable2} className="waves-effect waves-light btn">
+            <i className="material-icons left">close</i> Close
+          </button>
+        </div>
+      )}
     </div>
   );
 };

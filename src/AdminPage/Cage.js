@@ -66,7 +66,7 @@ const Cage = () => {
           staffEmail: '',
         });
 
-        // Tải lại trang sau khi thêm thành công
+
         window.location.reload();
       })
       .catch((error) => {
@@ -84,7 +84,7 @@ const Cage = () => {
 
   const handleSaveClick = (id) => {
     const cageToUpdate = cageData.find((cage) => cage.id === id);
-    const updatedCageStatus =cageData.cageStatus;
+    const updatedCageStatus = cageData.cageStatus;
     const updatedStaffEmail = cageData.staffEmail;
     const updatedName = cageData.cageName;
 
@@ -197,45 +197,27 @@ const Cage = () => {
               <td>
                 {editingId === cage.id ? (
                   <>
-                    <button onClick={() => handleSaveClick(cage.id)}>Save</button>
-                    <button onClick={handleCancelClick}>Cancel</button>
+                    <button onClick={() => handleSaveClick(cage.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                      <i className="material-icons left small">save</i>
+                    </button>
+                    <button onClick={handleCancelClick} className="waves-effect waves-light btn">
+                      <i className="material-icons left small">cancel</i>
+                    </button>
                   </>
                 ) : (
                   <>
-                    <button className="btn waves-effect waves-light" onClick={() => handleEditClick(cage.id)}>Edit</button>
-                    |
-                    <button className="btn waves-effect waves-light" onClick={() => handleDeleteClick(cage.id)}>Delete</button>
+                    <button onClick={() => handleEditClick(cage.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                      <i className="material-icons left small">edit</i>
+                    </button>
+                    <button onClick={() => handleDeleteClick(cage.id)} className="waves-effect waves-light btn">
+                      <i className="material-icons left small">delete</i>
+                    </button>
                   </>
                 )}
               </td>
             </tr>
           ))}
 
-          {/* {cageData.map((cage) => (
-            <tr key={cage.id}>
-              <td>{cage.id}</td>
-              <td>{editingId === cage.id ? <input type="text" name="cageName" value={newCage.cageName} onChange={handleInputChange} /> : cage.name}</td>
-              <td>{cage.quantity}</td>
-              <td>{editingId === cage.id ? <input type="text" name="cageStatus" value={newCage.cageStatus} onChange={handleInputChange} /> : cage.cageStatus}</td>
-              <td>{cage.cageType}</td>
-              <td>{cage.areaName}</td>
-              <td>{editingId === cage.id ? <input type="text" name="staffEmail" value={newCage.staffEmail} onChange={handleInputChange} /> : cage.staffEmail}</td>
-              <td>
-                {editingId === cage.id ? (
-                  <>
-                    <button onClick={() => handleSaveClick(cage.id)}>Save</button>
-                    <button onClick={handleCancelClick}>Cancel</button>
-                  </>
-                ) : (
-                  <>
-                    <button className="btn waves-effect waves-light" onClick={() => handleEditClick(cage.id)}>Edit</button>
-                     | 
-                    <button className="btn waves-effect waves-light" onClick={() => handleDeleteClick(cage.id)}>Delete</button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))} */}
         </tbody>
       </table>
     );
@@ -246,8 +228,12 @@ const Cage = () => {
       <h1>Cage</h1>
       {adding ? (
         <div>
-          <button onClick={() => setAdding(false)}>Cancel</button>
-          <button onClick={handleAddCage}>Add</button>
+          <button onClick={() => setAdding(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+            <i className="material-icons left">cancel</i>Cancel
+          </button>
+          <button onClick={handleAddCage} className="waves-effect waves-light btn">
+            <i className="material-icons left">add</i>Add
+          </button>
           <input type="text" placeholder="Name" name="cageName" value={newCage.cageName} onChange={handleInputChange} />
           <input type="text" placeholder="Cage Status" name="cageStatus" value={newCage.cageStatus} onChange={handleInputChange} />
           <input type="text" placeholder="Cage Type" name="cageType" value={newCage.cageType} onChange={handleInputChange} />
@@ -256,7 +242,9 @@ const Cage = () => {
         </div>
       ) : (
         <>
-          <button className='add-button' onClick={handleAddClick}>Add</button>
+          <button className="waves-effect waves-light btn add-button" onClick={handleAddClick} style={{ marginRight: '10px' }}>
+            <i className="material-icons left">add</i>Add
+          </button>
           {renderTable()}
         </>
       )}
