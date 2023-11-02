@@ -2,22 +2,23 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const API_URL = 'https://zouzoumanagement.xyz/api/v1/expert';
-const initialNewExpert = {
-  firstName: '',
-  lastName: '',
-  gender: '', // Change "sex" to "gender"
-  startDay: '',
-  email: '',
-  phoneNumber: '',
-  areaName: '',
-  password: '',
-};
 
 const ExpertManager = () => {
   const [expertData, setExpertData] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [adding, setAdding] = useState(false);
-  const [newExpert, setNewExpert] = useState(initialNewExpert);
+  const [newExpert, setNewExpert] = useState(
+    {
+      firstName: '',
+      lastName: '',
+      gender: '', 
+      startDay: '',
+      email: '',
+      phoneNumber: '',
+      areaName: '',
+      password: '',
+    }
+  );
 
   useEffect(() => {
     axios.get(API_URL)
@@ -32,7 +33,9 @@ const ExpertManager = () => {
   const handleEditClick = (id) => {
     setEditingId(id);
   };
-
+  const startEditing = (expertId) => {
+    setEditingId(expertId);
+  };
   const handleDeleteClick = (id) => {
     axios.delete(`${API_URL}/${id}`)
       .then(() => {
@@ -57,7 +60,16 @@ const ExpertManager = () => {
       .then((response) => {
         setExpertData([...expertData, response.data]);
         setAdding(false);
-        setNewExpert(initialNewExpert);
+        setNewExpert( {
+          firstName: '',
+          lastName: '',
+          gender: '', 
+          startDay: '',
+          email: '',
+          phoneNumber: '',
+          areaName: '',
+          password: '',
+        });
         window.location.reload();
       })
       .catch((error) => {
@@ -75,20 +87,19 @@ const ExpertManager = () => {
 
   const handleSaveClick = (id) => {
     const expertToUpdate = expertData.find((expert) => expert.id === id);
-
-    const updatedFirstName = newExpert.firstName;
-    const updatedLastName = newExpert.lastName;
-    const updatedGender = newExpert.gender; // Change "sex" to "gender"
-    const updatedStartDay = newExpert.startDay;
-    const updatedEmail = newExpert.email;
-    const updatedPhoneNumber = newExpert.phoneNumber;
-    const updatedAreaName = newExpert.areaName;
-    const updatedPassword = newExpert.password;
+    const updatedFirstName = expertData.firstName;
+    const updatedLastName = expertData.lastName;
+    const updatedGender = expertData.gender; 
+    const updatedStartDay = expertData.startDay;
+    const updatedEmail = expertData.email;
+    const updatedPhoneNumber = expertData.phoneNumber;
+    const updatedAreaName = expertData.areaName;
+    const updatedPassword = expertData.password;
 
     axios.put(`${API_URL}/${id}`, {
       firstName: updatedFirstName,
       lastName: updatedLastName,
-      gender: updatedGender, // Change "sex" to "gender"
+      gender: updatedGender, 
       startDay: updatedStartDay,
       email: updatedEmail,
       phoneNumber: updatedPhoneNumber,
@@ -102,7 +113,7 @@ const ExpertManager = () => {
               ...expert,
               firstName: updatedFirstName,
               lastName: updatedLastName,
-              gender: updatedGender, // Change "sex" to "gender"
+              gender: updatedGender, 
               startDay: updatedStartDay,
               email: updatedEmail,
               phoneNumber: updatedPhoneNumber,
@@ -127,7 +138,7 @@ const ExpertManager = () => {
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Gender</th> {/* Change "Sex" to "Gender" */}
+            <th>Gender</th> 
             <th>Start Day</th>
             <th>Email</th>
             <th>Phone Number</th>
@@ -138,22 +149,164 @@ const ExpertManager = () => {
         <tbody>
           {expertData.map((expert) => (
             <tr key={expert.id}>
-              <td>{expert.id === editingId ? <input type="text" name="firstName" value={newExpert.firstName} onChange={handleInputChange} /> : expert.firstName}</td>
-              <td>{expert.id === editingId ? <input type="text" name="lastName" value={newExpert.lastName} onChange={handleInputChange} /> : expert.lastName}</td>
-              <td>{expert.id === editingId ? <input type="text" name="gender" value={newExpert.gender} onChange={handleInputChange} /> : expert.gender}</td> {/* Change "sex" to "gender" */}
+               {/* <td>{expert.id === editingId ? <input type="text" name="lastName" value={newExpert.lastName} onChange={handleInputChange} /> : expert.lastName}</td>
+              <td>{expert.id === editingId ? <input type="text" name="gender" value={newExpert.gender} onChange={handleInputChange} /> : expert.gender}</td> 
               <td>{expert.id === editingId ? <input type="text" name="startDay" value={newExpert.startDay} onChange={handleInputChange} /> : expert.startDay}</td>
               <td>{expert.id === editingId ? <input type="text" name="email" value={newExpert.email} onChange={handleInputChange} /> : expert.email}</td>
               <td>{expert.id === editingId ? <input type="text" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} /> : expert.phoneNumber}</td>
-              <td>{expert.id === editingId ? <input type="text" name="areaName" value={newExpert.areaName} onChange={handleInputChange} /> : expert.areaName}</td>
+              <td>{expert.id === editingId ? <input type="text" name="areaName" value={newExpert.areaName} onChange={handleInputChange} /> : expert.areaName}</td> */}
+              {/* <td>{expert.id === editingId ? <input type="text" name="firstName" value={newExpert.firstName} onChange={handleInputChange} /> : expert.firstName}</td> */}
+              <td>
+                {editingId === expert.id ? (
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={expert.firstName}
+                    onChange={(e) => {
+                      const newExpertdata = [...expertData];
+                      const index = newExpertdata.findIndex((i) => i.id === expert.firstName);
+                      if (index !== -1) {
+                        newExpertdata[index].firstName = e.target.value;
+                        setExpertData(newExpert);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(expert.id)}>{expert.firstName}</div>
+                )}
+              </td>
+             
+              <td>
+                {editingId === expert.id ? (
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={expert.lastName}
+                    onChange={(e) => {
+                      const newExpertdata = [...expertData];
+                      const index = newExpertdata.findIndex((i) => i.id === expert.lastName);
+                      if (index !== -1) {
+                        newExpertdata[index].lastName = e.target.value;
+                        setExpertData(newExpert);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(expert.id)}>{expert.lastName}</div>
+                )}
+              </td>
+             
+              <td>
+                {editingId === expert.id ? (
+                  <input
+                    type="text"
+                    name="gender"
+                    value={expert.gender}
+                    onChange={(e) => {
+                      const newExpertdata = [...expertData];
+                      const index = newExpertdata.findIndex((i) => i.id === expert.gender);
+                      if (index !== -1) {
+                        newExpertdata[index].gender = e.target.value;
+                        setExpertData(newExpert);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(expert.id)}>{expert.gender}</div>
+                )}
+              </td>
+             
+              <td>
+                {editingId === expert.id ? (
+                  <input
+                    type="text"
+                    name="startDay"
+                    value={expert.startDay}
+                    onChange={(e) => {
+                      const newExpertdata = [...expertData];
+                      const index = newExpertdata.findIndex((i) => i.id ===expert.startDay);
+                      if (index !== -1) {
+                        newExpertdata[index].startDay = e.target.value;
+                        setExpertData(newExpert);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(expert.id)}>{expert.startDay}</div>
+                )}
+              </td>
+             
+              <td>
+                {editingId === expert.id ? (
+                  <input
+                    type="text"
+                    name="email"
+                    value={expert.email}
+                    onChange={(e) => {
+                      const newExpertdata = [...expertData];
+                      const index = newExpertdata.findIndex((i) => i.id === expert.email);
+                      if (index !== -1) {
+                        newExpertdata[index].email = e.target.value;
+                        setExpertData(newExpert);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(expert.id)}>{expert.email}</div>
+                )}
+              </td>
+             
+              <td>
+                {editingId === expert.id ? (
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    value={expert.phoneNumber}
+                    onChange={(e) => {
+                      const newExpertdata = [...expertData];
+                      const index = newExpertdata.findIndex((i) => i.id ===expert.phoneNumber);
+                      if (index !== -1) {
+                        newExpertdata[index].phoneNumber = e.target.value;
+                        setExpertData(newExpert);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(expert.id)}>{expert.phoneNumber}</div>
+                )}
+              </td>
+             
+              <td>
+                {editingId === expert.id ? (
+                  <input
+                    type="text"
+                    name="areaName"
+                    value={expert.areaName}
+                    onChange={(e) => {
+                      const newExpertdata = [...expertData];
+                      const index = newExpertdata.findIndex((i) => i.id === expert.areaName);
+                      if (index !== -1) {
+                        newExpertdata[index].areaName = e.target.value;
+                        setExpertData(newExpert);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(expert.id)}>{expert.areaName}</div>
+                )}
+              </td>
+             
               <td>
                 {expert.id === editingId ? (
                   <>
                     <button onClick={() => handleSaveClick(expert.id)}>Save</button>
+                    |
                     <button onClick={handleCancelClick}>Cancel</button>
                   </>
                 ) : (
                   <>
                     <button onClick={() => handleEditClick(expert.id)}>Edit</button>
+                    |
                     <button onClick={() => handleDeleteClick(expert.id)}>Delete</button>
                   </>
                 )}

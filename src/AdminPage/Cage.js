@@ -33,7 +33,9 @@ const Cage = () => {
   const handleEditClick = (id) => {
     setEditingId(id);
   };
-
+  const startEditing = (cageId) => {
+    setEditingId(cageId);
+  };
   const handleDeleteClick = (id) => {
     axios.delete(`${API_URL}/${id}`)
       .then(() => {
@@ -59,7 +61,7 @@ const Cage = () => {
         setNewCage({
           name: '',
           cageStatus: '',
-          cageType: '', 
+          cageType: '',
           areaName: '',
           staffEmail: '',
         });
@@ -82,11 +84,9 @@ const Cage = () => {
 
   const handleSaveClick = (id) => {
     const cageToUpdate = cageData.find((cage) => cage.id === id);
-
-    // Lấy giá trị từ state thay vì trực tiếp từ DOM
-    const updatedCageStatus = newCage.cageStatus;
-    const updatedStaffEmail = newCage.staffEmail;
-    const updatedName = newCage.cageName;
+    const updatedCageStatus =cageData.cageStatus;
+    const updatedStaffEmail = cageData.staffEmail;
+    const updatedName = cageData.cageName;
 
     axios.put(`${API_URL}/${id}`, {
       cageName: updatedName,
@@ -113,6 +113,7 @@ const Cage = () => {
       });
   };
 
+
   const renderTable = () => {
     return (
       <table>
@@ -132,6 +133,86 @@ const Cage = () => {
           {cageData.map((cage) => (
             <tr key={cage.id}>
               <td>{cage.id}</td>
+              <td>
+                {editingId === cage.id ? (
+                  <input
+                    type="text"
+                    name='cageName'
+                    value={cage.name}
+                    onChange={(e) => {
+                      const newCage = [...cageData];
+                      const index = newCage.findIndex((i) => i.id === cage.id);
+                      if (index !== -1) {
+                        newCage[index].name = e.target.value;
+                        setCageData(newCage);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(cage.id)}>{cage.name}</div>
+                )}
+              </td>
+              <td>{cage.quantity}</td>
+              <td>
+                {editingId === cage.id ? (
+                  <input
+                    type="text"
+                    name="cageStatus"
+                    value={cage.cageStatus}
+                    onChange={(e) => {
+                      const newCage = [...cageData];
+                      const index = newCage.findIndex((i) => i.id === cage.id);
+                      if (index !== -1) {
+                        newCage[index].cageStatus = e.target.value;
+                        setCageData(newCage);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(cage.id)}>{cage.cageStatus}</div>
+                )}
+              </td>
+              <td>{cage.cageType}</td>
+              <td>{cage.areaName}</td>
+              <td>
+                {editingId === cage.id ? (
+                  <input
+                    type="text"
+                    name="staffEmail"
+                    value={Cage.staffEmail}
+                    onChange={(e) => {
+                      const newCage = [...cageData];
+                      const index = newCage.findIndex((i) => i.id === cage.id);
+                      if (index !== -1) {
+                        newCage[index].staffEmail = e.target.value;
+                        setCageData(newCage);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(cage.id)}>{cage.staffEmail}</div>
+                )}
+              </td>
+              <td>
+                {editingId === cage.id ? (
+                  <>
+                    <button onClick={() => handleSaveClick(cage.id)}>Save</button>
+                    <button onClick={handleCancelClick}>Cancel</button>
+                  </>
+                ) : (
+                  <>
+                    <button className="btn waves-effect waves-light" onClick={() => handleEditClick(cage.id)}>Edit</button>
+                    |
+                    <button className="btn waves-effect waves-light" onClick={() => handleDeleteClick(cage.id)}>Delete</button>
+                  </>
+                )}
+              </td>
+            </tr>
+          ))}
+
+          {/* {cageData.map((cage) => (
+            <tr key={cage.id}>
+              <td>{cage.id}</td>
               <td>{editingId === cage.id ? <input type="text" name="cageName" value={newCage.cageName} onChange={handleInputChange} /> : cage.name}</td>
               <td>{cage.quantity}</td>
               <td>{editingId === cage.id ? <input type="text" name="cageStatus" value={newCage.cageStatus} onChange={handleInputChange} /> : cage.cageStatus}</td>
@@ -146,13 +227,14 @@ const Cage = () => {
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEditClick(cage.id)}>Edit</button>
-                    <button onClick={() => handleDeleteClick(cage.id)}>Delete</button>
+                    <button className="btn waves-effect waves-light" onClick={() => handleEditClick(cage.id)}>Edit</button>
+                     | 
+                    <button className="btn waves-effect waves-light" onClick={() => handleDeleteClick(cage.id)}>Delete</button>
                   </>
                 )}
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
     );
