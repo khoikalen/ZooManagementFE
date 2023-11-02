@@ -10,6 +10,7 @@
 .ticket-show hr {
     border: 2px solid #F3B749;
     width: 40%;
+    margin: 0 30% 2%;
 }
 .ticket-show p {
     margin-left: 30%;
@@ -42,4 +43,16 @@
 }
 .ticket-by-day span {
     width: 50%;
+}
+.purchase-btn {
+    border: 1px solid #F3B749;
+    background-color: #F3B749;
+    font-weight: bold;
+    border-radius: 100px;
+    padding: 2%;
+    width: 100%;
+}
+.purchase-btn:hover {
+    border: 1px solid rgb(255, 203, 71);
+    background-color: rgb(255, 203, 71);
 }

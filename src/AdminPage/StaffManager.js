@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import staffApi from '../api/staffApi';
-const API_URL = 'https://zouzoumanagement.xyz/api/v1/staff';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import staffApi from "../api/staffApi";
+const API_URL = "https://zouzoumanagement.xyz/api/v1/staff";
 
 const StaffManager = () => {
   const [staffData, setStaffData] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [adding, setAdding] = useState(false);
   const [newStaff, setNewStaff] = useState({
-    firstName: '',
-    lastName: '',
-    gender: '', // Change "sex" to "gender"
-    startDay: '',
-    email: '',
-    phoneNumber: '',
-    password: '',
-    role: 'STAFF',
+    firstName: "",
+    lastName: "",
+    gender: "", // Change "sex" to "gender"
+    startDay: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    role: "STAFF",
   });
 
   const getAllStaff = async () => {
@@ -34,13 +34,14 @@ const StaffManager = () => {
   };
 
   const handleDeleteClick = (id) => {
-    axios.delete(`${API_URL}/${id}`)
+    axios
+      .delete(`${API_URL}/${id}`)
       .then(() => {
         const updatedStaffData = staffData.filter((staff) => staff.id !== id);
         setStaffData(updatedStaffData);
       })
       .catch((error) => {
-        console.error('Lỗi khi xóa nhân viên:', error);
+        console.error("Lỗi khi xóa nhân viên:", error);
       });
   };
 
@@ -51,29 +52,51 @@ const StaffManager = () => {
   const handleAddClick = () => {
     setAdding(true);
   };
+  const addNewStaff = (newStaff) => {
+    try {
+      console.log(newStaff);
+      const res = staffApi.addStaff(newStaff);
+      setStaffData([...staffData, newStaff]);
+      setAdding(false);
+      setNewStaff({
+        firstName: "",
+        lastName: "",
+        gender: "", // Change "sex" to "gender"
+        startDay: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        role: "STAFF",
+      });
+      alert("Create new staff successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleAddStaff = () => {
-    axios.post(API_URL, newStaff)
-      .then((response) => {
-        setStaffData([...staffData, { ...response.data, role: 'STAFF' }]);
-        setAdding(false);
-        setNewStaff({
-          firstName: '',
-          lastName: '',
-          gender: '', // Change "sex" to "gender"
-          startDay: '',
-          email: '',
-          phoneNumber: '',
-          password: '',
-          role: 'STAFF',
-        });
-        
-        // Tải lại trang sau khi thêm thành công
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error('Lỗi khi thêm nhân viên:', error);
-      });
+    // axios.post(API_URL, newStaff)
+    //   .then((response) => {
+    //     setStaffData([...staffData, { ...response.data, role: 'STAFF' }]);
+    //     setAdding(false);
+    //     setNewStaff({
+    //       firstName: '',
+    //       lastName: '',
+    //       gender: '', // Change "sex" to "gender"
+    //       startDay: '',
+    //       email: '',
+    //       phoneNumber: '',
+    //       password: '',
+    //       role: 'STAFF',
+    //     });
+    addNewStaff(newStaff);
+
+    // Tải lại trang sau khi thêm thành công
+    
+    // })
+    // .catch((error) => {
+    //   console.error('Lỗi khi thêm nhân viên:', error);
+    // });
   };
 
   const handleInputChange = (e) => {
@@ -94,13 +117,14 @@ const StaffManager = () => {
     const updatedStartDay = newStaff.startDay;
     const updatedPhoneNumber = newStaff.phoneNumber;
 
-    axios.put(`${API_URL}/${id}`, {
-      firstName: updatedFirstName,
-      lastName: updatedLastName,
-      gender: updatedGender, // Change "sex" to "gender"
-      startDay: updatedStartDay,
-      phoneNumber: updatedPhoneNumber,
-    })
+    axios
+      .put(`${API_URL}/${id}`, {
+        firstName: updatedFirstName,
+        lastName: updatedLastName,
+        gender: updatedGender, // Change "sex" to "gender"
+        startDay: updatedStartDay,
+        phoneNumber: updatedPhoneNumber,
+      })
       .then(() => {
         const updatedStaffData = staffData.map((staff) => {
           if (staff.id === id) {
@@ -115,11 +139,21 @@ const StaffManager = () => {
           }
           return staff;
         });
+        setNewStaff({
+          firstName: "",
+          lastName: "",
+          gender: "",
+          startDay: "",
+          email: "",
+          phoneNumber: "",
+          password: "",
+          role: "STAFF",
+        });
         setStaffData(updatedStaffData);
         setEditingId(null);
       })
       .catch((error) => {
-        console.error('Lỗi khi cập nhật nhân viên:', error);
+        console.error("Lỗi khi cập nhật nhân viên:", error);
       });
   };
 
@@ -148,7 +182,9 @@ const StaffManager = () => {
                     value={newStaff.firstName}
                     onChange={handleInputChange}
                   />
-                ) : staff.firstName}
+                ) : (
+                  staff.firstName
+                )}
               </td>
               <td>
                 {editingId === staff.id ? (
@@ -158,7 +194,9 @@ const StaffManager = () => {
                     value={newStaff.lastName}
                     onChange={handleInputChange}
                   />
-                ) : staff.lastName}
+                ) : (
+                  staff.lastName
+                )}
               </td>
               <td>
                 {editingId === staff.id ? (
@@ -168,7 +206,9 @@ const StaffManager = () => {
                     value={newStaff.gender}
                     onChange={handleInputChange}
                   />
-                ) : staff.gender}
+                ) : (
+                  staff.gender
+                )}
               </td>
               <td>
                 {editingId === staff.id ? (
@@ -178,7 +218,9 @@ const StaffManager = () => {
                     value={newStaff.startDay}
                     onChange={handleInputChange}
                   />
-                ) : staff.startDay}
+                ) : (
+                  staff.startDay
+                )}
               </td>
               <td>{staff.email}</td>
               <td>
@@ -189,18 +231,26 @@ const StaffManager = () => {
                     value={newStaff.phoneNumber}
                     onChange={handleInputChange}
                   />
-                ) : staff.phoneNumber}
+                ) : (
+                  staff.phoneNumber
+                )}
               </td>
               <td>
                 {editingId === staff.id ? (
                   <>
-                    <button onClick={() => handleSaveClick(staff.id)}>Save</button>
+                    <button onClick={() => handleSaveClick(staff.id)}>
+                      Save
+                    </button>
                     <button onClick={handleCancelClick}>Cancel</button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEditClick(staff.id)}>Edit</button>
-                    <button onClick={() => handleDeleteClick(staff.id)}>Delete</button>
+                    <button onClick={() => handleEditClick(staff.id)}>
+                      Edit
+                    </button>
+                    <button onClick={() => handleDeleteClick(staff.id)}>
+                      Delete
+                    </button>
                   </>
                 )}
               </td>

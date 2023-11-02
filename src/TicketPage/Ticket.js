@@ -63,6 +63,7 @@ const Ticket = () => {
       axios
         .post(API_URL, newTicket)
         .then(() => {
+          console.log(newTicket);
           alert("Purchase successfully!");
 
           window.location.reload();
@@ -161,7 +162,7 @@ const Ticket = () => {
           )}
         </p>
         <h5>Total: {totalPrice}</h5>
-        <button onClick={handlePurchaseClick}>Purchase</button>
+        <button className="purchase-btn"onClick={handlePurchaseClick}>Purchase</button>
       </div>
     </>
   );

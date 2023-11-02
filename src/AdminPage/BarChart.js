@@ -22,64 +22,67 @@ ChartJS.register(
 
 const BarChart = () => {
   const [chartData, setChartData] = useState({});
-  const [dataAdultSet] = useState([]);
-  const [dataChildSet] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const API_URL = "https://zouzoumanagement.xyz/api/v1/ticket";
       const labelSet = new Set();
+      const adultData = [];
+      const childData = [];
+
       try {
         const response = await fetch(API_URL);
         const res = await response.json();
-        
+
         console.log("API data", res);
-        const first10Record = res.slice(res.length-10,res.length);
+        const first10Record = res.slice(res.length - 10, res.length);
 
         console.log(res.length);
+
         for (const check of first10Record) {
-            const date = check.date;
+          const dateArray = check.date;
+
+          const formattedDate = `${dateArray[0]}-${dateArray[1]}-${dateArray[2]}`;
+
           if (check.type === "ADULT") {
-            dataAdultSet.push(check.quantity);
+            adultData.push({ x: formattedDate, y: check.quantity });
           }
           if (check.type === "CHILD") {
-            dataChildSet.push(check.quantity);
+            childData.push({ x: formattedDate, y: check.quantity });
           }
 
-          labelSet.add(date);
-          
+          labelSet.add(formattedDate);
         }
 
         const labels = Array.from(labelSet);
-  
+
         setChartData({
           labels: labels,
           datasets: [
             {
               label: "Adult",
-              data: dataAdultSet,
+              data: adultData,
               borderColor: "rgb(255, 99, 132)",
               backgroundColor: "rgba(255, 99, 132, 0.5)",
             },
             {
               label: "Child",
-              data: dataChildSet,
+              data: childData,
               borderColor: "rgb(53, 162, 235)",
               backgroundColor: "rgba(53, 162, 235, 0.5)",
             },
           ],
         });
-  
-        console.log("Data - Adults:", dataAdultSet);
-        console.log("Data - Children:", dataChildSet);
+
+        console.log("Data - Adults:", adultData);
+        console.log("Data - Children:", childData);
       } catch (error) {
         console.log("Error:", error);
       }
     };
-  
+
     fetchData();
   }, []);
 
-  
   const options = {
     elements: {
       bar: {
@@ -95,11 +98,12 @@ const BarChart = () => {
         display: true,
         text: "Ticket Statistic Chart By Day",
       },
-    },
+    }
   };
+
   return (
     <div className="bar-chart-style">
-      {dataAdultSet.length > 0 && dataChildSet.length > 0 && (
+      {chartData.labels && chartData.labels.length > 0 && (
         <Bar data={chartData} height={400} options={options} />
       )}
     </div>
