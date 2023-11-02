@@ -44,29 +44,33 @@ const SickMeal = () => {
     const viewMealAPI = `https://zouzoumanagement.xyz/api/v1/food/sick-meal/${item.id}`
 
     axios.get(viewMealAPI)
-  .then((response) => {
-    if (Array.isArray(response.data) || typeof response.data === 'object') {
-      const apiData = Array.isArray(response.data)
-        ? response.data.map((item) => ({
-            ...item,
-            dateTime: item.dateTime ? formatLocalDateTime(item.dateTime) : null,
-          }))
-        : { ...response.data, dateTime: formatLocalDateTime(response.data.dateTime) };
+      .then((response) => {
+        if (response.data) {
+          if (Array.isArray(response.data) || typeof response.data === 'object') {
+            const apiData = Array.isArray(response.data)
+              ? response.data.map((item) => ({
+                ...item,
+                dateTime: item.dateTime ? formatLocalDateTime(item.dateTime) : null,
+              }))
+              : { ...response.data, dateTime: formatLocalDateTime(response.data.dateTime) };
 
-      setMealData(apiData);
-      setError("");
-    } else {
-      setError("Response data is not in an expected format.");
-    }
-  })
-  .catch((error) => {
-    if (error.response && error.response.data && error.response.data.message) {
-      setError(error.response.data.message);
-    } else {
-      setError("An error occurred while fetching data.");
-    }
-    console.error(error);
-  });
+            setMealData(apiData);
+            setError("");
+          } else {
+            setError("Response data is not in an expected format.");
+          }
+        } else {
+          alert("There is no meal for this cage");
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data && error.response.data.message) {
+          setError(error.response.data.message);
+        } else {
+          setError("An error occurred while fetching data.");
+        }
+        console.error(error);
+      });
 
   };
 
@@ -185,8 +189,8 @@ const SickMeal = () => {
               <td>{item.dob}</td>
               <td>{item.specie}</td>
               <td>
-                <button onClick={() => handleViewMeal(item)}>View Meal</button> |
-                <button onClick={() => handleCreateMeal(item)}>Create Meal</button>
+                <button onClick={() => handleCreateMeal(item)}>Create Meal</button> <br />
+                <button onClick={() => handleViewMeal(item)}>View Meal</button>
               </td>
             </tr>
           ))}
