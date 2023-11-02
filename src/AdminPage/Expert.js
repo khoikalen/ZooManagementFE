@@ -269,7 +269,7 @@ const ExpertManager = () => {
               </td>
 
               <td>
-                {editingId === expert.id ? (
+                {/* {editingId === expert.id ? (
                   <input
                     type="text"
                     name="email"
@@ -287,7 +287,8 @@ const ExpertManager = () => {
                   <div onClick={() => startEditing(expert.id)}>
                     {expert.email}
                   </div>
-                )}
+                )} */}
+                {expert.email}
               </td>
 
               <td>
@@ -351,13 +352,6 @@ const ExpertManager = () => {
                     </button>
                     <button onClick={() => handleDeleteClick(expert.id)} className="waves-effect waves-light btn">
                       <i className="material-icons left small">delete</i>
-                    </button>
-                    <button onClick={() => handleEditClick(expert.id)}>
-                      Edit
-                    </button>
-                    |
-                    <button onClick={() => handleDeleteClick(expert.id)}>
-                      Delete
                     </button>
                   </>
                 )}

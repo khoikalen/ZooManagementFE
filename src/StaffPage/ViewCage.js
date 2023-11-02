@@ -21,7 +21,7 @@ const ViewCage = () => {
   const [isViewLogVisible, setIsViewLogVisible] = useState(false);
   const [logData, setLogData] = useState({
     id: 0,
-    type: 'health',
+    type: 'Health',
     shortDescription: '',
     animalId: 0,
   });
@@ -227,10 +227,10 @@ const ViewCage = () => {
               <td>{cage.id}</td>
               <td>{cage.name}</td>
               <td>
-                <button onClick={() => handleViewDetail(cage)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                <button onClick={() => handleViewDetail(cage)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                   <i className="material-icons left">remove_red_eye</i> Xem chi tiết
                 </button>
-                <button onClick={() => handleViewAnimals(cage.id)} className="waves-effect waves-light btn">
+                <button onClick={() => handleViewAnimals(cage.id)} className="waves-effect btn">
                   <i className="material-icons left">pets</i> View Animals in Cage
                 </button>
               </td>
@@ -279,10 +279,10 @@ const ViewCage = () => {
                   <td>{animal.specie}</td>
                   <td>{animal.status}</td>
                   <td>
-                    <button onClick={() => handleCreateLog(animal.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                    <button onClick={() => handleCreateLog(animal.id)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left">create</i> Create Log
                     </button>
-                    <button onClick={() => handleViewLog(animal.id)} className="waves-effect waves-light btn">
+                    <button onClick={() => handleViewLog(animal.id)} className="waves-effect btn">
                       <i className="material-icons left">list</i> View Log
                     </button>
                   </td>
@@ -301,8 +301,8 @@ const ViewCage = () => {
                       <input
                         name="type"
                         type="radio"
-                        value="health"
-                        checked={logData.type === "health"}
+                        value="Health"
+                        checked={logData.type === "Health"}
                         onChange={handleChange}
                       />
                       <span>Health</span>
@@ -311,11 +311,11 @@ const ViewCage = () => {
                       <input
                         name="type"
                         type="radio"
-                        value="sick"
-                        checked={logData.type === "sick"}
+                        value="Move Cage"
+                        checked={logData.type === "Move Cage"}
                         onChange={handleChange}
                       />
-                      <span>Sick</span>
+                      <span>Move Cage</span>
                     </label>
                   </div>
                 </div>
@@ -327,10 +327,10 @@ const ViewCage = () => {
                   <label>Animal ID:</label>
                   <input type="text" name="animalId" value={logData.animalId} readOnly />
                 </div>
-                <button className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                <button className="waves-effect btn" style={{ marginRight: '10px' }}>
                   <i className="material-icons left " >create</i> Create Log
                 </button>
-                <button onClick={handleCancelCreateLog} className="waves-effect waves-light btn">
+                <button onClick={handleCancelCreateLog} className="waves-effect btn">
                   <i className="material-icons left">cancel</i> Cancel
                 </button>
               </form>
@@ -361,13 +361,13 @@ const ViewCage = () => {
                   ))}
                 </tbody>
               </table>
-              <button onClick={() => setIsViewLogVisible(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+              <button onClick={() => setIsViewLogVisible(false)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                 <i className="material-icons left smaller">close</i> Close Log
               </button>
 
             </div>
           )}
-          <button onClick={handleHideTable} className="waves-effect waves-light btn">
+          <button onClick={handleHideTable} className="waves-effect btn">
             <i className="material-icons left">close</i> Close
           </button>
         </div>
@@ -392,10 +392,10 @@ const ViewCage = () => {
                   <td>{animal.name}</td>
                   <td>{animal.quantity}</td>
                   <td>
-                    <button onClick={() => handleCreateUnidentifiedAnimalLog(animal.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                    <button onClick={() => handleCreateUnidentifiedAnimalLog(animal.id)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left">create</i> Create Log
                     </button>
-                    <button onClick={() => handleViewLog2(animal.id)} className="waves-effect waves-light btn">
+                    <button onClick={() => handleViewLog2(animal.id)} className="waves-effect btn">
                       <i className="material-icons left">list</i> View Log
                     </button>
                   </td>
@@ -414,8 +414,8 @@ const ViewCage = () => {
                       <input
                         name="type"
                         type="radio"
-                        value="health"
-                        checked={logData.type === "health"}
+                        value="Health"
+                        checked={logData.type === "Health"}
                         onChange={handleChange}
                       />
                       <span>Health</span>
@@ -424,11 +424,11 @@ const ViewCage = () => {
                       <input
                         name="type"
                         type="radio"
-                        value="sick"
-                        checked={logData.type === "sick"}
+                        value="Move Cage"
+                        checked={logData.type === "Move Cage"}
                         onChange={handleChange}
                       />
-                      <span>Sick</span>
+                      <span>Move Cage</span>
                     </label>
                   </div>
                 </div>
@@ -440,10 +440,10 @@ const ViewCage = () => {
                   <label>Animal ID:</label>
                   <input type="text" name="animalId" value={logData.unidentifiedAnimalId} readOnly />
                 </div>
-                <button className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                <button className="waves-effect btn" style={{ marginRight: '10px' }}>
                   <i className="material-icons left " >create</i> Create Log
                 </button>
-                <button onClick={handleCancelCreateLog2} className="waves-effect waves-light btn">
+                <button onClick={handleCancelCreateLog2} className="waves-effect btn">
                   <i className="material-icons left">cancel</i> Cancel
                 </button>
               </form>
@@ -474,13 +474,13 @@ const ViewCage = () => {
                   ))}
                 </tbody>
               </table>
-              <button onClick={() => setIsViewLogVisible(false)} className="waves-effect waves-light btn">
+              <button onClick={() => setIsViewLogVisible(false)} className="waves-effect btn">
                 <i className="material-icons left smaller">close</i> Close Log
               </button>
 
             </div>
           )}
-          <button onClick={handleHideTable2} className="waves-effect waves-light btn">
+          <button onClick={handleHideTable2} className="waves-effect btn">
             <i className="material-icons left">close</i> Close
           </button>
         </div>

@@ -57,10 +57,10 @@ const CageTable = () => {
               <td>{cage.name}</td>
 
               <td>
-  <button onClick={() => handleViewDetail(cage)} class="btn waves-effect waves-light" style={{ marginRight: '10px' }}>
+  <button onClick={() => handleViewDetail(cage)} class="btn waves-effect" style={{ marginRight: '10px' }}>
     <i class="material-icons left small">visibility</i>Xem chi tiết
   </button>
-  <button onClick={() => handleViewMeal(cage.id)} class="btn waves-effect waves-light">
+  <button onClick={() => handleViewMeal(cage.id)} class="btn waves-effect">
     <i class="material-icons left small">restaurant_menu</i>View Meal
   </button>
 </td>

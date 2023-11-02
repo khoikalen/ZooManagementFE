@@ -84,9 +84,9 @@ const Cage = () => {
 
   const handleSaveClick = (id) => {
     const cageToUpdate = cageData.find((cage) => cage.id === id);
-    const updatedCageStatus = cageData.cageStatus;
-    const updatedStaffEmail = cageData.staffEmail;
-    const updatedName = cageData.cageName;
+    const updatedCageStatus = cageToUpdate.cageStatus;
+    const updatedStaffEmail = cageToUpdate.staffEmail;
+    const updatedName = cageToUpdate.name;
 
     axios.put(`${API_URL}/${id}`, {
       cageName: updatedName,
@@ -180,7 +180,7 @@ const Cage = () => {
                   <input
                     type="text"
                     name="staffEmail"
-                    value={Cage.staffEmail}
+                    value={cage.staffEmail}
                     onChange={(e) => {
                       const newCage = [...cageData];
                       const index = newCage.findIndex((i) => i.id === cage.id);

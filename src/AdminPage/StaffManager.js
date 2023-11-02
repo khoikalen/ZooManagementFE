@@ -114,59 +114,43 @@ const StaffManager = () => {
 
   const handleSaveClick = (id) => {
     const staffToUpdate = staffData.find((staff) => staff.id === id);
-
-    const updatedFirstName = newStaff.firstName;
-    const updatedLastName = newStaff.lastName;
-    const updatedGender = newStaff.gender; 
-    const updatedStartDay = newStaff.startDay;
-    const updatedPhoneNumber = newStaff.phoneNumber;
-
+  
+    // Copy the values from the staff being edited into newStaff
+    const updatedStaff = {
+      firstName: staffToUpdate.firstName,
+      lastName: staffToUpdate.lastName,
+      gender: staffToUpdate.gender,
+      startDay: staffToUpdate.startDay,
+      phoneNumber: staffToUpdate.phoneNumber,
+    };
+  
     axios
-      .put(`${API_URL}/${id}`, {
-        firstName: updatedFirstName,
-        lastName: updatedLastName,
-        gender: updatedGender, 
-        startDay: updatedStartDay,
-        phoneNumber: updatedPhoneNumber,
-      })
+      .put(`${API_URL}/${id}`, updatedStaff)
       .then(() => {
         const updatedStaffData = staffData.map((staff) => {
           if (staff.id === id) {
             return {
               ...staff,
-              firstName: updatedFirstName,
-              lastName: updatedLastName,
-              gender: updatedGender, 
-              startDay: updatedStartDay,
-              phoneNumber: updatedPhoneNumber,
+              ...updatedStaff, // Update with the edited values
             };
           }
           return staff;
         });
-        setNewStaff({
-          firstName: "",
-          lastName: "",
-          gender: "",
-          startDay: "",
-          email: "",
-          phoneNumber: "",
-          password: "",
-          role: "STAFF",
-        });
-        clearValidationErrors();
+  
         setStaffData(updatedStaffData);
         setEditingId(null);
-        
+        clearValidationErrors();
         window.location.reload();
       })
       .catch((error) => {
-        // console.error("Axios Error:", error);
-        // if (error.response) {
-        //   console.error("Server Response Data:", error.response.data);
-        //   setValidationErrors(error.response.data);
-        // }
+        console.error("Axios Error:", error);
+        if (error.response) {
+          console.error("Server Response Data:", error.response.data);
+          setValidationErrors(error.response.data);
+        }
       });
   };
+  
 
   const clearValidationErrors = () => {
     setValidationErrors({});

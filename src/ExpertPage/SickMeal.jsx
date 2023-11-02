@@ -227,7 +227,7 @@ const SickMeal = () => {
                       <>
                         <button onClick={() => handleSaveClick(item.id)} className="btn waves-effect waves-light">
                           <i className="material-icons left">save</i>Save
-                        </button> |
+                        </button> 
                         <button onClick={handleCancelClick} className="btn waves-effect waves-light">
                           <i className="material-icons left">cancel</i>Cancel
                         </button>
@@ -236,7 +236,7 @@ const SickMeal = () => {
                       <>
                         <button onClick={() => handleEditClick(item.id)} className="btn waves-effect waves-light">
                           <i className="material-icons left">edit</i>Edit
-                        </button> |
+                        </button> 
                         <button onClick={() => handleDeleteClick(item.id)} className="btn waves-effect waves-light">
                           <i className="material-icons left">delete</i>Delete
                         </button>
