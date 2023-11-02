@@ -4,6 +4,15 @@ import AddFood from './AddFood';
 import './AddFood.css';
 import { Link, Routes } from 'react-router-dom';
 
+function formatLocalDateTime(localDateTime) {
+  const [year, month, day, hours, minutes, seconds, milliseconds] = localDateTime;
+
+  const formattedDate = `${year}/${String(month).padStart(2, "0")}/${String(day).padStart(2, "0")}`;
+  const formattedTime = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+  return `${formattedDate} ${formattedTime}`;
+}
+
 const SickMeal = () => {
   const [data, setData] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -36,13 +45,33 @@ const SickMeal = () => {
 
     axios.get(viewMealAPI)
       .then((response) => {
-        setMealData(response.data);
-        setError("");
+        if (response.data) {
+          if (Array.isArray(response.data) || typeof response.data === 'object') {
+            const apiData = Array.isArray(response.data)
+              ? response.data.map((item) => ({
+                ...item,
+                dateTime: item.dateTime ? formatLocalDateTime(item.dateTime) : null,
+              }))
+              : { ...response.data, dateTime: formatLocalDateTime(response.data.dateTime) };
+
+            setMealData(apiData);
+            setError("");
+          } else {
+            setError("Response data is not in an expected format.");
+          }
+        } else {
+          alert("There is no meal for this cage");
+        }
       })
-      .catch(error => {
-        setError(error.response.data.message);
-        console.log(error);
-      })
+      .catch((error) => {
+        if (error.response && error.response.data && error.response.data.message) {
+          setError(error.response.data.message);
+        } else {
+          setError("An error occurred while fetching data.");
+        }
+        console.error(error);
+      });
+
   };
 
   const handleCreateMeal = (item) => {
@@ -79,7 +108,7 @@ const SickMeal = () => {
     const updatedName = newFood.name;
     const updatedWeight = newFood.weight;
     const updateFoodAPI = `https://zouzoumanagement.xyz/api/v1/meal/${id}`;
-  
+
     axios.put(updateFoodAPI, {
       name: updatedName,
       weight: updatedWeight
@@ -106,6 +135,20 @@ const SickMeal = () => {
         console.log(error);
       });
   };
+
+  const handleConfirmCreate = (mealData) => {
+    const confirmAPI = `https://zouzoumanagement.xyz/api/v1/meal/${mealData.id}`
+    axios.post(confirmAPI)
+      .then(() => {
+        alert("Create Successfully");
+
+        setError("");
+      })
+      .catch((error) => {
+        setError(error.response.data.message);
+        console.log(error);
+      })
+  }
 
   const handleInputChange = (id, name, e) => {
     const newWeight = e.target.value;
@@ -146,8 +189,8 @@ const SickMeal = () => {
               <td>{item.dob}</td>
               <td>{item.specie}</td>
               <td>
-                <button onClick={() => handleViewMeal(item)}>View Meal</button> |
-                <button onClick={() => handleCreateMeal(item)}>Create Meal</button>
+                <button onClick={() => handleCreateMeal(item)}>Create Meal</button> <br />
+                <button onClick={() => handleViewMeal(item)}>View Meal</button>
               </td>
             </tr>
           ))}
@@ -157,6 +200,7 @@ const SickMeal = () => {
       {mealData && (
         <div>
           <h2>{mealData.name}</h2>
+          <h2>Last Created: {mealData.dateTime}</h2>
           <table>
             <thead>
               <th>ID</th>
@@ -191,7 +235,8 @@ const SickMeal = () => {
               ))}
             </tbody>
           </table>
-          <Link to='/expert/addFood' state={{ mealData }}>Add Food</Link>
+          <Link to='/expert/addFood' state={{ mealData }}>Add Food</Link><br />
+          <button onClick={() => handleConfirmCreate(mealData)}>Confirm create meal</button>
         </div>
       )}
     </div>

@@ -107,6 +107,7 @@ const Cage = () => {
         });
         setCageData(updatedCageData);
         setEditingId(null);
+        window.location.reload();
       })
       .catch((error) => {
         console.error('Lỗi khi cập nhật chuồng:', error);

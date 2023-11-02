@@ -11,7 +11,7 @@ function AddFood() {
   const [typeOfFood, setTypeOfFood] = useState("meat");
   const [food, setFood] = useState({
     name: "",
-    weight: "",
+    weight: ""
   })
   const [error, setError] = useState("");
   const data = state.mealData;
@@ -39,12 +39,12 @@ function AddFood() {
 
   const handleAddFood = (itemId, itemName) => {
     const quantityToAdd = document.querySelector(`#quantityToAdd_${itemId}`).value;
-    setFood({
+    const foodData = {
       name: itemName,
       weight: quantityToAdd
-    });
+    };
     const addFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/${data.id}`
-    axios.post(addFoodAPI, food)
+    axios.post(addFoodAPI, foodData)
       .then((response) => {
         alert("Add Successfully");
         window.location.reload();
