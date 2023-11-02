@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import staffApi from "../api/staffApi";
+import "./Admin.css";
 const API_URL = "https://zouzoumanagement.xyz/api/v1/staff";
 
 const StaffManager = () => {
   const [staffData, setStaffData] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [adding, setAdding] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
   const [newStaff, setNewStaff] = useState({
     firstName: "",
     lastName: "",
@@ -24,7 +26,13 @@ const StaffManager = () => {
     try {
       const res = await staffApi.getAllStaff();
       setStaffData(res);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Axios Error:", error);
+      if (error.response) {
+        console.error("Server Response Data:", error.response.data);
+        setValidationErrors(error.response.data);
+      }
+    }
   };
 
   useEffect(() => {
@@ -43,7 +51,11 @@ const StaffManager = () => {
         setStaffData(updatedStaffData);
       })
       .catch((error) => {
-        console.error("Lỗi khi xóa nhân viên:", error);
+        console.error("Axios Error:", error);
+      if (error.response) {
+        console.error("Server Response Data:", error.response.data);
+        setValidationErrors(error.response.data);
+      }
       });
   };
 
@@ -54,10 +66,10 @@ const StaffManager = () => {
   const handleAddClick = () => {
     setAdding(true);
   };
-  const addNewStaff = (newStaff) => {
+  const addNewStaff = async (newStaff) => {
     try {
       console.log(newStaff);
-      const res = staffApi.addStaff(newStaff);
+      const response = await staffApi.addStaff(newStaff);
       setStaffData([...staffData, newStaff]);
       setAdding(false);
       setNewStaff({
@@ -73,13 +85,23 @@ const StaffManager = () => {
       alert("Create new staff successfully");
       window.location.reload();
     } catch (error) {
-      console.log(error);
+      console.error("Axios Error:", error);
+      if (error.response) {
+        console.error("Server Response Data:", error.response.data);
+        setValidationErrors(error.response.data);
+      }
     }
   };
 
   const handleAddStaff = () => {
     addNewStaff(newStaff);
 
+    // Tải lại trang sau khi thêm thành công
+    
+    // })
+    // .catch((error) => {
+    //   console.error('Lỗi khi thêm nhân viên:', error);
+    // });
   };
 
   const handleInputChange = (e) => {
@@ -131,14 +153,23 @@ const StaffManager = () => {
           password: "",
           role: "STAFF",
         });
+        clearValidationErrors();
         setStaffData(updatedStaffData);
         setEditingId(null);
         
         window.location.reload();
       })
       .catch((error) => {
-        console.error("Lỗi khi cập nhật nhân viên:", error);
+        // console.error("Axios Error:", error);
+        // if (error.response) {
+        //   console.error("Server Response Data:", error.response.data);
+        //   setValidationErrors(error.response.data);
+        // }
       });
+  };
+
+  const clearValidationErrors = () => {
+    setValidationErrors({});
   };
 
   const renderTable = () => {
@@ -238,7 +269,7 @@ const StaffManager = () => {
   )}
 </td>
 <td>
-  {editingId === staff.id ? (
+  {/* {editingId === staff.id ? (
     <input
       type="text"
       name="email"
@@ -254,7 +285,8 @@ const StaffManager = () => {
     />
   ) : (
     <div onClick={() => startEditing(staff.id)}>{staff.email}</div>
-  )}
+  )} */}
+  {staff.email}
 </td>
 
 <td>
@@ -308,6 +340,15 @@ const StaffManager = () => {
   return (
     <div>
       <h1>Staff Manager</h1>
+      {Object.keys(validationErrors).length > 0 && (
+        <div className="validation-errors">
+          <ul>
+            {Object.keys(validationErrors).map((field) => (
+              <li key={field}>{validationErrors[field]}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       {adding ? (
         <div>
           <button onClick={() => setAdding(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>

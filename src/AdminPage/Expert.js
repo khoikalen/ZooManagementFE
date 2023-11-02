@@ -1,32 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const API_URL = 'https://zouzoumanagement.xyz/api/v1/expert';
+const API_URL = "https://zouzoumanagement.xyz/api/v1/expert";
 
 const ExpertManager = () => {
   const [expertData, setExpertData] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [adding, setAdding] = useState(false);
-  const [newExpert, setNewExpert] = useState(
-    {
-      firstName: '',
-      lastName: '',
-      gender: '', 
-      startDay: '',
-      email: '',
-      phoneNumber: '',
-      areaName: '',
-      password: '',
-    }
-  );
+  const [validationErrors, setValidationErrors] = useState({});
+  const [newExpert, setNewExpert] = useState({
+    firstName: "",
+    lastName: "",
+    gender: "",
+    startDay: "",
+    email: "",
+    phoneNumber: "",
+    areaName: "",
+    password: "",
+  });
 
   useEffect(() => {
-    axios.get(API_URL)
+    axios
+      .get(API_URL)
       .then((response) => {
         setExpertData(response.data);
       })
       .catch((error) => {
-        console.error('Lỗi khi tải :', error);
+        console.error("Axios Error:", error);
+        if (error.response) {
+          console.error("Server Response Data:", error.response.data);
+          setValidationErrors(error.response.data);
+        }
       });
   }, []);
 
@@ -39,13 +43,20 @@ const ExpertManager = () => {
   };
 
   const handleDeleteClick = (id) => {
-    axios.delete(`${API_URL}/${id}`)
+    axios
+      .delete(`${API_URL}/${id}`)
       .then(() => {
-        const updatedExpertData = expertData.filter((expert) => expert.id !== id);
+        const updatedExpertData = expertData.filter(
+          (expert) => expert.id !== id
+        );
         setExpertData(updatedExpertData);
       })
       .catch((error) => {
-        console.error('Lỗi khi xóa :', error);
+        console.error("Axios Error:", error);
+        if (error.response) {
+          console.error("Server Response Data:", error.response.data);
+          setValidationErrors(error.response.data);
+        }
       });
   };
 
@@ -58,7 +69,8 @@ const ExpertManager = () => {
   };
 
   const handleAddExpert = () => {
-    axios.post(API_URL, newExpert)
+    axios
+      .post(API_URL, newExpert)
       .then((response) => {
         setExpertData([...expertData, response.data]);
         setAdding(false);
@@ -72,11 +84,20 @@ const ExpertManager = () => {
           areaName: '',
           password: '',
         });
+        clearValidationErrors();
         window.location.reload();
       })
       .catch((error) => {
-        console.error('Lỗi khi add:', error);
+        console.error("Axios Error:", error);
+        if (error.response) {
+          console.error("Server Response Data:", error.response.data);
+          setValidationErrors(error.response.data);
+        }
       });
+  };
+
+  const clearValidationErrors = () => {
+    setValidationErrors({});
   };
 
   const handleInputChange = (e) => {
@@ -98,16 +119,17 @@ const ExpertManager = () => {
     const updatedAreaName = expertToUpdate.areaName;
     const updatedPassword = expertToUpdate.password;
 
-    axios.put(`${API_URL}/${id}`, {
-      firstName: updatedFirstName,
-      lastName: updatedLastName,
-      gender: updatedGender, 
-      startDay: updatedStartDay,
-      email: updatedEmail,
-      phoneNumber: updatedPhoneNumber,
-      areaName: updatedAreaName,
-      password: updatedPassword,
-    })
+    axios
+      .put(`${API_URL}/${id}`, {
+        firstName: updatedFirstName,
+        lastName: updatedLastName,
+        gender: updatedGender,
+        startDay: updatedStartDay,
+        email: updatedEmail,
+        phoneNumber: updatedPhoneNumber,
+        areaName: updatedAreaName,
+        password: updatedPassword,
+      })
       .then(() => {
         const updatedExpertData = expertData.map((expert) => {
           if (expert.id === id) {
@@ -115,7 +137,7 @@ const ExpertManager = () => {
               ...expert,
               firstName: updatedFirstName,
               lastName: updatedLastName,
-              gender: updatedGender, 
+              gender: updatedGender,
               startDay: updatedStartDay,
               email: updatedEmail,
               phoneNumber: updatedPhoneNumber,
@@ -125,13 +147,18 @@ const ExpertManager = () => {
           }
           return expert;
         });
+        clearValidationErrors();
         setExpertData(updatedExpertData);
         setEditingId(null);
         
         window.location.reload();
       })
       .catch((error) => {
-        console.error('Lỗi khi update:', error);
+        console.error("Axios Error:", error);
+        if (error.response) {
+          console.error("Server Response Data:", error.response.data);
+          setValidationErrors(error.response.data);
+        }
       });
   };
 
@@ -142,7 +169,7 @@ const ExpertManager = () => {
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Gender</th> 
+            <th>Gender</th>
             <th>Start Day</th>
             <th>Email</th>
             <th>Phone Number</th>
@@ -169,10 +196,12 @@ const ExpertManager = () => {
                     }}
                   />
                 ) : (
-                  <div onClick={() => startEditing(expert.id)}>{expert.firstName}</div>
+                  <div onClick={() => startEditing(expert.id)}>
+                    {expert.firstName}
+                  </div>
                 )}
               </td>
-             
+
               <td>
                 {editingId === expert.id ? (
                   <input
@@ -189,10 +218,12 @@ const ExpertManager = () => {
                     }}
                   />
                 ) : (
-                  <div onClick={() => startEditing(expert.id)}>{expert.lastName}</div>
+                  <div onClick={() => startEditing(expert.id)}>
+                    {expert.lastName}
+                  </div>
                 )}
               </td>
-             
+
               <td>
                 {editingId === expert.id ? (
                   <input
@@ -209,10 +240,12 @@ const ExpertManager = () => {
                     }}
                   />
                 ) : (
-                  <div onClick={() => startEditing(expert.id)}>{expert.gender}</div>
+                  <div onClick={() => startEditing(expert.id)}>
+                    {expert.gender}
+                  </div>
                 )}
               </td>
-             
+
               <td>
                 {editingId === expert.id ? (
                   <input
@@ -229,10 +262,12 @@ const ExpertManager = () => {
                     }}
                   />
                 ) : (
-                  <div onClick={() => startEditing(expert.id)}>{expert.startDay}</div>
+                  <div onClick={() => startEditing(expert.id)}>
+                    {expert.startDay}
+                  </div>
                 )}
               </td>
-             
+
               <td>
                 {editingId === expert.id ? (
                   <input
@@ -249,10 +284,12 @@ const ExpertManager = () => {
                     }}
                   />
                 ) : (
-                  <div onClick={() => startEditing(expert.id)}>{expert.email}</div>
+                  <div onClick={() => startEditing(expert.id)}>
+                    {expert.email}
+                  </div>
                 )}
               </td>
-             
+
               <td>
                 {editingId === expert.id ? (
                   <input
@@ -269,10 +306,12 @@ const ExpertManager = () => {
                     }}
                   />
                 ) : (
-                  <div onClick={() => startEditing(expert.id)}>{expert.phoneNumber}</div>
+                  <div onClick={() => startEditing(expert.id)}>
+                    {expert.phoneNumber}
+                  </div>
                 )}
               </td>
-             
+
               <td>
                 {editingId === expert.id ? (
                   <input
@@ -289,10 +328,12 @@ const ExpertManager = () => {
                     }}
                   />
                 ) : (
-                  <div onClick={() => startEditing(expert.id)}>{expert.areaName}</div>
+                  <div onClick={() => startEditing(expert.id)}>
+                    {expert.areaName}
+                  </div>
                 )}
               </td>
-             
+
               <td>
                 {editingId === expert.id ? (
                   <>
@@ -311,6 +352,13 @@ const ExpertManager = () => {
                     <button onClick={() => handleDeleteClick(expert.id)} className="waves-effect waves-light btn">
                       <i className="material-icons left small">delete</i>
                     </button>
+                    <button onClick={() => handleEditClick(expert.id)}>
+                      Edit
+                    </button>
+                    |
+                    <button onClick={() => handleDeleteClick(expert.id)}>
+                      Delete
+                    </button>
                   </>
                 )}
               </td>
@@ -324,6 +372,15 @@ const ExpertManager = () => {
   return (
     <div>
       <h1>Expert Manager</h1>
+      {Object.keys(validationErrors).length > 0 && (
+        <div className="validation-errors">
+          <ul>
+            {Object.keys(validationErrors).map((field) => (
+              <li key={field}>{validationErrors[field]}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       {adding ? (
         <div>
           <button onClick={() => setAdding(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
@@ -340,6 +397,69 @@ const ExpertManager = () => {
           <input type="text" placeholder="Phone Number" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} />
           <input type="text" placeholder="Area Name" name="areaName" value={newExpert.areaName} onChange={handleInputChange} />
           <input type="password" placeholder="Password" name="password" value={newExpert.password} onChange={handleInputChange} />
+          <button
+            onClick={() => {
+              setAdding(false);
+              clearValidationErrors();
+            }}>Cancel</button>
+          <button onClick={handleAddExpert}>Add</button>
+          <input
+            type="text"
+            placeholder="First Name"
+            name="firstName"
+            value={newExpert.firstName}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            name="lastName"
+            value={newExpert.lastName}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Gender"
+            name="gender"
+            value={newExpert.gender}
+            onChange={handleInputChange}
+          />{" "}
+          {/* Change "Sex" to "Gender" */}
+          <input
+            type="text"
+            placeholder="Start Day"
+            name="startDay"
+            value={newExpert.startDay}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Email"
+            name="email"
+            value={newExpert.email}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Phone Number"
+            name="phoneNumber"
+            value={newExpert.phoneNumber}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            placeholder="Area Name"
+            name="areaName"
+            value={newExpert.areaName}
+            onChange={handleInputChange}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={newExpert.password}
+            onChange={handleInputChange}
+          />
         </div>
       ) : (
         <>
