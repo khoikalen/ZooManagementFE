@@ -27,10 +27,13 @@ const StaffManager = () => {
       const res = await staffApi.getAllStaff();
       setStaffData(res);
     } catch (error) {
-      console.error("Axios Error:", error);
-      if (error.response) {
-        console.error("Server Response Data:", error.response.data);
+      if (error.response && error.response.status === 500){
+        alert(error.response.data.message);
+        clearValidationErrors();
+      } else if (error) {
         setValidationErrors(error.response.data);
+      } else {
+        setValidationErrors("An unexpected error occurred");
       }
     }
   };
@@ -51,11 +54,14 @@ const StaffManager = () => {
         setStaffData(updatedStaffData);
       })
       .catch((error) => {
-        console.error("Axios Error:", error);
-      if (error.response) {
-        console.error("Server Response Data:", error.response.data);
-        setValidationErrors(error.response.data);
-      }
+        if (error.response && error.response.status === 500){
+          alert(error.response.data.message);
+          clearValidationErrors();
+        } else if (error) {
+          setValidationErrors(error.response.data);
+        } else {
+          setValidationErrors("An unexpected error occurred");
+        }
       });
   };
 
@@ -85,11 +91,15 @@ const StaffManager = () => {
       alert("Create new staff successfully");
       window.location.reload();
     } catch (error) {
-      console.error("Axios Error:", error);
-      if (error.response) {
-        console.error("Server Response Data:", error.response.data);
+      if (error.response && error.response.status === 500){
+        alert(error.response.data.message);
+        clearValidationErrors();
+      } else if (error) {
         setValidationErrors(error.response.data);
+      } else {
+        setValidationErrors("An unexpected error occurred");
       }
+      
     }
   };
 
@@ -143,10 +153,13 @@ const StaffManager = () => {
         window.location.reload();
       })
       .catch((error) => {
-        console.error("Axios Error:", error);
-        if (error.response) {
-          console.error("Server Response Data:", error.response.data);
+        if (error.response && error.response.status === 500){
+          alert(error.response.data.message);
+          clearValidationErrors();
+        } else if (error) {
           setValidationErrors(error.response.data);
+        } else {
+          setValidationErrors("An unexpected error occurred");
         }
       });
   };
