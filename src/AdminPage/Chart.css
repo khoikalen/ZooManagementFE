@@ -35,8 +35,7 @@
 .chart-container > .pie-chart-style {
     width: 40%; 
     display: inline-block;
-    margin: 0 4%; 
-    padding: 5%;
+    margin: 2% 4%; 
     border: 1px solid rgb(214, 214, 214);
     box-shadow: 1px 1px 6px 2px rgb(214, 214, 214);
 }

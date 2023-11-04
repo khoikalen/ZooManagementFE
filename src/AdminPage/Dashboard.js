@@ -5,6 +5,7 @@ import PieChartAnimalsInArea from "./PieChartAnimalsInArea";
 import Statistics from "./Statistics";
 import PieChartCagesInArea from "./PieChartCagesInArea";
 import "./Chart.css";
+import DoughnutChartFoodInStorage from "./DoughnutChartFoodInStorage";
 
 const Dashboard = () => {
   return (
@@ -18,9 +19,9 @@ const Dashboard = () => {
       </div>
       
       <div className="chart-container">
-        
         <PieChartCagesInArea/>
         <PieChartAnimalsInArea />
+        <DoughnutChartFoodInStorage />
       </div>
     </div>
   );
