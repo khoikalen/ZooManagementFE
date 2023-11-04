@@ -25,8 +25,8 @@ function App3() {
           <span className="user-name"> Staff: {localStorage.getItem("email")}</span>
         </div>
         <ul>
-          <li><button onClick={() => setCurrentPage("viewlog")}>ViewCage</button></li>
-          <li><button onClick={() => setCurrentPage("viewmeal")}>ViewMeal</button></li>
+          <li><button onClick={() => setCurrentPage("viewlog")}>View Cage</button></li>
+          <li><button onClick={() => setCurrentPage("viewmeal")}>View Meal</button></li>
           <lu><Link to="/App1">Back</Link></lu>
         </ul>
       </div>

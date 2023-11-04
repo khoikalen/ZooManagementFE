@@ -296,19 +296,19 @@ const StaffManager = () => {
               <td>
                 {editingId === staff.id ? (
                   <>
-                     <button onClick={() => handleSaveClick(staff.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                     <button onClick={() => handleSaveClick(staff.id)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left small">save</i>
                     </button>
-                    <button onClick={handleCancelClick} className="waves-effect waves-light btn">
+                    <button onClick={handleCancelClick} className="waves-effect btn">
                       <i className="material-icons left small">cancel</i>
                     </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEditClick(staff.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                    <button onClick={() => handleEditClick(staff.id)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left small">edit</i>
                     </button>
-                    <button onClick={() => handleDeleteClick(staff.id)} className="waves-effect waves-light btn">
+                    <button onClick={() => handleDeleteClick(staff.id)} className="waves-effect btn">
                       <i className="material-icons left small">delete</i>
                     </button>
                   </>
@@ -335,10 +335,10 @@ const StaffManager = () => {
       )}
       {adding ? (
         <div>
-          <button onClick={() => {setAdding(false); clearValidationErrors();}} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+          <button onClick={() => {setAdding(false); clearValidationErrors();}} className="waves-effect btn" style={{ marginRight: '10px' }}>
             <i className="material-icons left">cancel</i>Cancel
           </button>
-          <button onClick={handleAddStaff} className="waves-effect waves-light btn">
+          <button onClick={handleAddStaff} className="waves-effect btn">
             <i className="material-icons left">add</i>Add
           </button>
           <input
@@ -393,7 +393,7 @@ const StaffManager = () => {
         </div>
       ) : (
         <>
-          <button className="waves-effect waves-light btn add-button" onClick={handleAddClick} style={{ marginRight: '10px' }}>
+          <button className="waves-effect btn add-button" onClick={handleAddClick} style={{ marginRight: '10px' }}>
             <i className="material-icons left">add</i>Add
           </button>
           {renderTable()}

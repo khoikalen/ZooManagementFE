@@ -31,10 +31,10 @@ function App2() {
           <span className="user-name">Admin: {localStorage.getItem("email")}</span>
         </div>
         <ul>
-          <li><button onClick={() => setCurrentPage("dashboard")}>DashBoard</button></li>
-          <li><button onClick={() => setCurrentPage("staff-manager")}>Staff Manager</button></li>
-          <li><button onClick={() => setCurrentPage("cages")}>Cages</button></li>
-          <li><button onClick={() => setCurrentPage("expert")}>Expert</button></li>
+          <li><button onClick={() => setCurrentPage("dashboard")}>Dash Board</button></li>
+          <li><button onClick={() => setCurrentPage("staff-manager")}>Staff Management</button></li>
+          <li><button onClick={() => setCurrentPage("cages")}>Cage Management</button></li>
+          <li><button onClick={() => setCurrentPage("expert")}>Expert Management</button></li>
           <lu><Link to="/App1">Back</Link></lu>
         </ul>
       </div>
