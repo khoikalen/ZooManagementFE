@@ -488,5 +488,4 @@ const ViewCage = () => {
     </div>
   );
 };
-
 export default ViewCage;

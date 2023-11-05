@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ViewLog from './ViewCage';
 import ViewMeal  from './ViewMeal';
+import AddAnimal from './AddAnimal';
 import { Link } from 'react-router-dom'; 
 import userIcon from './User.png';
 
@@ -13,6 +14,8 @@ function App3() {
         return <ViewLog />;
       case "viewmeal":
         return <ViewMeal />;
+      case "addanimal":
+        return <AddAnimal />;
     
     } 
   }
@@ -27,6 +30,7 @@ function App3() {
         <ul>
           <li><button onClick={() => setCurrentPage("viewlog")}>ViewCage</button></li>
           <li><button onClick={() => setCurrentPage("viewmeal")}>ViewMeal</button></li>
+          <li><button onClick={() => setCurrentPage("addanimal")}>Add Animal</button></li>
           <lu><Link to="/App1">Back</Link></lu>
         </ul>
       </div>
