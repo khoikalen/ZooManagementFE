@@ -1,3 +1,41 @@
-.bar-chart-style {
-    width: 30%;
+.ticket-chart-container {
+    width: 100%;
+}
+.chart-container {
+    margin-top: 4%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.statistic-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+.statistic-container > div {
+    width: 31%;
+    height: 5%;
+    margin: 0 1%; 
+    padding: 2%;
+    border-radius: 20px;
+    border: 1px solid rgb(214, 214, 214);
+    box-shadow: 1px 1px 6px 2px rgb(214, 214, 214)
+}
+.revenue-statistic p {
+    color: rgb(240, 140, 140);
+    font-weight: bold;
+}
+.cage-statistic p {
+    color: rgb(117, 117, 243);
+    font-weight: bold;
+}
+.animal-statistic p {
+    color: rgb(70, 216, 70);
+    font-weight: bold;
+}
+.chart-container > .bar-chart-style,
+.chart-container > .pie-chart-style {
+    width: 40%; 
+    display: inline-block;
+    margin: 2% 4%; 
+    border: 1px solid rgb(214, 214, 214);
+    box-shadow: 1px 1px 6px 2px rgb(214, 214, 214);
 }

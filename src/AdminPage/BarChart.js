@@ -34,7 +34,7 @@ const BarChart = () => {
         const res = await response.json();
 
         console.log("API data", res);
-        const first10Record = res.slice(res.length - 10, res.length);
+        const first10Record = res.slice(res.length - 20, res.length);
 
         console.log(res.length);
 
@@ -104,7 +104,7 @@ const BarChart = () => {
   return (
     <div className="bar-chart-style">
       {chartData.labels && chartData.labels.length > 0 && (
-        <Bar data={chartData} height={400} options={options} />
+        <Bar data={chartData} height={100} options={options} />
       )}
     </div>
   );

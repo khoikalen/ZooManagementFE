@@ -27,10 +27,13 @@ const StaffManager = () => {
       const res = await staffApi.getAllStaff();
       setStaffData(res);
     } catch (error) {
-      console.error("Axios Error:", error);
-      if (error.response) {
-        console.error("Server Response Data:", error.response.data);
+      if (error.response && error.response.status === 500){
+        alert(error.response.data.message);
+        clearValidationErrors();
+      } else if (error) {
         setValidationErrors(error.response.data);
+      } else {
+        setValidationErrors("An unexpected error occurred");
       }
     }
   };
@@ -51,11 +54,14 @@ const StaffManager = () => {
         setStaffData(updatedStaffData);
       })
       .catch((error) => {
-        console.error("Axios Error:", error);
-      if (error.response) {
-        console.error("Server Response Data:", error.response.data);
-        setValidationErrors(error.response.data);
-      }
+        if (error.response && error.response.status === 500){
+          alert(error.response.data.message);
+          clearValidationErrors();
+        } else if (error) {
+          setValidationErrors(error.response.data);
+        } else {
+          setValidationErrors("An unexpected error occurred");
+        }
       });
   };
 
@@ -85,11 +91,15 @@ const StaffManager = () => {
       alert("Create new staff successfully");
       window.location.reload();
     } catch (error) {
-      console.error("Axios Error:", error);
-      if (error.response) {
-        console.error("Server Response Data:", error.response.data);
+      if (error.response && error.response.status === 500){
+        alert(error.response.data.message);
+        clearValidationErrors();
+      } else if (error) {
         setValidationErrors(error.response.data);
+      } else {
+        setValidationErrors("An unexpected error occurred");
       }
+      
     }
   };
 
@@ -143,10 +153,13 @@ const StaffManager = () => {
         window.location.reload();
       })
       .catch((error) => {
-        console.error("Axios Error:", error);
-        if (error.response) {
-          console.error("Server Response Data:", error.response.data);
+        if (error.response && error.response.status === 500){
+          alert(error.response.data.message);
+          clearValidationErrors();
+        } else if (error) {
           setValidationErrors(error.response.data);
+        } else {
+          setValidationErrors("An unexpected error occurred");
         }
       });
   };
@@ -296,19 +309,19 @@ const StaffManager = () => {
               <td>
                 {editingId === staff.id ? (
                   <>
-                     <button onClick={() => handleSaveClick(staff.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                     <button onClick={() => handleSaveClick(staff.id)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left small">save</i>
                     </button>
-                    <button onClick={handleCancelClick} className="waves-effect waves-light btn">
+                    <button onClick={handleCancelClick} className="waves-effect btn">
                       <i className="material-icons left small">cancel</i>
                     </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => handleEditClick(staff.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                    <button onClick={() => handleEditClick(staff.id)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left small">edit</i>
                     </button>
-                    <button onClick={() => handleDeleteClick(staff.id)} className="waves-effect waves-light btn">
+                    <button onClick={() => handleDeleteClick(staff.id)} className="waves-effect btn">
                       <i className="material-icons left small">delete</i>
                     </button>
                   </>
@@ -335,10 +348,10 @@ const StaffManager = () => {
       )}
       {adding ? (
         <div>
-          <button onClick={() => {setAdding(false); clearValidationErrors();}} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+          <button onClick={() => {setAdding(false); clearValidationErrors();}} className="waves-effect btn" style={{ marginRight: '10px' }}>
             <i className="material-icons left">cancel</i>Cancel
           </button>
-          <button onClick={handleAddStaff} className="waves-effect waves-light btn">
+          <button onClick={handleAddStaff} className="waves-effect btn">
             <i className="material-icons left">add</i>Add
           </button>
           <input
@@ -393,7 +406,7 @@ const StaffManager = () => {
         </div>
       ) : (
         <>
-          <button className="waves-effect waves-light btn add-button" onClick={handleAddClick} style={{ marginRight: '10px' }}>
+          <button className="waves-effect btn add-button" onClick={handleAddClick} style={{ marginRight: '10px' }}>
             <i className="material-icons left">add</i>Add
           </button>
           {renderTable()}
