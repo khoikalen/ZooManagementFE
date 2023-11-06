@@ -44,8 +44,6 @@ const DoughnutChartFoodConsumption = () => {
                 "rgba(0, 255, 255, 0.7)",
                 "rgba(255, 50, 255, 0.7)",
                 "rgba(180, 224, 25, 0.7)",
-                
-
               ],
             },
           ],
@@ -65,7 +63,7 @@ const DoughnutChartFoodConsumption = () => {
       },
       title: {
         display: true,
-        text: "Number of Food in Storage",
+        text: "Number of Food Consumption",
       },
     },
   };
