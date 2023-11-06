@@ -1,6 +1,7 @@
 import axios from "axios";
 import { TOKEN_INFO } from "../constants/index";
 import authApi from "./authApi";
+import { current } from "@reduxjs/toolkit";
 
 // Set up default config for http requests here
 // Please have a look at here `https://github.com/axios/axios#request-config` for the full list of configs
@@ -28,6 +29,7 @@ axiosClient.interceptors.request.use(
       "/api/v1/auth/register",
       "/api/v1/auth/logout",
       "/api/v1/auth/authenticate",
+      "/api/v1/auth/refresh-token",
     ];
     if (!pathNoAuthen.includes(url)) {
       config.headers.Authorization = `Bearer ${localStorage.getItem(
@@ -53,7 +55,7 @@ axiosClient.interceptors.response.use(
   async function (err) {
     const config = err.config;
     console.log(err);
-    if (err.response != null && err.response.status === 401) {
+    if (err.response != null && err.response.status === 500) {
       console.log("ok");
       config._retry = true;
       try {
@@ -61,6 +63,10 @@ axiosClient.interceptors.response.use(
           localStorage.getItem(TOKEN_INFO.refreshToken) || "";
         if (refreshToken !== "") {
           authApi.refreshToken(refreshToken);
+          
+          config.headers["Authorization"] = `Bearer ${localStorage.getItem(TOKEN_INFO.accessToken)}`;
+          
+          return axiosClient(config);
         }
       } catch (err) {
         console.log(err);

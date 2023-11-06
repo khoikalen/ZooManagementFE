@@ -237,6 +237,16 @@ const Cage = () => {
           <input type="text" placeholder="Name" name="cageName" value={newCage.cageName} onChange={handleInputChange} />
           <input type="text" placeholder="Cage Status" name="cageStatus" value={newCage.cageStatus} onChange={handleInputChange} />
           <input type="text" placeholder="Cage Type" name="cageType" value={newCage.cageType} onChange={handleInputChange} />
+          {/* <label2 htmlFor='statusCage'>Cage Status</label2>
+          <select id='status'>
+            <option>Owned</option>
+            <option>Empty</option>
+          </select>
+          <label2 htmlFor='typeCage'>Cage Type</label2>
+          <select id='type'>
+            <option>Close</option>
+            <option>Open</option>
+          </select> */}
           <input type="text" placeholder="Area Name" name="areaName" value={newCage.areaName} onChange={handleInputChange} />
           <input type="text" placeholder="Staff Email" name="staffEmail" value={newCage.staffEmail} onChange={handleInputChange} />
         </div>
