@@ -15,3 +15,8 @@ select {
     font-weight: bold;
     color: red;
 }
+.measure-field {
+    width: 100%;
+    background-color: white;
+    padding: 0;
+}
