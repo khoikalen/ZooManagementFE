@@ -380,8 +380,9 @@ const StaffManager = () => {
           </select>
 
           <input
-            type="text"
-            placeholder="Start Day"
+            id = "StartDayOfStaff"
+            type="date"
+            placeholder="Start Day | Format: mm/dd/yyyy"
             name="startDay"
             value={newStaff.startDay}
             onChange={handleInputChange}

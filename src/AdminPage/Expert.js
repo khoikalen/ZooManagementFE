@@ -15,7 +15,6 @@ const ExpertManager = () => {
     startDay: "",
     email: "",
     phoneNumber: "",
-    areaName: "",
     password: "",
   });
 
@@ -87,7 +86,6 @@ const ExpertManager = () => {
           startDay: '',
           email: '',
           phoneNumber: '',
-          areaName: '',
           password: '',
         });
         clearValidationErrors();
@@ -125,7 +123,6 @@ const ExpertManager = () => {
     const updatedStartDay = expertToUpdate.startDay;
     const updatedEmail = expertToUpdate.email;
     const updatedPhoneNumber = expertToUpdate.phoneNumber;
-    const updatedAreaName = expertToUpdate.areaName;
     const updatedPassword = expertToUpdate.password;
 
     axios
@@ -136,7 +133,6 @@ const ExpertManager = () => {
         startDay: updatedStartDay,
         email: updatedEmail,
         phoneNumber: updatedPhoneNumber,
-        areaName: updatedAreaName,
         password: updatedPassword,
       })
       .then(() => {
@@ -150,7 +146,6 @@ const ExpertManager = () => {
               startDay: updatedStartDay,
               email: updatedEmail,
               phoneNumber: updatedPhoneNumber,
-              areaName: updatedAreaName,
               password: updatedPassword,
             };
           }
@@ -185,7 +180,6 @@ const ExpertManager = () => {
             <th>Start Day</th>
             <th>Email</th>
             <th>Phone Number</th>
-            <th>Area Name</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -327,28 +321,6 @@ const ExpertManager = () => {
 
               <td>
                 {editingId === expert.id ? (
-                  <input
-                    type="text"
-                    name="areaName"
-                    value={expert.areaName}
-                    onChange={(e) => {
-                      const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
-                      if (index !== -1) {
-                        newExpertdata[index].areaName = e.target.value;
-                        setExpertData(newExpertdata);
-                      }
-                    }}
-                  />
-                ) : (
-                  <div onClick={() => startEditing(expert.id)}>
-                    {expert.areaName}
-                  </div>
-                )}
-              </td>
-
-              <td>
-                {editingId === expert.id ? (
                   <>
                      <button onClick={() => handleSaveClick(expert.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left small">save</i>
@@ -398,10 +370,10 @@ const ExpertManager = () => {
           <input type="text" placeholder="First Name" name="firstName" value={newExpert.firstName} onChange={handleInputChange} />
           <input type="text" placeholder="Last Name" name="lastName" value={newExpert.lastName} onChange={handleInputChange} />
           <input type="text" placeholder="Gender" name="gender" value={newExpert.gender} onChange={handleInputChange} />
-          <input type="text" placeholder="Start Day" name="startDay" value={newExpert.startDay} onChange={handleInputChange} />
+          <label htmlFor="StartDate">Start Date</label>
+          <input id = "StartDate" type="date" placeholder="Start Day" name="startDay" value={newExpert.startDay} onChange={handleInputChange} />
           <input type="text" placeholder="Email" name="email" value={newExpert.email} onChange={handleInputChange} />
           <input type="text" placeholder="Phone Number" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} />
-          <input type="text" placeholder="Area Name" name="areaName" value={newExpert.areaName} onChange={handleInputChange} />
           <input type="password" placeholder="Password" name="password" value={newExpert.password} onChange={handleInputChange} />
         </div>
       ) : (
