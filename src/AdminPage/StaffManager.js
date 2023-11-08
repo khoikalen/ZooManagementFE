@@ -375,9 +375,11 @@ const StaffManager = () => {
             value={newStaff.gender}
             onChange={handleInputChange}
           />
+          <label htmlFor="StartDayOfStaff">Start Date</label>
           <input
-            type="text"
-            placeholder="Start Day"
+            id = "StartDayOfStaff"
+            type="date"
+            placeholder="Start Day | Format: mm/dd/yyyy"
             name="startDay"
             value={newStaff.startDay}
             onChange={handleInputChange}
