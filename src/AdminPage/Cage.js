@@ -235,20 +235,42 @@ const Cage = () => {
             <i className="material-icons left">add</i>Add
           </button>
           <input type="text" placeholder="Name" name="cageName" value={newCage.cageName} onChange={handleInputChange} />
-          <input type="text" placeholder="Cage Status" name="cageStatus" value={newCage.cageStatus} onChange={handleInputChange} />
-          <input type="text" placeholder="Cage Type" name="cageType" value={newCage.cageType} onChange={handleInputChange} />
-          {/* <label2 htmlFor='statusCage'>Cage Status</label2>
-          <select id='status'>
-            <option>Owned</option>
-            <option>Empty</option>
-          </select>
-          <label2 htmlFor='typeCage'>Cage Type</label2>
-          <select id='type'>
-            <option>Close</option>
-            <option>Open</option>
-          </select> */}
-          <input type="text" placeholder="Area Name" name="areaName" value={newCage.areaName} onChange={handleInputChange} />
           <input type="text" placeholder="Staff Email" name="staffEmail" value={newCage.staffEmail} onChange={handleInputChange} />
+          <select
+            name="cageStatus"
+            value={newCage.cageStatus}
+            onChange={handleInputChange}
+          >
+            <option value="">Select Cage Status</option>
+            <option value="Owned">Owned</option>
+            <option value="Empty">Empty</option>
+          </select>
+
+          <select
+            name="cageType"
+            value={newCage.cageType}
+            onChange={handleInputChange}
+          >
+            <option value="">Select Cage Type</option>
+            <option value="Open">Open</option>
+            <option value="Close">Close</option>
+
+          </select>
+
+          <select
+            name="areaName"
+            value={newCage.areaName}
+            onChange={handleInputChange}
+          >
+            <option value="">Select Area Name</option>
+            <option value="Carnivore area">Carnivore area</option>
+            <option value="Herbivore area">Herbivore area</option>
+            <option value="Reptile area">Reptile area</option>
+            <option value="Bird area">Bird area</option>
+            <option value="Primate and omnivore area">Primate and omnivore area</option>
+          </select>
+
+         
         </div>
       ) : (
         <>

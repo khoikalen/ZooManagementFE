@@ -12,7 +12,7 @@ const StaffManager = () => {
   const [newStaff, setNewStaff] = useState({
     firstName: "",
     lastName: "",
-    gender: "", 
+    gender: "",
     startDay: "",
     email: "",
     phoneNumber: "",
@@ -27,7 +27,7 @@ const StaffManager = () => {
       const res = await staffApi.getAllStaff();
       setStaffData(res);
     } catch (error) {
-      if (error.response && error.response.status === 500){
+      if (error.response && error.response.status === 500) {
         alert(error.response.data.message);
         clearValidationErrors();
       } else if (error) {
@@ -54,7 +54,7 @@ const StaffManager = () => {
         setStaffData(updatedStaffData);
       })
       .catch((error) => {
-        if (error.response && error.response.status === 500){
+        if (error.response && error.response.status === 500) {
           alert(error.response.data.message);
           clearValidationErrors();
         } else if (error) {
@@ -81,7 +81,7 @@ const StaffManager = () => {
       setNewStaff({
         firstName: "",
         lastName: "",
-        gender: "", 
+        gender: "",
         startDay: "",
         email: "",
         phoneNumber: "",
@@ -91,7 +91,7 @@ const StaffManager = () => {
       alert("Create new staff successfully");
       window.location.reload();
     } catch (error) {
-      if (error.response && error.response.status === 500){
+      if (error.response && error.response.status === 500) {
         alert(error.response.data.message);
         clearValidationErrors();
       } else if (error) {
@@ -99,7 +99,7 @@ const StaffManager = () => {
       } else {
         setValidationErrors("An unexpected error occurred");
       }
-      
+
     }
   };
 
@@ -107,7 +107,7 @@ const StaffManager = () => {
     addNewStaff(newStaff);
 
     // Tải lại trang sau khi thêm thành công
-    
+
     // })
     // .catch((error) => {
     //   console.error('Lỗi khi thêm nhân viên:', error);
@@ -124,7 +124,7 @@ const StaffManager = () => {
 
   const handleSaveClick = (id) => {
     const staffToUpdate = staffData.find((staff) => staff.id === id);
-  
+
     // Copy the values from the staff being edited into newStaff
     const updatedStaff = {
       firstName: staffToUpdate.firstName,
@@ -133,7 +133,7 @@ const StaffManager = () => {
       startDay: staffToUpdate.startDay,
       phoneNumber: staffToUpdate.phoneNumber,
     };
-  
+
     axios
       .put(`${API_URL}/${id}`, updatedStaff)
       .then(() => {
@@ -146,14 +146,14 @@ const StaffManager = () => {
           }
           return staff;
         });
-  
+
         setStaffData(updatedStaffData);
         setEditingId(null);
         clearValidationErrors();
         window.location.reload();
       })
       .catch((error) => {
-        if (error.response && error.response.status === 500){
+        if (error.response && error.response.status === 500) {
           alert(error.response.data.message);
           clearValidationErrors();
         } else if (error) {
@@ -163,7 +163,7 @@ const StaffManager = () => {
         }
       });
   };
-  
+
 
   const clearValidationErrors = () => {
     setValidationErrors({});
@@ -206,67 +206,67 @@ const StaffManager = () => {
                 )}
               </td>
               <td>
-  {editingId === staff.id ? (
-    <input
-      type="text"
-      name="lastName"
-      value={staff.lastName}
-      onChange={(e) => {
-        const newStaffData = [...staffData];
-        const index = newStaffData.findIndex((i) => i.id === staff.id);
-        if (index !== -1) {
-          newStaffData[index].lastName = e.target.value;
-          setStaffData(newStaffData);
-        }
-      }}
-    />
-  ) : (
-    <div onClick={() => startEditing(staff.id)}>{staff.lastName}
-  </div>
-  )}
-</td>
+                {editingId === staff.id ? (
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={staff.lastName}
+                    onChange={(e) => {
+                      const newStaffData = [...staffData];
+                      const index = newStaffData.findIndex((i) => i.id === staff.id);
+                      if (index !== -1) {
+                        newStaffData[index].lastName = e.target.value;
+                        setStaffData(newStaffData);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(staff.id)}>{staff.lastName}
+                  </div>
+                )}
+              </td>
 
-<td>
-  {editingId === staff.id ? (
-    <input
-      type="text"
-      name="gender"
-      value={staff.gender}
-      onChange={(e) => {
-        const newStaffData = [...staffData];
-        const index = newStaffData.findIndex((i) => i.id === staff.id);
-        if (index !== -1) {
-          newStaffData[index].gender = e.target.value;
-          setStaffData(newStaffData);
-        }
-      }}
-    />
-  ) : (
-    <div onClick={() => startEditing(staff.id)}>{staff.gender}</div>
-  )}
-</td>
+              <td>
+                {editingId === staff.id ? (
+                  <input
+                    type="text"
+                    name="gender"
+                    value={staff.gender}
+                    onChange={(e) => {
+                      const newStaffData = [...staffData];
+                      const index = newStaffData.findIndex((i) => i.id === staff.id);
+                      if (index !== -1) {
+                        newStaffData[index].gender = e.target.value;
+                        setStaffData(newStaffData);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(staff.id)}>{staff.gender}</div>
+                )}
+              </td>
 
-<td>
-  {editingId === staff.id ? (
-    <input
-      type="text"
-      name="startDay"
-      value={staff.startDay}
-      onChange={(e) => {
-        const newStaffData = [...staffData];
-        const index = newStaffData.findIndex((i) => i.id === staff.id);
-        if (index !== -1) {
-          newStaffData[index].startDay = e.target.value;
-          setStaffData(newStaffData);
-        }
-      }}
-    />
-  ) : (
-    <div onClick={() => startEditing(staff.id)}>{staff.startDay}</div>
-  )}
-</td>
-<td>
-  {/* {editingId === staff.id ? (
+              <td>
+                {editingId === staff.id ? (
+                  <input
+                    type="text"
+                    name="startDay"
+                    value={staff.startDay}
+                    onChange={(e) => {
+                      const newStaffData = [...staffData];
+                      const index = newStaffData.findIndex((i) => i.id === staff.id);
+                      if (index !== -1) {
+                        newStaffData[index].startDay = e.target.value;
+                        setStaffData(newStaffData);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(staff.id)}>{staff.startDay}</div>
+                )}
+              </td>
+              <td>
+                {/* {editingId === staff.id ? (
     <input
       type="text"
       name="email"
@@ -283,33 +283,33 @@ const StaffManager = () => {
   ) : (
     <div onClick={() => startEditing(staff.id)}>{staff.email}</div>
   )} */}
-  {staff.email}
-</td>
+                {staff.email}
+              </td>
 
-<td>
-  {editingId === staff.id ? (
-    <input
-      type="text"
-      name="phoneNumber"
-      value={staff.phoneNumber}
-      onChange={(e) => {
-        const newStaffData = [...staffData];
-        const index = newStaffData.findIndex((i) => i.id === staff.id);
-        if (index !== -1) {
-          newStaffData[index].phoneNumber = e.target.value;
-          setStaffData(newStaffData);
-        }
-      }}
-    />
-  ) : (
-    <div onClick={() => startEditing(staff.id)}>{staff.phoneNumber}</div>
-  )}
-</td>
+              <td>
+                {editingId === staff.id ? (
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    value={staff.phoneNumber}
+                    onChange={(e) => {
+                      const newStaffData = [...staffData];
+                      const index = newStaffData.findIndex((i) => i.id === staff.id);
+                      if (index !== -1) {
+                        newStaffData[index].phoneNumber = e.target.value;
+                        setStaffData(newStaffData);
+                      }
+                    }}
+                  />
+                ) : (
+                  <div onClick={() => startEditing(staff.id)}>{staff.phoneNumber}</div>
+                )}
+              </td>
 
               <td>
                 {editingId === staff.id ? (
                   <>
-                     <button onClick={() => handleSaveClick(staff.id)} className="waves-effect btn" style={{ marginRight: '10px' }}>
+                    <button onClick={() => handleSaveClick(staff.id)} className="waves-effect btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left small">save</i>
                     </button>
                     <button onClick={handleCancelClick} className="waves-effect btn">
@@ -348,7 +348,7 @@ const StaffManager = () => {
       )}
       {adding ? (
         <div>
-          <button onClick={() => {setAdding(false); clearValidationErrors();}} className="waves-effect btn" style={{ marginRight: '10px' }}>
+          <button onClick={() => { setAdding(false); clearValidationErrors(); }} className="waves-effect btn" style={{ marginRight: '10px' }}>
             <i className="material-icons left">cancel</i>Cancel
           </button>
           <button onClick={handleAddStaff} className="waves-effect btn">
@@ -368,13 +368,17 @@ const StaffManager = () => {
             value={newStaff.lastName}
             onChange={handleInputChange}
           />
-          <input
-            type="text"
-            placeholder="Gender"
+          <h>Gender</h>
+          <select Gender
             name="gender"
             value={newStaff.gender}
             onChange={handleInputChange}
-          />
+          >
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+
           <input
             type="text"
             placeholder="Start Day"

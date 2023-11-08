@@ -111,7 +111,12 @@ a {
 h1 {
   font-size: 2rem; /* Điều chỉnh kích thước tiêu đề h1 tùy theo nhu cầu */
 }
-
+h{
+  color: grey;
+}
+select{
+  background-color: lightgray;
+}
 
 
 
