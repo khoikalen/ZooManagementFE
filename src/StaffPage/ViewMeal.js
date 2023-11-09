@@ -5,9 +5,13 @@ const CageTable = () => {
   const [cageData, setCageData] = useState([]);
   const [mealData, setMealData] = useState(null);
   const [selectedCage, setSelectedCage] = useState(null);
-  const [animalData, setAnimalData] = useState([]);
-  const [sickMealData, setSickMealData] = useState(null);
-  const [isViewLogVisible, setIsViewLogVisible] = useState(false)
+
+  const formatDate = (dateArray) => {
+    const [year, month, day, hour, minute, second, millisecond] = dateArray;
+    const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day} ${hour}:${minute}:${second}.${millisecond}`;
+    return formattedDate;
+  };
+
   useEffect(() => {
     const apiUrl = `https://zouzoumanagement.xyz/api/v3/cage/${localStorage.getItem("email")}`;
 
@@ -23,16 +27,34 @@ const CageTable = () => {
 
   const handleViewDetail = (cage) => {
     setSelectedCage(cage);
-    setAnimalData([]);
+    setMealData(null);
   };
 
   const handleViewMeal = (cageId) => {
-    const mealApiUrl = `https://zouzoumanagement.xyz/api/v1/food/cage/${cageId}`;
+    const mealApiUrl = `https://zouzoumanagement.xyz/api/v1/food/daily-meal/${cageId}`;
 
     axios.get(mealApiUrl)
       .then((response) => {
         const mealData = response.data;
-        setMealData(mealData);
+
+        if (mealData && mealData.haveFood) {
+          setMealData({
+            id: mealData.id,
+            dateTime: formatDate(mealData.dateTime),
+            cageName: mealData.cageName,
+            expertEmail: mealData.expertEmail,
+            foodItems: mealData.haveFood.map((food) => ({
+              id: food.id,
+              name: food.name,
+              quantity: food.quantity,
+              measure: food.measure,
+              description: food.description,
+              foodStorageId: food.foodStorageId,
+            })),
+          });
+        } else {
+          setMealData(null);
+        }
       })
       .catch((error) => {
         console.error("Lỗi khi gửi yêu cầu GET đến API Meal", error);
@@ -55,16 +77,14 @@ const CageTable = () => {
             <tr key={cage.id}>
               <td>{cage.id}</td>
               <td>{cage.name}</td>
-
               <td>
-  <button onClick={() => handleViewDetail(cage)} class="btn waves-effect" style={{ marginRight: '10px' }}>
-    <i class="material-icons left small">visibility</i>Xem chi tiết
-  </button>
-  <button onClick={() => handleViewMeal(cage.id)} class="btn waves-effect">
-    <i class="material-icons left small">restaurant_menu</i>View Meal
-  </button>
-</td>
-
+                <button onClick={() => handleViewDetail(cage)} className="btn waves-effect" style={{ marginRight: '10px' }}>
+                  <i className="material-icons left small">visibility</i>Xem chi tiết
+                </button>
+                <button onClick={() => handleViewMeal(cage.id)} className="btn waves-effect">
+                  <i className="material-icons left small">restaurant_menu</i>View Meal
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -81,52 +101,27 @@ const CageTable = () => {
           <p>Staff Email: {selectedCage.staffEmail}</p>
         </div>
       )}
-
-{mealData && (
-  <div>
-    <h2>Thông Tin Bữa Ăn</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Animal ID</th>
-          <th>Food and Weight</th>
-        </tr>
-      </thead>
-      <tbody>
-        {mealData.meal ? (
-          mealData.meal.map((m) => (
-            <tr key={m.id}>
-              <td>{m.id ? m.id : 'N/A'}</td>
-              <td>{m.name ? m.name : 'N/A'}</td>
-              <td>{m.cageId ? m.cageId : 'N/A'}</td>
-              <td>
-                <ul>
-                  {m.haveFood ? (
-                    m.haveFood.map((food) => (
-                      <li key={food.id}>
-                        {food.id ? food.id : 'N/A'} . 
-                        Name: {food.name ? food.name : 'N/A'}, <br />
-                        Height: {food.weight ? `${food.weight}kg` : 'N/A'}
-                      </li>
-                    ))
-                  ) : (
-                    <li>No food data available</li>
-                  )}
-                </ul>
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="3">No meal data available</td>
-          </tr>
-        )}
-      </tbody>
-    </table>
-  </div>
-)}
+      {mealData && (
+        <div>
+          <h2>Thông Tin Bữa Ăn</h2>
+          <p>ID: {mealData.id}</p>
+          <p>Date Time: {new Date(mealData.dateTime).toLocaleString()}</p>
+          <p>Cage Name: {mealData.cageName}</p>
+          <p>Expert Email: {mealData.expertEmail}</p>
+          <h3>Food Items</h3>
+          <ul>
+            {mealData.foodItems.map((food) => (
+              <li key={food.id}>
+                <p>ID: {food.id}</p>
+                <p>Name: {food.name}</p>
+                <p>Quantity: {food.quantity} {food.measure}</p>
+                <p>Description: {food.description}</p>
+                <p>Food Storage ID: {food.foodStorageId}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

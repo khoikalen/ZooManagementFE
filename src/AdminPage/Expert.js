@@ -24,6 +24,8 @@ const ExpertManager = () => {
     password: "",
   });
 
+  const [deletingId, setDeletingId] = useState(null);
+
   useEffect(() => {
     axios
       .get(API_URL)
@@ -51,13 +53,18 @@ const ExpertManager = () => {
   };
 
   const handleDeleteClick = (id) => {
+    setDeletingId(id);
+  };
+
+  const confirmDelete = () => {
     axios
-      .delete(`${API_URL}/${id}`)
+      .delete(`${API_URL}/${deletingId}`)
       .then(() => {
         const updatedExpertData = expertData.filter(
-          (expert) => expert.id !== id
+          (expert) => expert.id !== deletingId
         );
         setExpertData(updatedExpertData);
+        setDeletingId(null);
       })
       .catch((error) => {
         if (error.response && error.response.status === 500) {
@@ -69,6 +76,10 @@ const ExpertManager = () => {
           setValidationErrors("An unexpected error occurred");
         }
       });
+  };
+
+  const cancelDelete = () => {
+    setDeletingId(null);
   };
 
   const handleCancelClick = () => {
@@ -281,50 +292,12 @@ const ExpertManager = () => {
               </td>
 
               <td>
-                {/* {editingId === expert.id ? (
-                  <input
-                    type="text"
-                    name="email"
-                    value={expert.email}
-                    onChange={(e) => {
-                      const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
-                      if (index !== -1) {
-                        newExpertdata[index].email = e.target.value;
-                        setExpertData(newExpertdata);
-                      }
-                    }}
-                  />
-                ) : (
-                  <div onClick={() => startEditing(expert.id)}>
-                    {expert.email}
-                  </div>
-                )} */}
                 {expert.email}
               </td>
-
               <td>
-                {editingId === expert.id ? (
-                  <input
-                    type="text"
-                    name="phoneNumber"
-                    value={expert.phoneNumber}
-                    onChange={(e) => {
-                      const newExpertdata = [...expertData];
-                      const index = newExpertdata.findIndex((i) => i.id === expert.id);
-                      if (index !== -1) {
-                        newExpertdata[index].phoneNumber = e.target.value;
-                        setExpertData(newExpertdata);
-                      }
-                    }}
-                  />
-                ) : (
-                  <div onClick={() => startEditing(expert.id)}>
-                    {expert.phoneNumber}
-                  </div>
-                )}
+                {expert.phoneNumber}
               </td>
-
+              
               <td>
                 {editingId === expert.id ? (
                   <>
@@ -365,6 +338,7 @@ const ExpertManager = () => {
           </ul>
         </div>
       )}
+    
       {adding ? (
         <div>
           <button onClick={() => { setAdding(false); clearValidationErrors() }} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
@@ -398,6 +372,17 @@ const ExpertManager = () => {
           </button>
           {renderTable()}
         </>
+      )}
+        {deletingId && (
+        <div className="confirmation-dialog">
+          <p>Are you sure you want to delete this expert?</p>
+          <button onClick={confirmDelete} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+            <i className="material-icons left small">check</i>Yes
+          </button>
+          <button onClick={cancelDelete} className="waves-effect waves-light btn">
+            <i className="material-icons left small">cancel</i>No
+          </button>
+        </div>
       )}
     </div>
   );

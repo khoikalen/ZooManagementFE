@@ -17,6 +17,8 @@ const Cage = () => {
     staffEmail: '',
   });
 
+  const [deletingId, setDeletingId] = useState(null);
+
   useEffect(() => {
     axios.get(API_URL)
       .then((response) => {
@@ -26,25 +28,36 @@ const Cage = () => {
         setCageData(cageDataWithDefaultRole);
       })
       .catch((error) => {
-        console.error('Lỗi khi tải dữ liệu chuồng:', error);
+        console.error('Error loading cage data:', error);
       });
   }, []);
 
   const handleEditClick = (id) => {
     setEditingId(id);
   };
+
   const startEditing = (cageId) => {
     setEditingId(cageId);
   };
+
   const handleDeleteClick = (id) => {
-    axios.delete(`${API_URL}/${id}`)
+    setDeletingId(id);
+  };
+
+  const confirmDelete = () => {
+    axios.delete(`${API_URL}/${deletingId}`)
       .then(() => {
-        const updatedCageData = cageData.filter((cage) => cage.id !== id);
+        const updatedCageData = cageData.filter((cage) => cage.id !== deletingId);
         setCageData(updatedCageData);
+        setDeletingId(null);
       })
       .catch((error) => {
-        console.error('Lỗi khi xóa chuồng:', error);
+        console.error('Error deleting cage:', error);
       });
+  };
+
+  const cancelDelete = () => {
+    setDeletingId(null);
   };
 
   const handleCancelClick = () => {
@@ -65,12 +78,10 @@ const Cage = () => {
           areaName: '',
           staffEmail: '',
         });
-
-
         window.location.reload();
       })
       .catch((error) => {
-        console.error('Lỗi khi thêm chuồng:', error);
+        console.error('Error adding cage:', error);
       });
   };
 
@@ -110,10 +121,9 @@ const Cage = () => {
         window.location.reload();
       })
       .catch((error) => {
-        console.error('Lỗi khi cập nhật chuồng:', error);
+        console.error('Error updating cage:', error);
       });
   };
-
 
   const renderTable = () => {
     return (
@@ -217,7 +227,6 @@ const Cage = () => {
               </td>
             </tr>
           ))}
-
         </tbody>
       </table>
     );
@@ -246,7 +255,7 @@ const Cage = () => {
             <option value="Owned">Owned</option>
             <option value="Empty">Empty</option>
           </select>
-        <h>Cage Type</h>
+          <h>Cage Type</h>
           <select
             name="cageType"
             value={newCage.cageType}
@@ -255,9 +264,8 @@ const Cage = () => {
             <option value="">Select Cage Type</option>
             <option value="Open">Open</option>
             <option value="Close">Close</option>
-
           </select>
-        <h>Area Name</h>
+          <h>Area Name</h>
           <select
             name="areaName"
             value={newCage.areaName}
@@ -270,8 +278,6 @@ const Cage = () => {
             <option value="Bird area">Bird area</option>
             <option value="Primate and omnivore area">Primate and omnivore area</option>
           </select>
-
-         
         </div>
       ) : (
         <>
@@ -280,6 +286,17 @@ const Cage = () => {
           </button>
           {renderTable()}
         </>
+      )}
+      {deletingId && (
+        <div className="confirmation-dialog">
+          <p>Are you sure you want to delete this cage?</p>
+          <button onClick={confirmDelete} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+            <i className="material-icons left small">check</i>Yes
+          </button>
+          <button onClick={cancelDelete} className="waves-effect waves-light btn">
+            <i className="material-icons left small">cancel</i>No
+          </button>
+        </div>
       )}
     </div>
   );
