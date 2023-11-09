@@ -190,6 +190,10 @@ const DailyMeal = () => {
       })
   }
 
+  const handleCloseAnimalView = () => {
+    setAnimalInCage(null);
+  }
+
   return (
     <div>
       <h1>Cage</h1>
@@ -258,6 +262,7 @@ const DailyMeal = () => {
                 </tr>
               ))}
             </tbody>
+            <button onClick={handleCloseAnimalView} className='btn waves-effect'><i className="material-icons left">close</i>Close</button>
           </table>
         </div>
       )}
@@ -295,19 +300,19 @@ const DailyMeal = () => {
                   <td>
                     {editingId === item.id ? (
                       <>
-                        <button onClick={() => handleSaveClick(item.id)} className="btn waves-effect waves-light" style={{ marginRight: '10px' }}>
+                        <button onClick={() => handleSaveClick(item.id)} className="btn waves-effect" style={{ marginRight: '10px' }}>
                           <i className="material-icons left">save</i>Save
                         </button> <br />
-                        <button onClick={handleCancelClick} className="btn waves-effect waves-light">
+                        <button onClick={handleCancelClick} className="btn waves-effect">
                           <i className="material-icons left">cancel</i>Cancel
                         </button>
                       </>
                     ) : (
                       <>
-                        <button onClick={() => handleEditClick(item.id)} className="btn waves-effect waves-light" style={{ marginRight: '10px' }}>
+                        <button onClick={() => handleEditClick(item.id)} className="btn waves-effect" style={{ marginRight: '10px' }}>
                           <i className="material-icons left">edit</i>Edit
                         </button> <br />
-                        <button onClick={() => handleDeleteClick(item.id)} className="btn waves-effect waves-light">
+                        <button onClick={() => handleDeleteClick(item.id)} className="btn waves-effect">
                           <i className="material-icons left">delete</i>Delete
                         </button>
                       </>
@@ -318,11 +323,11 @@ const DailyMeal = () => {
             </tbody>
           </table>
           <Link to='/expert/addFood' state={{ mealData }}>
-            <button className="btn waves-effect waves-light">
+            <button className="btn waves-effect">
               <i className="material-icons left">add</i>Add Food
             </button>
           </Link><br />
-          <button onClick={() => handleConfirmCreate(mealData)} className="btn waves-effect waves-light">
+          <button onClick={() => handleConfirmCreate(mealData)} className="btn waves-effect">
             <i className="material-icons left">check_circle</i>Confirm create meal
           </button>
         </div>
@@ -338,7 +343,7 @@ const DailyMeal = () => {
           <p>Cage Type: {selectedItem.cageType}</p>
           <p>Area Name: {selectedItem.area.name}</p>
           <p>Staff Email: {selectedItem.staff.email}</p>
-          <button onClick={handleCloseDetail} className="btn waves-effect waves-light">
+          <button onClick={handleCloseDetail} className="btn waves-effect">
             <i className="material-icons left">close</i>Đóng
           </button>
         </div>
