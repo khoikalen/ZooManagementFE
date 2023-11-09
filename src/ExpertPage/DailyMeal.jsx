@@ -233,9 +233,38 @@ const DailyMeal = () => {
         </tbody>
       </table>
 
+      {animalInCage && (
+        <div>
+          <table>
+            <thead>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Date Of Birth</th>
+              <th>Date Enter Zoo</th>
+              <th>Gender</th>
+              <th>Specie</th>
+              <th>Status</th>
+            </thead>
+            <tbody>
+              {animalInCage.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.dob}</td>
+                  <td>{item.dez}</td>
+                  <td>{item.gender}</td>
+                  <td>{item.specie}</td>
+                  <td>{item.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
       {mealData && (
         <div>
-          <h2>{mealData.name}</h2>
+          <h2>{mealData.cageName} meal</h2>
           <h2>Last Created: {mealData.dateTime}</h2>
           <table>
             <thead>
@@ -315,34 +344,7 @@ const DailyMeal = () => {
         </div>
       )}
 
-      {animalInCage && (
-        <div>
-          <table>
-            <thead>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Date Of Birth</th>
-              <th>Date Enter Zoo</th>
-              <th>Gender</th>
-              <th>Specie</th>
-              <th>Status</th>
-            </thead>
-            <tbody>
-              {animalInCage.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.dob}</td>
-                  <td>{item.dez}</td>
-                  <td>{item.gender}</td>
-                  <td>{item.specie}</td>
-                  <td>{item.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+
     </div>
   );
 };
