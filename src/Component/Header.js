@@ -1,12 +1,7 @@
-import * as React from "react";
-
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../slices/authSlice";
-
-import styles from "./Header.module.css";
-// Charka-io React
 import {
   Box,
   Button,
@@ -21,6 +16,7 @@ import {
   MenuList,
   Spacer,
 } from "@chakra-ui/react";
+
 function Header() {
   const headerStyle = {
     display: "flex",
@@ -61,12 +57,17 @@ function Header() {
   };
 
   useEffect(() => {
-    // Initialize dropdown
     const elems = document.querySelectorAll(".dropdown-trigger");
     window.M.Dropdown.init(elems, { constrainWidth: false });
   }, []);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // Quay lại trang trước đó
+  };
+
   return (
     <React.Fragment>
       <Flex
@@ -102,8 +103,10 @@ function Header() {
               </MenuButton>
               <MenuList>
                 <MenuGroup title="Profile">
-                  <MenuItem>Hi, {localStorage.getItem("email")}</MenuItem>
-                  <MenuItem>Setting </MenuItem>
+                  <MenuItem>Account: {localStorage.getItem("email")}</MenuItem>
+                  <MenuItem onClick={goBack}>
+                    Go to page
+                  </MenuItem>
                   <MenuItem
                     onClick={() => {
                       navigate("/login");
@@ -115,14 +118,10 @@ function Header() {
                   </MenuItem>
                 </MenuGroup>
                 <MenuDivider />
-                <MenuGroup title="Help">
-                  <MenuItem>Docs</MenuItem>
-                  <MenuItem>FAQ</MenuItem>
-                </MenuGroup>
               </MenuList>
             </Menu>
           ) : (
-            <Button
+            <MenuItem
               textColor="black"
               backgroundColor="white"
               colorScheme="teal"
@@ -130,60 +129,10 @@ function Header() {
               <Link style={LinkToTicket} to="/login">
                 Sign In
               </Link>
-            </Button>
+            </MenuItem>
           )}
         </ButtonGroup>
       </Flex>
-      {/* <header style={headerStyle}>
-        <div style={logoStyle}>
-          <Link to="/App1">
-            <img src="name.png" style={logoImageStyle} alt="Logo" />
-          </Link>
-        </div>
-        <div style={buttonContainerStyle}>
-          <button style={buttonStyle}>
-            <Link style={LinkToTicket} to="/ticket">
-              Buy Ticket
-            </Link>
-          </button>
-          <a
-            className="dropdown-trigger"
-            href="#!"
-            data-target="dropdown1"
-            style={buttonStyle}
-          >
-            Option<i className="material-icons right">arrow_drop_down</i>
-          </a>
-          <ul id="dropdown1" className="dropdown-content">
-            {localStorage.getItem("email") && (
-              <li>
-                <p>{localStorage.getItem("email")}</p>
-              </li>
-            )}
-            {localStorage.getItem("user_access_token") ? (
-              <button
-                style={buttonStyle}
-                onClick={() => {
-                  navigate("/login");
-                  dispatch(logout());
-                }}
-              >
-                Logout
-              </button>
-            ) : (
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-            )}
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
-            <li>
-              <Link to="/settings">Settings</Link>
-            </li>
-          </ul>
-        </div>
-      </header> */}
     </React.Fragment>
   );
 }

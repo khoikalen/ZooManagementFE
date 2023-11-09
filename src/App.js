@@ -19,7 +19,6 @@ import DailyMeal from "./ExpertPage/DailyMeal";
 import SickMeal from "./ExpertPage/SickMeal";
 import AddFood from "./ExpertPage/AddFood";
 import { useEffect } from "react";
-// Import Compoent Auth
 import SignUpComponent from "./AuthPage/Register/SignUp";
 import SignInComponent from "./AuthPage/Login/Login";
 function App() {

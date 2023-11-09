@@ -165,28 +165,43 @@ const AddAnimal = () => {
                                 />
                                 <input
                                     type="text"
-                                    placeholder="Date of Birth"
+                                    placeholder="Date of Birth (mm/dd/yyyy)"
                                     value={animalFormData.dob}
                                     onChange={(e) => setAnimalFormData({ ...animalFormData, dob: e.target.value })}
                                 />
-                                <input
-                                    type="text"
-                                    placeholder="Gender"
+                                <h>Gender</h>
+                                <select
                                     value={animalFormData.gender}
-                                    onChange={(e) => setAnimalFormData({ ...animalFormData, gender: e.target.value })}
-                                />
+                                    onChange={(e) =>
+                                        setAnimalFormData({ ...animalFormData, gender: e.target.value })
+                                    }
+                                >
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
                                 <input
                                     type="text"
-                                    placeholder="Status"
-                                    value={animalFormData.status}
-                                    onChange={(e) => setAnimalFormData({ ...animalFormData, status: e.target.value })}
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Specie"
+                                    placeholder="Species"
                                     value={animalFormData.specie}
                                     onChange={(e) => setAnimalFormData({ ...animalFormData, specie: e.target.value })}
                                 />
+
+                                <h>Status</h>
+                                <select
+                                    value={animalFormData.status}
+                                    onChange={(e) =>
+                                        setAnimalFormData({ ...animalFormData, status: e.target.value })
+                                    }
+                                >
+                                    <option value="">Select Status</option>
+                                    <option value="Vulnerable">Vulnerable</option>
+                                    <option value="Least concern">Least concern</option>
+                                    <option value="Critically endangered">Critically endangered</option>
+                                    <option value="Near threatened">Near threatened</option>
+                                    <option value="Endangered">Endangered</option>
+                                </select>
+
                                 <button onClick={handleAddAnimal}>Thêm Animal</button>
                                 {newAnimalAdded && <p style={{ color: 'green' }}>Thêm Animal thành công!</p>}
                                 {addAnimalError && <p style={{ color: 'red' }}>{addAnimalError}</p>}

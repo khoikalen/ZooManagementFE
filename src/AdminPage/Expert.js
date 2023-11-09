@@ -25,7 +25,7 @@ const ExpertManager = () => {
         setExpertData(response.data);
       })
       .catch((error) => {
-        if (error.response && error.response.status === 500){
+        if (error.response && error.response.status === 500) {
           alert(error.response.data.message);
           clearValidationErrors();
         } else if (error) {
@@ -54,7 +54,7 @@ const ExpertManager = () => {
         setExpertData(updatedExpertData);
       })
       .catch((error) => {
-        if (error.response && error.response.status === 500){
+        if (error.response && error.response.status === 500) {
           alert(error.response.data.message);
           clearValidationErrors();
         } else if (error) {
@@ -82,7 +82,7 @@ const ExpertManager = () => {
         setNewExpert({
           firstName: '',
           lastName: '',
-          gender: '', 
+          gender: '',
           startDay: '',
           email: '',
           phoneNumber: '',
@@ -92,7 +92,7 @@ const ExpertManager = () => {
         window.location.reload();
       })
       .catch((error) => {
-        if (error.response && error.response.status === 500){
+        if (error.response && error.response.status === 500) {
           alert(error.response.data.message);
           clearValidationErrors();
         } else if (error) {
@@ -119,7 +119,7 @@ const ExpertManager = () => {
     const expertToUpdate = expertData.find((expert) => expert.id === id);
     const updatedFirstName = expertToUpdate.firstName;
     const updatedLastName = expertToUpdate.lastName;
-    const updatedGender = expertToUpdate.gender; 
+    const updatedGender = expertToUpdate.gender;
     const updatedStartDay = expertToUpdate.startDay;
     const updatedEmail = expertToUpdate.email;
     const updatedPhoneNumber = expertToUpdate.phoneNumber;
@@ -154,11 +154,11 @@ const ExpertManager = () => {
         clearValidationErrors();
         setExpertData(updatedExpertData);
         setEditingId(null);
-        
+
         window.location.reload();
       })
       .catch((error) => {
-        if (error.response && error.response.status === 500){
+        if (error.response && error.response.status === 500) {
           alert(error.response.data.message);
           clearValidationErrors();
         } else if (error) {
@@ -322,7 +322,7 @@ const ExpertManager = () => {
               <td>
                 {editingId === expert.id ? (
                   <>
-                     <button onClick={() => handleSaveClick(expert.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+                    <button onClick={() => handleSaveClick(expert.id)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
                       <i className="material-icons left small">save</i>
                     </button>
                     <button onClick={handleCancelClick} className="waves-effect waves-light btn">
@@ -361,7 +361,7 @@ const ExpertManager = () => {
       )}
       {adding ? (
         <div>
-          <button onClick={() => {setAdding(false); clearValidationErrors()}} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+          <button onClick={() => { setAdding(false); clearValidationErrors() }} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
             <i className="material-icons left">cancel</i>Cancel
           </button>
           <button onClick={handleAddExpert} className="waves-effect waves-light btn">
@@ -369,9 +369,18 @@ const ExpertManager = () => {
           </button>
           <input type="text" placeholder="First Name" name="firstName" value={newExpert.firstName} onChange={handleInputChange} />
           <input type="text" placeholder="Last Name" name="lastName" value={newExpert.lastName} onChange={handleInputChange} />
-          <input type="text" placeholder="Gender" name="gender" value={newExpert.gender} onChange={handleInputChange} />
-          <label htmlFor="StartDate">Start Date</label>
-          <input id = "StartDate" type="date" placeholder="Start Day" name="startDay" value={newExpert.startDay} onChange={handleInputChange} />
+          <h>Gender</h>
+          <select
+            name="gender"
+            value={newExpert.gender}
+            onChange={handleInputChange}
+          >
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          <h htmlFor="StartDate">Start Date</h>
+          <input id="StartDate" type="date" placeholder="Start Day" name="startDay" value={newExpert.startDay} onChange={handleInputChange} />
           <input type="text" placeholder="Email" name="email" value={newExpert.email} onChange={handleInputChange} />
           <input type="text" placeholder="Phone Number" name="phoneNumber" value={newExpert.phoneNumber} onChange={handleInputChange} />
           <input type="password" placeholder="Password" name="password" value={newExpert.password} onChange={handleInputChange} />

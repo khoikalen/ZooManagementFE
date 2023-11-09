@@ -236,6 +236,7 @@ const Cage = () => {
           </button>
           <input type="text" placeholder="Name" name="cageName" value={newCage.cageName} onChange={handleInputChange} />
           <input type="text" placeholder="Staff Email" name="staffEmail" value={newCage.staffEmail} onChange={handleInputChange} />
+          <h>Cage Status</h>
           <select
             name="cageStatus"
             value={newCage.cageStatus}
@@ -245,7 +246,7 @@ const Cage = () => {
             <option value="Owned">Owned</option>
             <option value="Empty">Empty</option>
           </select>
-
+        <h>Cage Type</h>
           <select
             name="cageType"
             value={newCage.cageType}
@@ -256,7 +257,7 @@ const Cage = () => {
             <option value="Close">Close</option>
 
           </select>
-
+        <h>Area Name</h>
           <select
             name="areaName"
             value={newCage.areaName}
