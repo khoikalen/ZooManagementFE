@@ -38,11 +38,17 @@ function AddFood() {
   }
 
   const handleAddFood = (itemId, itemName) => {
+    const descriptionToAdd = document.querySelector(`#descriptionToAdd_${itemId}`).value;
     const quantityToAdd = document.querySelector(`#quantityToAdd_${itemId}`).value;
+    const measureToAdd = document.querySelector(`#measureToAdd_${itemId}`).value;
     const foodData = {
       name: itemName,
-      weight: quantityToAdd
+      quantity: quantityToAdd,
+      measure: measureToAdd,
+      description: descriptionToAdd,
+      foodStorageId: itemId
     };
+    console.log(foodData);
     const addFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/${data.id}`
     axios.post(addFoodAPI, foodData)
       .then((response) => {
@@ -51,8 +57,8 @@ function AddFood() {
         setError("");
       })
       .catch((error) => {
-        if (error.response && error.response.data && error.response.data.message) {
-          setError(error.response.data.message);
+        if (error.response && error.response.data && error.response.data.errorMessage) {
+          setError(error.response.data.errorMessage);
         } else {
           console.log(error);
         }
@@ -69,7 +75,7 @@ function AddFood() {
         <select id="typeOfFood" onChange={handleTypeOfFood}>
           <option value="meat">Meat</option>
           <option value="plant">Plant</option>
-          <option value="medicine">Medicine</option>
+          <option value="drug">Medicine</option>
         </select>
         {error && <div className='error-message'>{error}</div>}
         {foodStorageData && (
@@ -79,7 +85,10 @@ function AddFood() {
               <th>Name</th>
               <th>Type of Food</th>
               <th>Available Quantity</th>
+              <th>Measure</th>
+              <th>Description</th>
               <th>Quantity to add</th>
+              <th>Measure to add</th>
               <th>Add</th>
             </thead>
             <tbody>
@@ -89,7 +98,16 @@ function AddFood() {
                   <td>{item.name}</td>
                   <td>{item.type}</td>
                   <td>{item.available}</td>
+                  <td>{item.measure}</td>
+                  <td><input type="text" name="description" id={`descriptionToAdd_${item.id}`}/></td>
                   <td><input type='number' id={`quantityToAdd_${item.id}`} /></td>
+                  <td>
+                    <select name="measure" id={`measureToAdd_${item.id}`} className='measure-field'>
+                      <option value="kilogram">kilogram</option>
+                      <option value="gram">gram</option>
+                      <option value="pill">pill</option>
+                    </select>
+                  </td>
                   <td><button onClick={() => handleAddFood(item.id, item.name)}>Add</button></td>
                 </tr>
               ))}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import DailyMeal from './DailyMeal'
-import SickMeal from'./SickMeal'
 import HealthLog from './HealthLog';
 import { Link } from 'react-router-dom'; 
 import userIcon from './User.png';
@@ -14,8 +13,6 @@ function Expert() {
         return <HealthLog />;
       case "dailymeal":
         return <DailyMeal />;
-      case "sickmeal":
-        return <SickMeal />;
     
 
       default:
@@ -32,8 +29,7 @@ function Expert() {
         </div>
         <ul>
           <li><button onClick={() => setCurrentPage("healthlog")}>Health Log</button></li>
-          <li><button onClick={() => setCurrentPage("dailymeal")}>Daily Meal</button></li>
-          <li><button onClick={() => setCurrentPage("sickmeal")}>Sick Meal</button></li>
+          <li><button onClick={() => setCurrentPage("dailymeal")}>Meal Management</button></li>
           <lu><Link to="/App1">Back</Link></lu>
         </ul>
       </div>

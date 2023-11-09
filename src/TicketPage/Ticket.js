@@ -37,10 +37,15 @@ const Ticket = () => {
       const totalChildPrice = childQuantity * childPrice;
       const totalPrice = totalAdultPrice + totalChildPrice;
 
-      setTotalAdultPrice(totalAdultPrice);
-      setTotalChildPrice(totalChildPrice);
-      setTotalPrice(totalPrice);
-
+      if (totalPrice < 0) {
+        setTotalAdultPrice(0);
+        setTotalChildPrice(0);
+        setTotalPrice(0);
+      } else {
+        setTotalAdultPrice(totalAdultPrice);
+        setTotalChildPrice(totalChildPrice);
+        setTotalPrice(totalPrice);
+      }
       return { ...prevNewTicket };
     });
   };
@@ -51,10 +56,12 @@ const Ticket = () => {
     //   validationErrors.type = "Type is required";
     // }
     if (!newTicket.quantityOfAdult.match("^[0-9]*$|^w$")) {
-      validationErrors.quantityOfAdult = "Quantity should be number";
+      validationErrors.quantityOfAdult =
+        "Quantity should be number and greater or equal 0";
     }
     if (!newTicket.quantityOfChild.match("^[0-9]*$|^w$")) {
-      validationErrors.quantityOfChild = "Quantity should be number";
+      validationErrors.quantityOfChild =
+        "Quantity should be number and greater or equal 0";
     }
 
     setTicketErrors(validationErrors);
@@ -162,7 +169,9 @@ const Ticket = () => {
           )}
         </p>
         <h5>Total: {totalPrice}</h5>
-        <button className="purchase-btn"onClick={handlePurchaseClick}>Purchase</button>
+        <button className="purchase-btn" onClick={handlePurchaseClick}>
+          Purchase
+        </button>
       </div>
     </>
   );

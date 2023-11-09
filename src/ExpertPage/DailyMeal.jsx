@@ -21,7 +21,9 @@ const DailyMeal = () => {
   const [editingId, setEditingId] = useState(null)
   const [newFood, setNewFood] = useState({
     name: "",
-    weight: ""
+    description: "",
+    quantity: "",
+    measure: "",
   })
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const DailyMeal = () => {
     axios.get(apiUrl)
       .then((response) => {
         const apiData = response.data;
-        setData(apiData);
+        setData(apiData.content);
         setError("");
       })
       .catch((error) => {
@@ -80,7 +82,7 @@ const DailyMeal = () => {
   }
 
   const handleCreateMeal = (item) => {
-    const createDailyMealAPI = `https://zouzoumanagement.xyz/api/v1/meal/daily/${item.id}`
+    const createDailyMealAPI = `https://zouzoumanagement.xyz/api/v1/meal/daily/${item.id}?email=${localStorage.getItem("email")}`
     axios.post(createDailyMealAPI)
       .then(() => {
         alert("Create successfully")
@@ -93,11 +95,11 @@ const DailyMeal = () => {
   }
 
   const handleConfirmCreate = (mealData) => {
-    const confirmAPI = `https://zouzoumanagement.xyz/api/v1/meal/${mealData.id}`
+    const confirmAPI = `https://zouzoumanagement.xyz/api/v1/meal/${mealData.id}?email=${localStorage.getItem("email")}`
     axios.post(confirmAPI)
       .then(() => {
         alert("Create Successfully");
-
+        
         setError("");
       })
       .catch((error) => {
@@ -114,17 +116,18 @@ const DailyMeal = () => {
     setEditingId(id);
   };
 
-  const handleInputChange = (id, name, e) => {
-    const newWeight = e.target.value;
+  const handleInputChange = (id, name, description, e) => {
+    const newQuantity = e.target.value;
     setNewFood({
       id: id,
+      description: description,
       name: name,
-      weight: newWeight,
+      quantity: newQuantity,
     });
   };
 
   const handleDeleteClick = (id) => {
-    const deleteFoodAPI = `https://zouzoumanagement.xyz/api/v1/meal/food/${id}`
+    const deleteFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/food/${id}`
     axios.delete(deleteFoodAPI)
       .then(() => {
         const updatedMealData = mealData.haveFood.filter((food) => food.id !== id);
@@ -141,12 +144,14 @@ const DailyMeal = () => {
 
   const handleSaveClick = (id) => {
     const updatedName = newFood.name;
-    const updatedWeight = newFood.weight;
-    const updateFoodAPI = `https://zouzoumanagement.xyz/api/v1/meal/${id}`;
+    const updatedQuantity = newFood.quantity;
+    const updatedDescription = newFood.description;
+    const updateFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/${id}`;
 
     axios.put(updateFoodAPI, {
       name: updatedName,
-      weight: updatedWeight
+      quantity: updatedQuantity,
+      description: updatedDescription
     })
       .then(() => {
         const updatedFoodData = mealData.haveFood.map((item) => {
@@ -154,7 +159,8 @@ const DailyMeal = () => {
             return {
               ...item,
               name: updatedName,
-              weight: updatedWeight
+              quantity: updatedQuantity,
+              description: updatedDescription
             };
           }
           return item;
@@ -193,7 +199,7 @@ const DailyMeal = () => {
               <td>{item.name}</td>
               <td>{item.cageStatus}</td>
               <td>{item.cageType}</td>
-              <td>{item.areaName}</td>
+              <td>{item.area.name}</td>
 
               <td>
               <button onClick={() => handleViewDetail(item)} className="btn waves-effect waves-light">
@@ -219,7 +225,9 @@ const DailyMeal = () => {
             <thead>
               <th>ID</th>
               <th>Name</th>
-              <th>Weight</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Measure</th>
               <th>Actions</th>
             </thead>
             <tbody>
@@ -228,10 +236,17 @@ const DailyMeal = () => {
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>
-                    {editingId === item.id ? (
-                      <input type='text' name='foodWeight' defaultValue={item.weight} onChange={(e) => handleInputChange(item.id, item.name, e)} />
-                    ) : item.weight}
+                    {/* {editingId === item.id ? (
+                      <input type='text' name='description' defaultValue={item.description} onChange={(e) => handleInputChange(item.id, item.name, e)}></input>
+                    ) : item.description} */}
+                    {item.description}
                   </td>
+                  <td>
+                    {editingId === item.id ? (
+                      <input type='text' name='foodQuantity' defaultValue={item.quantity} onChange={(e) => handleInputChange(item.id, item.name , item.description, e)} />
+                    ) : item.quantity}
+                  </td>
+                  <td>{item.measure}</td>
                   <td>
                     {editingId === item.id ? (
                       <>
@@ -276,8 +291,8 @@ const DailyMeal = () => {
           <p>Quantity: {selectedItem.quantity}</p>
           <p>Cage Status: {selectedItem.cageStatus}</p>
           <p>Cage Type: {selectedItem.cageType}</p>
-          <p>Area Name: {selectedItem.areaName}</p>
-          <p>Staff Email: {selectedItem.staffEmail}</p>
+          <p>Area Name: {selectedItem.area.name}</p>
+          <p>Staff Email: {selectedItem.staff.email}</p>
           <button onClick={handleCloseDetail} className="btn waves-effect waves-light">
             <i className="material-icons left">close</i>Đóng
           </button>
