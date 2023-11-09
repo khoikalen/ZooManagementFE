@@ -4,6 +4,12 @@ import staffApi from "../api/staffApi";
 import "./Admin.css";
 const API_URL = "https://zouzoumanagement.xyz/api/v1/staff";
 
+function formatDate(dateArray) {
+  const [year, month, day] = dateArray;
+  const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+  return formattedDate;
+}
+
 const StaffManager = () => {
   const [staffData, setStaffData] = useState([]);
   const [editingId, setEditingId] = useState(null);
@@ -262,7 +268,7 @@ const StaffManager = () => {
                     }}
                   />
                 ) : (
-                  <div onClick={() => startEditing(staff.id)}>{staff.startDay}</div>
+                  <div onClick={() => startEditing(staff.id)}> {formatDate(staff.startDay)}</div>
                 )}
               </td>
               <td>
