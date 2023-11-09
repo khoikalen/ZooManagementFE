@@ -25,6 +25,7 @@ const DailyMeal = () => {
     quantity: "",
     measure: "",
   })
+  const [animalInCage, setAnimalInCage] = useState(null)
 
   useEffect(() => {
 
@@ -65,12 +66,12 @@ const DailyMeal = () => {
               }))
               : { ...response.data, dateTime: formatLocalDateTime(response.data.dateTime) };
 
-          setMealData(apiData);
-          alert("Scroll down to watch meal");
-          setError("");
-        } else {
-          setError("Response data is not in an expected format.");
-        }
+            setMealData(apiData);
+            alert("Scroll down to watch meal");
+            setError("");
+          } else {
+            setError("Response data is not in an expected format.");
+          }
         } else {
           alert("There is no meal for this cage");
         }
@@ -89,7 +90,7 @@ const DailyMeal = () => {
         setError("");
       })
       .catch((error) => {
-        setError(error.response.data.message);
+        setError(error.response.data.errorMessage);
         console.log(error);
       })
   }
@@ -99,7 +100,7 @@ const DailyMeal = () => {
     axios.post(confirmAPI)
       .then(() => {
         alert("Create Successfully");
-        
+
         setError("");
       })
       .catch((error) => {
@@ -177,6 +178,18 @@ const DailyMeal = () => {
       });
   };
 
+  const handleViewAnimalInCage = (id) => {
+    const ViewAnimalAPI = `https://zouzoumanagement.xyz/api/v4/animal/${id}`
+    axios.get(ViewAnimalAPI)
+      .then((response) => {
+        setAnimalInCage(response.data);
+      })
+      .catch((error) => {
+        setError(error.response.data.message);
+        console.log(error);
+      })
+  }
+
   return (
     <div>
       <h1>Cage</h1>
@@ -202,13 +215,16 @@ const DailyMeal = () => {
               <td>{item.area.name}</td>
 
               <td>
-              <button onClick={() => handleViewDetail(item)} className="btn waves-effect waves-light">
+                <button onClick={() => handleViewDetail(item)} className="btn waves-effect">
                   <i className="material-icons left">visibility</i>View Details
                 </button><br />
-                <button onClick={() => handleViewMeal(item)} className="btn waves-effect waves-light">
+                <button onClick={() => handleViewAnimalInCage(item.id)} className="btn waves-effect">
+                  <i className="material-icons left">pets</i>View Animals
+                </button><br />
+                <button onClick={() => handleViewMeal(item)} className="btn waves-effect">
                   <i className="material-icons left">restaurant_menu</i>View Meal
                 </button><br />
-                <button onClick={() => handleCreateMeal(item)} className="btn waves-effect waves-light">
+                <button onClick={() => handleCreateMeal(item)} className="btn waves-effect">
                   <i className="material-icons left">add</i>Create Meal
                 </button>
               </td>
@@ -243,14 +259,14 @@ const DailyMeal = () => {
                   </td>
                   <td>
                     {editingId === item.id ? (
-                      <input type='text' name='foodQuantity' defaultValue={item.quantity} onChange={(e) => handleInputChange(item.id, item.name , item.description, e)} />
+                      <input type='text' name='foodQuantity' defaultValue={item.quantity} onChange={(e) => handleInputChange(item.id, item.name, item.description, e)} />
                     ) : item.quantity}
                   </td>
                   <td>{item.measure}</td>
                   <td>
                     {editingId === item.id ? (
                       <>
-                         <button onClick={() => handleSaveClick(item.id)} className="btn waves-effect waves-light" style={{ marginRight: '10px' }}>
+                        <button onClick={() => handleSaveClick(item.id)} className="btn waves-effect waves-light" style={{ marginRight: '10px' }}>
                           <i className="material-icons left">save</i>Save
                         </button> <br />
                         <button onClick={handleCancelClick} className="btn waves-effect waves-light">
@@ -259,7 +275,7 @@ const DailyMeal = () => {
                       </>
                     ) : (
                       <>
-                         <button onClick={() => handleEditClick(item.id)} className="btn waves-effect waves-light" style={{ marginRight: '10px' }}>
+                        <button onClick={() => handleEditClick(item.id)} className="btn waves-effect waves-light" style={{ marginRight: '10px' }}>
                           <i className="material-icons left">edit</i>Edit
                         </button> <br />
                         <button onClick={() => handleDeleteClick(item.id)} className="btn waves-effect waves-light">
@@ -296,6 +312,35 @@ const DailyMeal = () => {
           <button onClick={handleCloseDetail} className="btn waves-effect waves-light">
             <i className="material-icons left">close</i>Đóng
           </button>
+        </div>
+      )}
+
+      {animalInCage && (
+        <div>
+          <table>
+            <thead>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Date Of Birth</th>
+              <th>Date Enter Zoo</th>
+              <th>Gender</th>
+              <th>Specie</th>
+              <th>Status</th>
+            </thead>
+            <tbody>
+              {animalInCage.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.dob}</td>
+                  <td>{item.dez}</td>
+                  <td>{item.gender}</td>
+                  <td>{item.specie}</td>
+                  <td>{item.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
