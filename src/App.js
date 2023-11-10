@@ -68,8 +68,7 @@ function App() {
             <Route element={<CommonPrivateRouter targetRole={ROLE.EXPERT} />}>
               <Route path="/expert">
                 <Route path="" element={<Expert />} />
-                <Route path="daily-meal" element={<DailyMeal />} />
-                <Route path="sick-meal" element={<SickMeal />} />
+                <Route path="" element={<DailyMeal />} />
                 <Route path="addFood" element={<AddFood />} />
               </Route>
             </Route>
