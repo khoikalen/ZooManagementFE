@@ -44,7 +44,7 @@ function Header() {
   };
 
   const buttonStyle = {
-    backgroundColor: "#ffffff",
+    backgroundColor: "none",
     color: "black",
     padding: "8px 12px",
     border: "none",
@@ -103,9 +103,11 @@ function Header() {
               </MenuButton>
               <MenuList>
                 <MenuGroup title="Profile">
-                  <MenuItem>Account: {localStorage.getItem("email")}</MenuItem>
-                  <MenuItem onClick={goBack}>
-                    Go to page
+                  <MenuItem>Hi, {localStorage.getItem("email")}</MenuItem>
+                  <MenuItem>
+                    <button style={buttonStyle} onClick={goBack}>
+                      Back to page
+                    </button>
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
@@ -118,18 +120,22 @@ function Header() {
                   </MenuItem>
                 </MenuGroup>
                 <MenuDivider />
+                <MenuGroup title="Help">
+                  <MenuItem>Docs</MenuItem>
+                  <MenuItem>FAQ</MenuItem>
+                </MenuGroup>
               </MenuList>
             </Menu>
           ) : (
-            <MenuItem
+            <Button
               textColor="black"
-              backgroundColor="white"
+              backgroundColor="none"
               colorScheme="teal"
             >
               <Link style={LinkToTicket} to="/login">
                 Sign In
               </Link>
-            </MenuItem>
+            </Button>
           )}
         </ButtonGroup>
       </Flex>

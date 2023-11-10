@@ -25,8 +25,8 @@ const DailyMeal = () => {
     quantity: "",
     measure: "",
   })
-  const [animalInCage, setAnimalInCage] = useState(null)
-
+  const [animalInCage, setAnimalInCage] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
   useEffect(() => {
 
     const apiUrl = `https://zouzoumanagement.xyz/api/v2/cage/${localStorage.getItem("email")}`;
@@ -127,6 +127,10 @@ const DailyMeal = () => {
     });
   };
 
+  const confirmDelete = (id) => {
+    setDeletingId(id);
+  }
+
   const handleDeleteClick = (id) => {
     const deleteFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/food/${id}`
     axios.delete(deleteFoodAPI)
@@ -136,6 +140,7 @@ const DailyMeal = () => {
           ...mealData,
           haveFood: updatedMealData,
         });
+        setDeletingId(null);
         alert("Delete successfully");
       })
       .catch((error) => {
@@ -193,6 +198,10 @@ const DailyMeal = () => {
   const handleCloseAnimalView = () => {
     setAnimalInCage(null);
   }
+
+  const cancelDelete = () => {
+    setDeletingId(null);
+  };
 
   return (
     <div>
@@ -312,7 +321,7 @@ const DailyMeal = () => {
                         <button onClick={() => handleEditClick(item.id)} className="btn waves-effect" style={{ marginRight: '10px' }}>
                           <i className="material-icons left">edit</i>Edit
                         </button> <br />
-                        <button onClick={() => handleDeleteClick(item.id)} className="btn waves-effect">
+                        <button onClick={() => confirmDelete(item.id)} className="btn waves-effect">
                           <i className="material-icons left">delete</i>Delete
                         </button>
                       </>
@@ -329,6 +338,18 @@ const DailyMeal = () => {
           </Link><br />
           <button onClick={() => handleConfirmCreate(mealData)} className="btn waves-effect">
             <i className="material-icons left">check_circle</i>Confirm create meal
+          </button>
+        </div>
+      )}
+
+      {deletingId && (
+        <div className="confirmation-dialog">
+          <p>Are you sure you want to delete this food?</p>
+          <button onClick={handleDeleteClick} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
+            <i className="material-icons left small">check</i>Yes
+          </button>
+          <button onClick={cancelDelete} className="waves-effect waves-light btn">
+            <i className="material-icons left small">cancel</i>No
           </button>
         </div>
       )}
