@@ -361,6 +361,7 @@ const FoodStorageManager = () => {
           >
             <option value="">Select Measure</option>
             <option value="kilogram">Kilogram</option>
+            <option value="gram">Kilogram</option>
             <option value="pill">Pill</option>
           </select>
           <input type="text" placeholder="Available" name="available" value={newFood.available} onChange={handleInputChange} />
