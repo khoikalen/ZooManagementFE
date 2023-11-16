@@ -3,6 +3,7 @@ import StaffManager from './StaffManager';
 import Cage from './Cage';
 import DashBoard from './Dashboard';
 import Expert from './Expert';
+import FoodStorage from './FoodStorage';
 import { Link } from 'react-router-dom';
 import userIcon from './User.png'; 
 import './App2.css';
@@ -20,6 +21,9 @@ function App2() {
         return <Cage />;
       case "expert":
         return <Expert />;
+      case "foodstorage":
+        return <FoodStorage/>;
+
     };
   };
 
@@ -35,6 +39,7 @@ function App2() {
           <li><button onClick={() => setCurrentPage("staff-manager")}>Staff Management</button></li>
           <li><button onClick={() => setCurrentPage("cages")}>Cage Management</button></li>
           <li><button onClick={() => setCurrentPage("expert")}>Expert Management</button></li>
+          <li><button onClick={() => setCurrentPage("foodstorage")}>Food Storage</button></li>
           <lu><Link to="/App1">Back</Link></lu>
         </ul>
       </div>

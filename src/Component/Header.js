@@ -44,9 +44,9 @@ function Header() {
   };
 
   const buttonStyle = {
-    backgroundColor: "none",
+    backgroundColor: "none ",
     color: "black",
-    padding: "8px 12px",
+    padding: "8px ",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
