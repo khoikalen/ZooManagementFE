@@ -20,13 +20,13 @@ const DoughnutChartFoodConsumption = () => {
         const apiData = response.data;
 
         const lables = apiData.map((item) => item.name);
-        const quantity = apiData.map((item) => item.quantity);
+        const price = apiData.map((item) => item.price);
 
         setDoughnutChart({
           labels: lables,
           datasets: [
             {
-              data: quantity,
+              data: price,
               backgroundColor: [
                 "rgba(255, 50, 50, 0.7)",
                 "rgba(255, 255, 108, 0.7)",
@@ -63,7 +63,7 @@ const DoughnutChartFoodConsumption = () => {
       },
       title: {
         display: true,
-        text: "Number of Food Consumption",
+        text: "Consumable fee on each food",
       },
     },
   };

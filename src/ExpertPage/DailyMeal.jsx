@@ -25,8 +25,8 @@ const DailyMeal = () => {
     quantity: "",
     measure: "",
   })
-  const [animalInCage, setAnimalInCage] = useState(null);
-  const [deletingId, setDeletingId] = useState(null);
+  const [animalInCage, setAnimalInCage] = useState(null)
+
   useEffect(() => {
 
     const apiUrl = `https://zouzoumanagement.xyz/api/v2/cage/${localStorage.getItem("email")}`;
@@ -115,20 +115,29 @@ const DailyMeal = () => {
 
   const handleEditClick = (id) => {
     setEditingId(id);
+    refreshNewFood(id);
   };
 
-  const handleInputChange = (id, name, description, e) => {
+  const handleInputChange = (id, name, description, measure, e) => {
     const newQuantity = e.target.value;
     setNewFood({
       id: id,
       description: description,
       name: name,
+      measure: measure,
       quantity: newQuantity,
     });
   };
 
-  const confirmDelete = (id) => {
-    setDeletingId(id);
+  const handleDescriptionChange = (id, name, quantity, measure, e) => {
+    const newDescription = e.target.value;
+    setNewFood({
+      id: id,
+      description: newDescription,
+      name: name,
+      measure: measure,
+      quantity: quantity,
+    });
   }
 
   const handleDeleteClick = (id) => {
@@ -140,7 +149,6 @@ const DailyMeal = () => {
           ...mealData,
           haveFood: updatedMealData,
         });
-        setDeletingId(null);
         alert("Delete successfully");
       })
       .catch((error) => {
@@ -152,12 +160,14 @@ const DailyMeal = () => {
     const updatedName = newFood.name;
     const updatedQuantity = newFood.quantity;
     const updatedDescription = newFood.description;
+    const updatedMeasure = newFood.measure;
     const updateFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/${id}`;
 
     axios.put(updateFoodAPI, {
       name: updatedName,
       quantity: updatedQuantity,
-      description: updatedDescription
+      description: updatedDescription,
+      measure: updatedMeasure
     })
       .then(() => {
         const updatedFoodData = mealData.haveFood.map((item) => {
@@ -166,7 +176,8 @@ const DailyMeal = () => {
               ...item,
               name: updatedName,
               quantity: updatedQuantity,
-              description: updatedDescription
+              description: updatedDescription,
+              measure: updatedMeasure
             };
           }
           return item;
@@ -199,9 +210,15 @@ const DailyMeal = () => {
     setAnimalInCage(null);
   }
 
-  const cancelDelete = () => {
-    setDeletingId(null);
-  };
+  const refreshNewFood = (id) => {
+    const findMealData = mealData.haveFood.find((food) => food.id === id);
+    setNewFood( {
+      name: findMealData.name,
+      description: findMealData.description,
+      measure: findMealData.measure,
+      quantity: findMealData.quantity
+    })
+  } 
 
   return (
     <div>
@@ -295,14 +312,13 @@ const DailyMeal = () => {
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>
-                    {/* {editingId === item.id ? (
-                      <input type='text' name='description' defaultValue={item.description} onChange={(e) => handleInputChange(item.id, item.name, e)}></input>
-                    ) : item.description} */}
-                    {item.description}
+                    {editingId === item.id ? (
+                      <input type='text' name='description' defaultValue={newFood.description} onChange={(e) => handleDescriptionChange(item.id, item.name, newFood.quantity , item.measure ,e)}></input>
+                    ) : item.description}
                   </td>
                   <td>
                     {editingId === item.id ? (
-                      <input type='text' name='foodQuantity' defaultValue={item.quantity} onChange={(e) => handleInputChange(item.id, item.name, item.description, e)} />
+                      <input type='text' name='foodQuantity' defaultValue={newFood.quantity} onChange={(e) => handleInputChange(item.id, item.name, newFood.description, item.measure , e)} />
                     ) : item.quantity}
                   </td>
                   <td>{item.measure}</td>
@@ -321,7 +337,7 @@ const DailyMeal = () => {
                         <button onClick={() => handleEditClick(item.id)} className="btn waves-effect" style={{ marginRight: '10px' }}>
                           <i className="material-icons left">edit</i>Edit
                         </button> <br />
-                        <button onClick={() => confirmDelete(item.id)} className="btn waves-effect">
+                        <button onClick={() => handleDeleteClick(item.id)} className="btn waves-effect">
                           <i className="material-icons left">delete</i>Delete
                         </button>
                       </>
@@ -338,18 +354,6 @@ const DailyMeal = () => {
           </Link><br />
           <button onClick={() => handleConfirmCreate(mealData)} className="btn waves-effect">
             <i className="material-icons left">check_circle</i>Confirm create meal
-          </button>
-        </div>
-      )}
-
-      {deletingId && (
-        <div className="confirmation-dialog">
-          <p>Are you sure you want to delete this food?</p>
-          <button onClick={handleDeleteClick} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>
-            <i className="material-icons left small">check</i>Yes
-          </button>
-          <button onClick={cancelDelete} className="waves-effect waves-light btn">
-            <i className="material-icons left small">cancel</i>No
           </button>
         </div>
       )}

@@ -59,8 +59,8 @@ function AddFood() {
       .catch((error) => {
         if (error.response && error.response.data && error.response.data.errorMessage) {
           setError(error.response.data.errorMessage);
-        } else {
-          console.log(error);
+        } else if (error.response.data.message){
+          setError(error.response.data.message);
         }
       })
   }

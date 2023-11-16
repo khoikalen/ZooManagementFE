@@ -5,6 +5,7 @@ const Statistics = () => {
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalCage, setTotalCage] = useState(0);
   const [totalAnimal, setTotalAnimal] = useState(0);
+  const [consumableFee, setConsumableFee] = useState(0);
   useEffect(() => {
     const revenueAPI = "https://zouzoumanagement.xyz/api/v1/ticket";
     axios
@@ -38,6 +39,15 @@ const Statistics = () => {
       .catch((error) => {
         console.log(error);
       });
+
+      const consumableAPI = "https://zouzoumanagement.xyz/api/v1/food" 
+      axios.get(consumableAPI).then((response) => {
+        let totalConsumableFee = 0;
+        for (const temp of response.data) {
+          totalConsumableFee += temp.price;
+        }
+        setConsumableFee(totalConsumableFee);
+      })
   });
   const formatRevenue = (revenue) => {
     return revenue.toLocaleString("vi-VN");
@@ -45,8 +55,12 @@ const Statistics = () => {
   return (
     <div className="statistic-container">
       <div className="revenue-statistic">
-        <h5>Total revenue</h5>
+        <h5>Total ticket revenue</h5>
         <p>{formatRevenue(totalRevenue)} VND</p>
+      </div>
+      <div className="consumable-fee-statistic">
+        <h5>Total consumable fee</h5>
+        <p>{formatRevenue(consumableFee)} VND</p>
       </div>
       <div className="cage-statistic">
         <h5>Total cage</h5>
