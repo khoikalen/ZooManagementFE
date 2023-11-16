@@ -115,17 +115,30 @@ const DailyMeal = () => {
 
   const handleEditClick = (id) => {
     setEditingId(id);
+    refreshNewFood(id);
   };
 
-  const handleInputChange = (id, name, description, e) => {
+  const handleInputChange = (id, name, description, measure, e) => {
     const newQuantity = e.target.value;
     setNewFood({
       id: id,
       description: description,
       name: name,
+      measure: measure,
       quantity: newQuantity,
     });
   };
+
+  const handleDescriptionChange = (id, name, quantity, measure, e) => {
+    const newDescription = e.target.value;
+    setNewFood({
+      id: id,
+      description: newDescription,
+      name: name,
+      measure: measure,
+      quantity: quantity,
+    });
+  }
 
   const handleDeleteClick = (id) => {
     const deleteFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/food/${id}`
@@ -147,12 +160,14 @@ const DailyMeal = () => {
     const updatedName = newFood.name;
     const updatedQuantity = newFood.quantity;
     const updatedDescription = newFood.description;
+    const updatedMeasure = newFood.measure;
     const updateFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/${id}`;
 
     axios.put(updateFoodAPI, {
       name: updatedName,
       quantity: updatedQuantity,
-      description: updatedDescription
+      description: updatedDescription,
+      measure: updatedMeasure
     })
       .then(() => {
         const updatedFoodData = mealData.haveFood.map((item) => {
@@ -161,7 +176,8 @@ const DailyMeal = () => {
               ...item,
               name: updatedName,
               quantity: updatedQuantity,
-              description: updatedDescription
+              description: updatedDescription,
+              measure: updatedMeasure
             };
           }
           return item;
@@ -193,6 +209,16 @@ const DailyMeal = () => {
   const handleCloseAnimalView = () => {
     setAnimalInCage(null);
   }
+
+  const refreshNewFood = (id) => {
+    const findMealData = mealData.haveFood.find((food) => food.id === id);
+    setNewFood( {
+      name: findMealData.name,
+      description: findMealData.description,
+      measure: findMealData.measure,
+      quantity: findMealData.quantity
+    })
+  } 
 
   return (
     <div>
@@ -287,13 +313,12 @@ const DailyMeal = () => {
                   <td>{item.name}</td>
                   <td>
                     {editingId === item.id ? (
-                      <input type='text' name='description' defaultValue={item.description} onChange={(e) => handleInputChange(item.id, item.name, e)}></input>
+                      <input type='text' name='description' defaultValue={newFood.description} onChange={(e) => handleDescriptionChange(item.id, item.name, newFood.quantity , item.measure ,e)}></input>
                     ) : item.description}
-                    {item.description}
                   </td>
                   <td>
                     {editingId === item.id ? (
-                      <input type='text' name='foodQuantity' defaultValue={item.quantity} onChange={(e) => handleInputChange(item.id, item.name, item.description, e)} />
+                      <input type='text' name='foodQuantity' defaultValue={newFood.quantity} onChange={(e) => handleInputChange(item.id, item.name, newFood.description, item.measure , e)} />
                     ) : item.quantity}
                   </td>
                   <td>{item.measure}</td>
