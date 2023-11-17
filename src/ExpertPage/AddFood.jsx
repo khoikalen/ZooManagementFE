@@ -104,6 +104,7 @@ function AddFood() {
                   <td>
                     <select name="measure" id={`measureToAdd_${item.id}`} className='measure-field'>
                       <option value="kilogram">kilogram</option>
+                      <option value="gram">gram</option>
                       <option value="pill">pill</option>
                     </select>
                   </td>
