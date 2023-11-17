@@ -20,7 +20,7 @@ const StaffManager = () => {
   const [newStaff, setNewStaff] = useState({
     firstName: "",
     lastName: "",
-    gender: "",
+    gender: "male", 
     startDay: "",
     email: "",
     phoneNumber: "",
@@ -84,7 +84,7 @@ const StaffManager = () => {
       setNewStaff({
         firstName: "",
         lastName: "",
-        gender: "",
+        gender: "male",
         startDay: "",
         email: "",
         phoneNumber: "",
@@ -102,15 +102,28 @@ const StaffManager = () => {
     addNewStaff(newStaff);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e, id) => {
     const { name, value } = e.target;
-    setNewStaff({
-      ...newStaff,
+    setNewStaff((prevStaff) => ({
+      ...prevStaff,
       [name]: value,
-    });
+    }));
+
+    if (id) {
+      const updatedStaffData = staffData.map((staff) => {
+        if (staff.id === id) {
+          return {
+            ...staff,
+            [name]: value,
+          };
+        }
+        return staff;
+      });
+      setStaffData(updatedStaffData);
+    }
   };
 
-  const handleSaveClick = (id) => {
+  const handleSaveClick = async (id) => {
     const staffToUpdate = staffData.find((staff) => staff.id === id);
 
     const updatedStaff = {
@@ -121,25 +134,25 @@ const StaffManager = () => {
       phoneNumber: staffToUpdate.phoneNumber,
     };
 
-    axios
-      .put(`${API_URL}/${id}`, updatedStaff)
-      .then(() => {
-        const updatedStaffData = staffData.map((staff) => {
-          if (staff.id === id) {
-            return {
-              ...staff,
-              ...updatedStaff,
-            };
-          }
-          return staff;
-        });
+    try {
+      await axios.put(`${API_URL}/${id}`, updatedStaff);
+      const updatedStaffData = staffData.map((staff) => {
+        if (staff.id === id) {
+          return {
+            ...staff,
+            ...updatedStaff,
+          };
+        }
+        return staff;
+      });
 
-        setStaffData(updatedStaffData);
-        setEditingId(null);
-        clearValidationErrors();
-        window.location.reload();
-      })
-      .catch(handleApiError);
+      setStaffData(updatedStaffData);
+      setEditingId(null);
+      clearValidationErrors();
+      window.location.reload();
+    } catch (error) {
+      handleApiError(error);
+    }
   };
 
   const clearValidationErrors = () => {
@@ -294,20 +307,20 @@ const StaffManager = () => {
             placeholder="First Name"
             name="firstName"
             value={newStaff.firstName}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
           />
           <input
             type="text"
             placeholder="Last Name"
             name="lastName"
             value={newStaff.lastName}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
           />
           <h>Gender</h>
           <select
             name="gender"
             value={newStaff.gender}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
           >
             <option value="male">Male</option>
             <option value="female">Female</option>
@@ -319,28 +332,28 @@ const StaffManager = () => {
             placeholder="Start Day | Format: mm/dd/yyyy"
             name="startDay"
             value={newStaff.startDay}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
           />
           <input
             type="text"
             placeholder="Email"
             name="email"
             value={newStaff.email}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
           />
           <input
             type="text"
             placeholder="Phone Number"
             name="phoneNumber"
             value={newStaff.phoneNumber}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
           />
           <input
             type="text"
             placeholder="Password"
             name="password"
             value={newStaff.password}
-            onChange={handleInputChange}
+            onChange={(e) => handleInputChange(e)}
           />
         </div>
       ) : (
