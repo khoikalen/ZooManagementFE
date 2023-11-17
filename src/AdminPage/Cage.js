@@ -7,6 +7,7 @@ const Cage = () => {
   const [cageData, setCageData] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [adding, setAdding] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
   const [newCage, setNewCage] = useState({
     id: '',
     name: '',
@@ -28,9 +29,20 @@ const Cage = () => {
         setCageData(cageDataWithDefaultRole);
       })
       .catch((error) => {
-        console.error('Error loading cage data:', error);
+        if (error.response && error.response.status === 500) {
+          alert(error.response.data.message);
+          clearValidationErrors();
+        } else if (error) {
+          setValidationErrors(error.response.data);
+        } else {
+          setValidationErrors("An unexpected error occurred");
+        }
       });
   }, []);
+
+  const clearValidationErrors = () => {
+    setValidationErrors({});
+  };
 
   const handleEditClick = (id) => {
     setEditingId(id);
@@ -52,7 +64,14 @@ const Cage = () => {
         setDeletingId(null);
       })
       .catch((error) => {
-        console.error('Error deleting cage:', error);
+        if (error.response && error.response.status === 500) {
+          alert(error.response.data.message);
+          clearValidationErrors();
+        } else if (error) {
+          setValidationErrors(error.response.data);
+        } else {
+          setValidationErrors("An unexpected error occurred");
+        }
       });
   };
 
@@ -81,7 +100,14 @@ const Cage = () => {
         window.location.reload();
       })
       .catch((error) => {
-        console.error('Error adding cage:', error);
+        if (error.response && error.response.status === 500) {
+          alert(error.response.data.message);
+          clearValidationErrors();
+        } else if (error) {
+          setValidationErrors(error.response.data);
+        } else {
+          setValidationErrors("An unexpected error occurred");
+        }
       });
   };
 
@@ -121,7 +147,14 @@ const Cage = () => {
         window.location.reload();
       })
       .catch((error) => {
-        console.error('Error updating cage:', error);
+        if (error.response && error.response.status === 500) {
+          alert(error.response.data.message);
+          clearValidationErrors();
+        } else if (error) {
+          setValidationErrors(error.response.data);
+        } else {
+          setValidationErrors("An unexpected error occurred");
+        }
       });
   };
 
@@ -235,6 +268,17 @@ const Cage = () => {
   return (
     <div>
       <h1>Cage</h1>
+
+      {Object.keys(validationErrors).length > 0 && (
+        <div className="validation-errors">
+          <ul>
+            {Object.keys(validationErrors).map((field) => (
+              <li key={field}>{validationErrors[field]}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      
       {adding ? (
         <div>
           <button onClick={() => setAdding(false)} className="waves-effect waves-light btn" style={{ marginRight: '10px' }}>

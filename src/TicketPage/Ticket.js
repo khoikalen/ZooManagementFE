@@ -70,7 +70,6 @@ const Ticket = () => {
       axios
         .post(API_URL, newTicket)
         .then(() => {
-          console.log(newTicket);
           alert("Purchase successfully!");
 
           window.location.reload();
