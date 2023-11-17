@@ -4,11 +4,21 @@ import axios from "axios";
 const API_URL = "https://zouzoumanagement.xyz/api/v1/expert";
 
 function formatDate(dateArray) {
-  const [year, month, day] = dateArray;
+  if (!Array.isArray(dateArray) || dateArray.length !== 3) {
+    console.error("Invalid dateArray:", dateArray);
+    return "Invalid Date";
+  }
+
+  const [year, month, day] = dateArray.map(Number);
+
+  if (isNaN(year) || isNaN(month) || isNaN(day)) {
+    console.error("Invalid date values:", dateArray);
+    return "Invalid Date";
+  }
+
   const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
   return formattedDate;
 }
-
 const ExpertManager = () => {
   const [expertData, setExpertData] = useState([]);
   const [editingId, setEditingId] = useState(null);
