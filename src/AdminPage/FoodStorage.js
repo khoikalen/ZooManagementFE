@@ -81,6 +81,10 @@ const FoodStorageManager = () => {
   };
 
   const handleAddFood = () => {
+    if (newFood.available < 0 || newFood.price < 0) {
+      alert('Available and Price cannot be negative.');
+      return;
+    }
     axios
       .post(API_URL, newFood)
       .then((response) => {
@@ -127,6 +131,11 @@ const FoodStorageManager = () => {
     const updatedMeasure = foodToUpdate.measure;
     const updatedAvailable = foodToUpdate.available;
     const updatedPrice = foodToUpdate.price;
+
+    if (updatedAvailable < 0 || updatedPrice < 0) {
+      alert('Available and Price cannot be negative.');
+      return;
+    }
 
     axios
       .put(`${API_URL}/${id}`, {
@@ -361,7 +370,6 @@ const FoodStorageManager = () => {
           >
             <option value="">Select Measure</option>
             <option value="kilogram">Kilogram</option>
-            <option value="gram">Kilogram</option>
             <option value="pill">Pill</option>
           </select>
           <input type="text" placeholder="Available" name="available" value={newFood.available} onChange={handleInputChange} />
