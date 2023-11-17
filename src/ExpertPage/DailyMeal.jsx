@@ -163,6 +163,11 @@ const DailyMeal = () => {
     const updatedMeasure = newFood.measure;
     const updateFoodAPI = `https://zouzoumanagement.xyz/api/v1/food/${id}`;
 
+    if (updatedQuantity < 0) {
+      alert("Quantity should not be negative")
+      return;
+    }
+
     axios.put(updateFoodAPI, {
       name: updatedName,
       quantity: updatedQuantity,
@@ -190,7 +195,7 @@ const DailyMeal = () => {
         setEditingId(null);
       })
       .catch(error => {
-        setError(error.response.data.message);
+        alert(error.response.data.message);
         console.log(error);
       });
   };
