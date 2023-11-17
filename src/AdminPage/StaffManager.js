@@ -6,10 +6,22 @@ import "./Admin.css";
 const API_URL = "https://zouzoumanagement.xyz/api/v1/staff";
 
 function formatDate(dateArray) {
-  const [year, month, day] = dateArray;
+  if (!Array.isArray(dateArray) || dateArray.length !== 3) {
+    console.error("Invalid dateArray:", dateArray);
+    return "Invalid Date";
+  }
+
+  const [year, month, day] = dateArray.map(Number);
+
+  if (isNaN(year) || isNaN(month) || isNaN(day)) {
+    console.error("Invalid date values:", dateArray);
+    return "Invalid Date";
+  }
+
   const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
   return formattedDate;
 }
+
 
 const StaffManager = () => {
   const [staffData, setStaffData] = useState([]);
@@ -94,7 +106,15 @@ const StaffManager = () => {
       alert("Create new staff successfully");
       window.location.reload();
     } catch (error) {
-      handleApiError(error);
+      if (error.response && error.response.status === 500) {
+      console.error(error.response.data.message)
+      alert(error.response.data.message);
+      clearValidationErrors();
+    } else if (error) {
+      setValidationErrors(error.response.data);
+    } else {
+      setValidationErrors("An unexpected error occurred");
+    }
     }
   };
 
@@ -161,6 +181,7 @@ const StaffManager = () => {
 
   const handleApiError = (error) => {
     if (error.response && error.response.status === 500) {
+      console.log(error.response.data.message)
       alert(error.response.data.message);
       clearValidationErrors();
     } else if (error) {
@@ -325,7 +346,7 @@ const StaffManager = () => {
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
-
+          <h>Start Date</h>
           <input
             id="StartDayOfStaff"
             type="date"
